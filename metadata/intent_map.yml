@@ -1,0 +1,174 @@
+# ─── Loan-level intents ────────────────────────────────────────────────────
+query_list_active_loans:
+  tables:  ["DEBT_CUSTOMER_LD_DETAIL"]
+  columns: ["SO_HOP_DONG", "DU_NO", "DU_NO_LAI", "MUC_DICH_VAY", "STATUS"]
+  join_key: "CUSTOMER_ID"
+
+query_loan_details_by_identifier:
+  tables:  ["DEBT_CUSTOMER_LD_DETAIL"]
+  columns: ["SO_HOP_DONG", "CUSTOMER_ID", "KY_HAN_VAY", "LAI_SUAT",
+            "SO_TIEN_GIAI_NGAN", "DU_NO", "DU_NO_LAI",
+            "NGAY_GIAI_NGAN", "NGAY_KY_HOP_DONG", "MUC_DICH_VAY",
+            "NHOM_NO_THEO_HD_DPD", "STATUS"]
+  join_key: "SO_HOP_DONG"
+
+query_loan_current_status:
+  tables:  ["DEBT_CUSTOMER_LD_DETAIL"]
+  columns: ["SO_HOP_DONG", "STATUS"]
+  join_key: "SO_HOP_DONG"
+
+query_loan_product_type:
+  tables:  ["DEBT_CUSTOMER_LD_DETAIL"]
+  columns: ["SO_HOP_DONG", "MUC_DICH_VAY"]
+  join_key: "SO_HOP_DONG"
+
+query_assigned_loan_officer:
+  tables:  ["DEBT_CUSTOMER_ALLOCATED_HIST"]
+  columns: ["SO_HOP_DONG", "ALLOCATED_USER_CODE", "ALLOCATED_GROUP_CODE",
+            "LAST_ALLOCATED_DATE"]
+  join_key: "SO_HOP_DONG"
+
+query_loan_contact_point:
+  tables:  ["DEBT_CUSTOMER_ALLOCATED_HIST"]
+  columns: ["SO_HOP_DONG", "ALLOCATED_GROUP_CODE", "ALLOCATED_USER_CODE"]
+  join_key: "SO_HOP_DONG"
+
+# ─── Amount & rate ────────────────────────────────────────────────────────
+query_original_loan_amount:
+  tables:  ["DEBT_CUSTOMER_LD_DETAIL"]
+  columns: ["SO_HOP_DONG", "SO_TIEN_GIAI_NGAN"]
+  join_key: "SO_HOP_DONG"
+
+query_disbursed_amount:
+  tables:  ["DEBT_CUSTOMER_LD_DETAIL"]
+  columns: ["SO_HOP_DONG", "SO_TIEN_GIAI_NGAN"]
+  join_key: "SO_HOP_DONG"
+
+query_outstanding_principal_balance:
+  tables:  ["DEBT_CUSTOMER_LD_DETAIL"]
+  columns: ["SO_HOP_DONG", "DU_NO"]
+  join_key: "SO_HOP_DONG"
+
+query_total_amount_due:
+  tables:  ["DEBT_CUSTOMER_LD_DETAIL"]
+  columns: ["SO_HOP_DONG", "DU_NO", "DU_NO_LAI"]
+  join_key: "SO_HOP_DONG"
+
+query_current_loan_interest_rate:
+  tables:  ["DEBT_CUSTOMER_LD_DETAIL"]
+  columns: ["SO_HOP_DONG", "LAI_SUAT"]
+  join_key: "SO_HOP_DONG"
+
+query_interest_rate_type:
+  tables:  ["DEBT_CUSTOMER_LD_DETAIL"]
+  columns: ["SO_HOP_DONG", "LAI_SUAT"]        # type inferred by LLM
+  join_key: "SO_HOP_DONG"
+
+# ─── Penalty / fees (NEW) ────────────────────────────────────────────────
+query_late_payment_penalty:
+  tables:  ["DEBT_CUSTOMER_LD_DETAIL", "DEBT_LD_REPAY_SCHEDULE"]
+  columns: ["SO_HOP_DONG", "DU_NO", "EMI_AMOUNT", "DUE_DATE"]
+  join_key: "SO_HOP_DONG"          # policy rate retrieved via RAG
+
+# ─── Date & tenor ────────────────────────────────────────────────────────
+query_loan_origination_date:
+  tables:  ["DEBT_CUSTOMER_LD_DETAIL"]
+  columns: ["SO_HOP_DONG", "NGAY_GIAI_NGAN"]
+  join_key: "SO_HOP_DONG"
+
+query_loan_maturity_date:
+  tables:  ["DEBT_LD_REPAY_SCHEDULE"]
+  columns: ["SO_HOP_DONG", "KY_THANH_TOAN", "DEN_NGAY"]
+  join_key: "SO_HOP_DONG"
+
+query_loan_term_duration:
+  tables:  ["DEBT_CUSTOMER_LD_DETAIL"]
+  columns: ["SO_HOP_DONG", "KY_HAN_VAY"]
+  join_key: "SO_HOP_DONG"
+
+query_remaining_loan_term:
+  tables:  ["DEBT_CUSTOMER_LD_DETAIL"]
+  columns: ["SO_HOP_DONG", "KY_HAN_VAY"]
+  join_key: "SO_HOP_DONG"
+
+# ─── Instalment schedule ────────────────────────────────────────────────
+query_next_installment_due_date:
+  tables:  ["DEBT_LD_REPAY_SCHEDULE"]
+  columns: ["SO_HOP_DONG", "KY_THANH_TOAN", "DEN_NGAY"]
+  join_key: "SO_HOP_DONG"
+
+query_next_installment_amount:
+  tables:  ["DEBT_LD_REPAY_SCHEDULE"]
+  columns: ["SO_HOP_DONG", "KY_THANH_TOAN", "EMI_AMOUNT"]
+  join_key: "SO_HOP_DONG"
+
+query_next_installment_breakdown:
+  tables:  ["DEBT_LD_REPAY_SCHEDULE"]
+  columns: ["SO_HOP_DONG", "KY_THANH_TOAN", "GOC", "LAI", "EMI_AMOUNT"]
+  join_key: "SO_HOP_DONG"
+
+query_full_repayment_schedule:
+  tables:  ["DEBT_LD_REPAY_SCHEDULE"]
+  columns: ["*"]
+  join_key: "SO_HOP_DONG"
+
+query_specific_installment_details:
+  tables:  ["DEBT_LD_REPAY_SCHEDULE"]
+  columns: ["SO_HOP_DONG", "KY_THANH_TOAN", "TU_NGAY", "DEN_NGAY",
+            "GOC", "LAI", "EMI_AMOUNT", "DU_NO"]
+  join_key: "SO_HOP_DONG"
+
+query_total_number_of_installments:
+  tables:  ["DEBT_LD_REPAY_SCHEDULE"]
+  columns: ["SO_HOP_DONG", "KY_THANH_TOAN"]
+  join_key: "SO_HOP_DONG"
+
+query_remaining_number_of_installments:
+  tables:  ["DEBT_LD_REPAY_SCHEDULE"]
+  columns: ["SO_HOP_DONG", "KY_THANH_TOAN", "DU_NO"]
+  join_key: "SO_HOP_DONG"
+
+# ─── Payment history ────────────────────────────────────────────────────
+query_last_payment_date:
+  tables:  ["DEBT_LD_PAID_HISTORY"]
+  columns: ["SO_HOP_DONG", "NGAY_THANH_TOAN"]
+  join_key: "SO_HOP_DONG"
+
+query_last_payment_amount:
+  tables:  ["DEBT_LD_PAID_HISTORY"]
+  columns: ["SO_HOP_DONG", "NGAY_THANH_TOAN", "TONG_TIEN_THU"]
+  join_key: "SO_HOP_DONG"
+
+query_last_payment_status:
+  tables:  ["DEBT_LD_PAID_HISTORY"]
+  columns: ["SO_HOP_DONG", "NGAY_THANH_TOAN", "TONG_TIEN_THU",
+            "DPD_HOP_DONG_SAU_TT"]
+  join_key: "SO_HOP_DONG"
+
+query_payment_history_list:
+  tables:  ["DEBT_LD_PAID_HISTORY"]
+  columns: ["SO_HOP_DONG", "NGAY_THANH_TOAN", "TONG_TIEN_THU",
+            "GOC_DA_THU", "LAI_DA_THU"]
+  join_key: "SO_HOP_DONG"
+
+query_specific_payment_details:
+  tables:  ["DEBT_LD_PAID_HISTORY"]
+  columns: ["*"]
+  join_key: "SO_HOP_DONG"
+
+query_missed_payments:
+  tables:  ["DEBT_LD_REPAY_SCHEDULE", "DEBT_LD_PAID_HISTORY"]
+  columns: ["SO_HOP_DONG", "KY_THANH_TOAN", "DEN_NGAY", "EMI_AMOUNT",
+            "NGAY_THANH_TOAN", "TONG_TIEN_THU"]
+  join_key: "SO_HOP_DONG"
+
+# ─── Interest & DPD snapshots (NEW) ──────────────────────────────────────
+query_accrued_interest_to_date:
+  tables:  ["DEBT_CUSTOMER_LD_DETAIL"]
+  columns: ["SO_HOP_DONG", "DU_NO_LAI"]
+  join_key: "SO_HOP_DONG"
+
+query_days_past_due_bucket:
+  tables:  ["DEBT_LD_PAID_HISTORY", "DEBT_CUSTOMER_ALLOCATED_HIST"]
+  columns: ["SO_HOP_DONG", "DPD_HOP_DONG_SAU_TT", "BUCKET_CODE", "DPD_KH"]
+  join_key: "SO_HOP_DONG"

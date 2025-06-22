@@ -1,0 +1,52 @@
+# ─── Loan-information intents ───────────────────────────────────────────────
+query_list_active_loans:               "List all active loans for the logged-in customer"
+query_loan_details_by_identifier:      "Show full details for the specified contract"
+query_loan_current_status:             "Return the status of the given loan"
+query_loan_product_type:               "Return the product name/type for the loan"
+query_assigned_loan_officer:           "Return the officer or department in charge of the loan"
+query_loan_contact_point:              "Give the best contact channel for that loan"
+
+# ─── Amount, balance, rate ─────────────────────────────────────────────────
+query_original_loan_amount:            "Original principal amount"
+query_disbursed_amount:                "Total amount actually disbursed"
+query_outstanding_principal_balance:   "Current outstanding principal"
+query_total_amount_due:                "Pay-off amount if settled today"
+query_current_loan_interest_rate:      "Current nominal interest rate"
+query_interest_rate_type:              "Fixed or variable indicator"
+query_overdue_interest_rate:           "Penalty rate applied when overdue"
+query_interest_rate_effective_date:    "Date on which the current rate became effective"
+query_interest_rate_change_history:    "Chronological history of rate changes"
+
+# ─── Fees & penalties (NEW) ────────────────────────────────────────────────
+query_late_payment_penalty:            "Penalty amount for a specified number of late days"
+
+# ─── Fees on origination / other ───────────────────────────────────────────
+query_loan_origination_fees:           "Origination or processing fees charged"
+query_other_applicable_fees:           "Other fees (late, early repayment, etc.)"
+
+# ─── Dates & tenor ────────────────────────────────────────────────────────
+query_loan_origination_date:           "Loan start / disbursement date"
+query_loan_maturity_date:              "Contract end / maturity date"
+query_loan_term_duration:              "Original loan tenor (months/years)"
+query_remaining_loan_term:             "Remaining tenor as of today"
+
+# ─── Instalment schedule ──────────────────────────────────────────────────
+query_next_installment_due_date:       "Date of the next scheduled payment"
+query_next_installment_amount:         "Amount due in the next payment"
+query_next_installment_breakdown:      "Principal/interest split of the next payment"
+query_full_repayment_schedule:         "Return the full amortisation schedule"
+query_specific_installment_details:    "Details for a given instalment by index/date"
+query_total_number_of_installments:    "Total instalment count in the contract"
+query_remaining_number_of_installments:"Number of instalments still unpaid"
+
+# ─── Payment history ──────────────────────────────────────────────────────
+query_last_payment_date:               "Date of the most recent payment"
+query_last_payment_amount:             "Amount of the most recent payment"
+query_last_payment_status:             "Whether the last payment was successful"
+query_payment_history_list:            "List the last N payments or payments in a period"
+query_specific_payment_details:        "Payment detail by date or transaction ID"
+query_missed_payments:                 "List any instalments that are overdue"
+
+# ─── Interest & DPD snapshots (NEW) ───────────────────────────────────────
+query_accrued_interest_to_date:        "Total interest accrued up to today"
+query_days_past_due_bucket:            "Current days-past-due and bucket code"

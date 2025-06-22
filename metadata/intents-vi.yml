@@ -1,0 +1,52 @@
+# ─── Thông tin khoản vay ─────────────────────────────────────────────
+query_list_active_loans:               "Liệt kê tất cả khoản vay đang hoạt động của khách hàng đã đăng nhập"
+query_loan_details_by_identifier:      "Hiển thị đầy đủ thông tin chi tiết của hợp đồng đã chỉ định"
+query_loan_current_status:             "Trả về trạng thái hiện tại của khoản vay"
+query_loan_product_type:               "Trả về tên/loại sản phẩm của khoản vay"
+query_assigned_loan_officer:           "Cung cấp nhân viên hoặc phòng ban phụ trách khoản vay"
+query_loan_contact_point:              "Đưa ra kênh liên hệ tốt nhất cho khoản vay"
+
+# ─── Số dư, lãi suất, số tiền ───────────────────────────────────────
+query_original_loan_amount:            "Số tiền gốc ban đầu"
+query_disbursed_amount:                "Tổng số tiền đã giải ngân"
+query_outstanding_principal_balance:   "Dư nợ gốc hiện tại"
+query_total_amount_due:                "Số tiền cần thanh toán nếu tất toán ngay hôm nay"
+query_current_loan_interest_rate:      "Lãi suất danh nghĩa hiện tại"
+query_interest_rate_type:              "Chỉ báo lãi suất cố định hay thả nổi"
+query_overdue_interest_rate:           "Mức lãi suất phạt áp dụng khi quá hạn"
+query_interest_rate_effective_date:    "Ngày lãi suất hiện tại có hiệu lực"
+query_interest_rate_change_history:    "Lịch sử thay đổi lãi suất theo thứ tự thời gian"
+
+# ─── Phí & tiền phạt ────────────────────────────────────────────────
+query_late_payment_penalty:            "Số tiền phạt tương ứng với số ngày trễ hạn nhất định"
+
+# ─── Phí khởi tạo / phí khác ────────────────────────────────────────
+query_loan_origination_fees:           "Phí khởi tạo/ xử lý khoản vay được thu"
+query_other_applicable_fees:           "Các loại phí khác (phí trễ hạn, phí tất toán sớm, v.v.)"
+
+# ─── Thời hạn & ngày quan trọng ─────────────────────────────────────
+query_loan_origination_date:           "Ngày bắt đầu/giải ngân khoản vay"
+query_loan_maturity_date:              "Ngày kết thúc/đáo hạn hợp đồng"
+query_loan_term_duration:              "Kỳ hạn vay ban đầu (tháng/năm)"
+query_remaining_loan_term:             "Thời gian còn lại tính đến hôm nay"
+
+# ─── Lịch trả nợ ────────────────────────────────────────────────────
+query_next_installment_due_date:       "Ngày đến hạn thanh toán kỳ tiếp theo"
+query_next_installment_amount:         "Số tiền phải trả ở kỳ tiếp theo"
+query_next_installment_breakdown:      "Tách gốc/lãi của kỳ thanh toán tiếp theo"
+query_full_repayment_schedule:         "Trả về toàn bộ lịch trả nợ"
+query_specific_installment_details:    "Chi tiết của một kỳ thanh toán cụ thể theo số thứ tự/ngày"
+query_total_number_of_installments:    "Tổng số kỳ thanh toán trong hợp đồng"
+query_remaining_number_of_installments:"Số kỳ thanh toán còn lại chưa trả"
+
+# ─── Lịch sử thanh toán ─────────────────────────────────────────────
+query_last_payment_date:               "Ngày thanh toán gần nhất"
+query_last_payment_amount:             "Số tiền thanh toán gần nhất"
+query_last_payment_status:             "Trạng thái thành công của lần thanh toán gần nhất"
+query_payment_history_list:            "Liệt kê N khoản thanh toán gần nhất hoặc theo khoảng thời gian"
+query_specific_payment_details:        "Chi tiết thanh toán theo ngày hoặc mã giao dịch"
+query_missed_payments:                 "Liệt kê các kỳ thanh toán bị quá hạn"
+
+# ─── Lãi tích lũy & tình trạng DPD ─────────────────────────────────
+query_accrued_interest_to_date:        "Tổng lãi đã tích lũy đến hiện tại"
+query_days_past_due_bucket:            "Số ngày quá hạn hiện tại và mã bucket"

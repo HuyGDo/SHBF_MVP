@@ -1,0 +1,9 @@
+docker run -d --name qdrant_local -p 6333:6333 qdrant/qdrant
+
+SQL
+Cho tôi xem tất cả các khoản vay còn hiệu lực của tôi. Mã id của tôi là: 1001
+
+RAG
+
+Both case
+Tôi có hợp đồng vay HD0000000000001 với SHBFinance. Hiện tại, dư nợ gốc của hợp đồng này là 30,000,000 VND, thời hạn vay ban đầu là 12 tháng, và theo tôi nhớ thì tôi đã thanh toán được 3 kỳ. Nếu bây giờ tôi muốn trả nợ trước hạn toàn bộ khoản vay này, thì SHBFinance quy định cụ thể về phí trả nợ trước hạn như thế nào, và với trường hợp của tôi thì có đủ điều kiện không và phí là bao nhiêu?

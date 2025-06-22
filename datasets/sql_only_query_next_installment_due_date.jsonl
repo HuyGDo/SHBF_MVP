@@ -1,0 +1,40 @@
+{
+    "user_query": "Ngày nào tôi phải đóng tiền tháng này cho hợp đồng HD-PAY-01?",
+    "output": { "route": "SQL", "intents": ["query_next_installment_due_date"], "entities": {"contract_id": "HD-PAY-01"}, "sql_prompt": "On what day do I have to pay this month for contract HD-PAY-01?", "policy_query": null, "language": "vi" }
+  }
+  {
+    "user_query": "Kỳ trả góp tiếp theo của tôi là ngày mấy?",
+    "output": { "route": "SQL", "intents": ["query_next_installment_due_date"], "entities": {}, "sql_prompt": "What date is my next installment?", "policy_query": null, "language": "vi" }
+  }
+  {
+    "user_query": "Check lẹ ngày thanh toán tháng này.",
+    "output": { "route": "SQL", "intents": ["query_next_installment_due_date"], "entities": {}, "sql_prompt": "Quickly check this month's payment date.", "policy_query": null, "language": "vi" }
+  }
+  {
+    "user_query": "Hạn chót đóng tiền kỳ này là khi nào?",
+    "output": { "route": "SQL", "intents": ["query_next_installment_due_date"], "entities": {}, "sql_prompt": "When is the deadline to pay for this period?", "policy_query": null, "language": "vi" }
+  }
+  {
+    "user_query": "Vui lòng cho biết ngày đến hạn thanh toán của kỳ tới.",
+    "output": { "route": "SQL", "intents": ["query_next_installment_due_date"], "entities": {}, "sql_prompt": "Please provide the due date for the next installment.", "policy_query": null, "language": "vi" }
+  }
+  {
+    "user_query": "Tháng này đóng tiền ngày nào vậy shop?",
+    "output": { "route": "SQL", "intents": ["query_next_installment_due_date"], "entities": {}, "sql_prompt": "What day do I pay this month?", "policy_query": null, "language": "vi" }
+  }
+  {
+    "user_query": "Next payment date của tui là ngày nào?",
+    "output": { "route": "SQL", "intents": ["query_next_installment_due_date"], "entities": {}, "sql_prompt": "What is my next payment date?", "policy_query": null, "language": "vi" }
+  }
+  {
+    "user_query": "Ngày nào tôi cần trả tiền cho kỳ này?",
+    "output": { "route": "SQL", "intents": ["query_next_installment_due_date"], "entities": {}, "sql_prompt": "What day do I need to pay for this period?", "policy_query": null, "language": "vi" }
+  }
+  {
+    "user_query": "Xem ngày trả góp tiếp theo của tôi.",
+    "output": { "route": "SQL", "intents": ["query_next_installment_due_date"], "entities": {}, "sql_prompt": "Show my next installment date.", "policy_query": null, "language": "vi" }
+  }
+  {
+    "user_query": "Cho tôi biết ngày thanh toán sắp tới.",
+    "output": { "route": "SQL", "intents": ["query_next_installment_due_date"], "entities": {}, "sql_prompt": "Tell me the upcoming payment date.", "policy_query": null, "language": "vi" }
+  }

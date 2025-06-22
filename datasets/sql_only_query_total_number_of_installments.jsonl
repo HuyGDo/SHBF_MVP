@@ -1,0 +1,40 @@
+{
+    "user_query": "Hợp đồng HD-TOTAL-01 của tôi có tất cả bao nhiêu kỳ trả góp?",
+    "output": { "route": "SQL", "intents": ["query_total_number_of_installments"], "entities": {"contract_id": "HD-TOTAL-01"}, "sql_prompt": "How many total installment periods does my contract HD-TOTAL-01 have?", "policy_query": null, "language": "vi" }
+  }
+  {
+    "user_query": "Tổng cộng tôi phải trả bao nhiêu lần cho khoản vay này?",
+    "output": { "route": "SQL", "intents": ["query_total_number_of_installments"], "entities": {}, "sql_prompt": "In total, how many times do I have to pay for this loan?", "policy_query": null, "language": "vi" }
+  }
+  {
+    "user_query": "Khoản vay này của tôi có bao nhiêu kỳ thanh toán?",
+    "output": { "route": "SQL", "intents": ["query_total_number_of_installments"], "entities": {}, "sql_prompt": "How many payment periods does this loan of mine have?", "policy_query": null, "language": "vi" }
+  }
+  {
+    "user_query": "Check tổng số lần trả góp của HĐ này.",
+    "output": { "route": "SQL", "intents": ["query_total_number_of_installments"], "entities": {}, "sql_prompt": "Check the total number of installments for this contract.", "policy_query": null, "language": "vi" }
+  }
+  {
+    "user_query": "Vui lòng cho biết tổng số kỳ hạn trả nợ.",
+    "output": { "route": "SQL", "intents": ["query_total_number_of_installments"], "entities": {}, "sql_prompt": "Please state the total number of repayment periods.", "policy_query": null, "language": "vi" }
+  }
+  {
+    "user_query": "Tất cả tôi phải đóng bao nhiêu tháng?",
+    "output": { "route": "SQL", "intents": ["query_total_number_of_installments"], "entities": {}, "sql_prompt": "How many months do I have to pay in total?", "policy_query": null, "language": "vi" }
+  }
+  {
+    "user_query": "Tổng số kỳ của hợp đồng này là bao nhiêu?",
+    "output": { "route": "SQL", "intents": ["query_total_number_of_installments"], "entities": {}, "sql_prompt": "What is the total number of periods for this contract?", "policy_query": null, "language": "vi" }
+  }
+  {
+    "user_query": "Xem số lần trả góp của khoản vay của tôi.",
+    "output": { "route": "SQL", "intents": ["query_total_number_of_installments"], "entities": {}, "sql_prompt": "Show the number of installments for my loan.", "policy_query": null, "language": "vi" }
+  }
+  {
+    "user_query": "Khoản vay này kéo dài bao nhiêu kỳ?",
+    "output": { "route": "SQL", "intents": ["query_total_number_of_installments"], "entities": {}, "sql_prompt": "How many periods does this loan last for?", "policy_query": null, "language": "vi" }
+  }
+  {
+    "user_query": "Cho tôi biết tổng số kỳ phải thanh toán.",
+    "output": { "route": "SQL", "intents": ["query_total_number_of_installments"], "entities": {}, "sql_prompt": "Tell me the total number of periods to be paid.", "policy_query": null, "language": "vi" }
+  }

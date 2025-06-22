@@ -1,0 +1,40 @@
+{
+    "user_query": "Nếu tôi trả trễ 5 ngày cho hợp đồng HD-PENALTY-1 thì tiền phạt là bao nhiêu?",
+    "output": { "route": "SQL", "intents": ["query_late_payment_penalty"], "entities": {"days_overdue": 5, "contract_id": "HD-PENALTY-1"}, "sql_prompt": "If I pay 5 days late for contract HD-PENALTY-1, what is the penalty amount?", "policy_query": null, "language": "vi" }
+  }
+  {
+    "user_query": "Tính giúp em tiền phạt nếu em đóng muộn 1 tuần cho khoản vay này.",
+    "output": { "route": "SQL", "intents": ["query_late_payment_penalty"], "entities": {"days_overdue": 7}, "sql_prompt": "Calculate the penalty for me if I pay 1 week late for this loan.", "policy_query": null, "language": "vi" }
+  }
+  {
+    "user_query": "Check lẹ phí phạt trả chậm 3 ngày của tui.",
+    "output": { "route": "SQL", "intents": ["query_late_payment_penalty"], "entities": {"days_overdue": 3}, "sql_prompt": "Quickly check my late payment fee for a 3-day delay.", "policy_query": null, "language": "vi" }
+  }
+  {
+    "user_query": "Số tiền phạt tôi phải chịu nếu trễ hạn 10 ngày là bao nhiêu?",
+    "output": { "route": "SQL", "intents": ["query_late_payment_penalty"], "entities": {"days_overdue": 10}, "sql_prompt": "What is the penalty amount I would incur if I'm 10 days overdue?", "policy_query": null, "language": "vi" }
+  }
+  {
+    "user_query": "Vui lòng tính toán khoản phạt vi phạm cho việc chậm thanh toán 15 ngày.",
+    "output": { "route": "SQL", "intents": ["query_late_payment_penalty"], "entities": {"days_overdue": 15}, "sql_prompt": "Please calculate the penalty for a 15-day late payment.", "policy_query": null, "language": "vi" }
+  }
+  {
+    "user_query": "Trễ 2 ngày thì bị phạt nhiêu lúa shop?",
+    "output": { "route": "SQL", "intents": ["query_late_payment_penalty"], "entities": {"days_overdue": 2}, "sql_prompt": "How much is the penalty for being 2 days late?", "policy_query": null, "language": "vi" }
+  }
+  {
+    "user_query": "Cho tôi biết số tiền phạt cụ thể nếu tôi trễ hẹn đóng tiền.",
+    "output": { "route": "SQL", "intents": ["query_late_payment_penalty"], "entities": {}, "sql_prompt": "Tell me the specific penalty amount if I miss a payment deadline.", "policy_query": null, "language": "vi" }
+  }
+  {
+    "user_query": "Nếu tôi lỡ đóng trễ, số tiền phạt được tính trên hợp đồng của tôi như thế nào?",
+    "output": { "route": "SQL", "intents": ["query_late_payment_penalty"], "entities": {}, "sql_prompt": "If I happen to pay late, how is the penalty amount calculated on my contract?", "policy_query": null, "language": "vi" }
+  }
+  {
+    "user_query": "Xem phí phạt trả muộn của HĐ 999888.",
+    "output": { "route": "SQL", "intents": ["query_late_payment_penalty"], "entities": {"contract_id": "999888"}, "sql_prompt": "Show the late payment fee for contract 999888.", "policy_query": null, "language": "vi" }
+  }
+  {
+    "user_query": "Khoản phạt cho việc thanh toán không đúng hạn của tôi là bao nhiêu?",
+    "output": { "route": "SQL", "intents": ["query_late_payment_penalty"], "entities": {}, "sql_prompt": "What is the penalty for my non-timely payment?", "policy_query": null, "language": "vi" }
+  }

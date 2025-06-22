@@ -1,0 +1,40 @@
+{
+    "user_query": "Vui lòng cho biết số ngày quá hạn và mã nhóm nợ hiện tại của khoản vay của tôi.",
+    "output": { "route": "SQL", "intents": ["query_days_past_due_bucket"], "entities": {}, "sql_prompt": "Please provide the days past due and the current debt bucket code for my loan.", "policy_query": null, "language": "vi" }
+  }
+  {
+    "user_query": "Khoản vay của em bị trễ bao nhiêu ngày rồi?",
+    "output": { "route": "SQL", "intents": ["query_days_past_due_bucket"], "entities": {}, "sql_prompt": "How many days late is my loan?", "policy_query": null, "language": "vi" }
+  }
+  {
+    "user_query": "Check DPD với bucket của HĐ này coi.",
+    "output": { "route": "SQL", "intents": ["query_days_past_due_bucket"], "entities": {}, "sql_prompt": "Check the DPD and bucket for this contract.", "policy_query": null, "language": "vi" }
+  }
+  {
+    "user_query": "Số ngày quá hạn và nhóm nợ của tôi là gì?",
+    "output": { "route": "SQL", "intents": ["query_days_past_due_bucket"], "entities": {}, "sql_prompt": "What are my days past due and debt bucket?", "policy_query": null, "language": "vi" }
+  }
+  {
+    "user_query": "Tôi muốn biết tình trạng quá hạn của mình.",
+    "output": { "route": "SQL", "intents": ["query_days_past_due_bucket"], "entities": {}, "sql_prompt": "I want to know my overdue status.", "policy_query": null, "language": "vi" }
+  }
+  {
+    "user_query": "Hợp đồng HD-DPD-1 đang ở nhóm nợ nào?",
+    "output": { "route": "SQL", "intents": ["query_days_past_due_bucket"], "entities": {"contract_id": "HD-DPD-1"}, "sql_prompt": "What debt bucket is contract HD-DPD-1 in?", "policy_query": null, "language": "vi" }
+  }
+  {
+    "user_query": "Xem tôi có bị nợ xấu không.",
+    "output": { "route": "SQL", "intents": ["query_days_past_due_bucket"], "entities": {}, "sql_prompt": "See if I have a bad debt status.", "policy_query": null, "language": "vi" }
+  }
+  {
+    "user_query": "Cho tôi biết khoản vay của tôi đang được phân loại vào nhóm nợ nào và đã trễ bao nhiêu ngày.",
+    "output": { "route": "SQL", "intents": ["query_days_past_due_bucket"], "entities": {}, "sql_prompt": "Tell me which debt bucket my loan is classified in and how many days it is overdue.", "policy_query": null, "language": "vi" }
+  }
+  {
+    "user_query": "DPD and bucket code của khoản vay của tôi?",
+    "output": { "route": "SQL", "intents": ["query_days_past_due_bucket"], "entities": {}, "sql_prompt": "DPD and bucket code of my loan?", "policy_query": null, "language": "vi" }
+  }
+  {
+    "user_query": "Kiểm tra giúp mình xem khoản vay của mình có đang bị trễ hạn không nhé.",
+    "output": { "route": "SQL", "intents": ["query_days_past_due_bucket"], "entities": {}, "sql_prompt": "Please check if my loan is currently overdue.", "policy_query": null, "language": "vi" }
+  }

@@ -1,0 +1,50 @@
+{
+    "$schema": "http://json-schema.org/draft-07/schema#",
+    "title": "Agent-PLAN Schema",
+    "description": "Canonical structure produced by the Main-LLM so the orchestrator can decide whether to call RAG, SQL or both.",
+    "type": "object",
+    "required": ["route", "intents", "entities"],
+    "additionalProperties": false,
+    "properties": {
+      "route": {
+        "type": "string",
+        "enum": ["SQL", "RAG", "BOTH"],
+        "description": "Primary execution path: pure SQL, pure RAG, or combined."
+      },
+      "intents": {
+        "type": "array",
+        "items": { "type": "string" },
+        "minItems": 1,
+        "description": "List of normalised intent identifiers."
+      },
+      "entities": {
+        "type": "object",
+        "description": "Key-value map of extracted entities. Values may be string, number, boolean, array, object or null."
+      },
+      "sql_prompt": {
+        "type": "string",
+        "description": "Concise English question given to the Text-to-SQL model."
+      },
+      "tables": {
+        "type": "array",
+        "items": { "type": "string" },
+        "description": "Tables that should be visible in the Text-to-SQL prompt context."
+      },
+      "fields": {
+        "type": "array",
+        "items": { "type": "string" },
+        "description": "Important columns the agent will surface to Text-to-SQL."
+      },
+      "policy_query": {
+        "type": "string",
+        "description": "Free-text query used for vector search if `route` is RAG or BOTH."
+      },
+      "language": {
+        "type": "string",
+        "enum": ["vi", "en"],
+        "default": "vi",
+        "description": "Language in which the final answer should be generated."
+      }
+    }
+  }
+  

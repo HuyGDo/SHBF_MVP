@@ -1,0 +1,40 @@
+{
+    "user_query": "Hợp đồng HD-ORIGIN-01 của tôi được ký vào ngày nào?",
+    "output": { "route": "SQL", "intents": ["query_loan_origination_date"], "entities": {"contract_id": "HD-ORIGIN-01"}, "sql_prompt": "On what date was my contract HD-ORIGIN-01 signed?", "policy_query": null, "language": "vi" }
+  }
+  {
+    "user_query": "Ngày giải ngân của khoản vay này là ngày mấy?",
+    "output": { "route": "SQL", "intents": ["query_loan_origination_date"], "entities": {}, "sql_prompt": "What was the disbursement date of this loan?", "policy_query": null, "language": "vi" }
+  }
+  {
+    "user_query": "Check ngày bắt đầu của hợp đồng này.",
+    "output": { "route": "SQL", "intents": ["query_loan_origination_date"], "entities": {}, "sql_prompt": "Check the start date of this contract.", "policy_query": null, "language": "vi" }
+  }
+  {
+    "user_query": "Khoản vay của tôi có hiệu lực từ khi nào?",
+    "output": { "route": "SQL", "intents": ["query_loan_origination_date"], "entities": {}, "sql_prompt": "When did my loan become effective?", "policy_query": null, "language": "vi" }
+  }
+  {
+    "user_query": "Xem ngày tôi nhận được tiền của khoản vay này.",
+    "output": { "route": "SQL", "intents": ["query_loan_origination_date"], "entities": {}, "sql_prompt": "Show the date I received the money for this loan.", "policy_query": null, "language": "vi" }
+  }
+  {
+    "user_query": "Ngày tôi bắt đầu vay là ngày nào?",
+    "output": { "route": "SQL", "intents": ["query_loan_origination_date"], "entities": {}, "sql_prompt": "What day did I start borrowing?", "policy_query": null, "language": "vi" }
+  }
+  {
+    "user_query": "HĐ của em được giải ngân hôm nào thế?",
+    "output": { "route": "SQL", "intents": ["query_loan_origination_date"], "entities": {}, "sql_prompt": "On what day was my contract disbursed?", "policy_query": null, "language": "vi" }
+  }
+  {
+    "user_query": "Check lẹ disbursement date của HĐ 123.",
+    "output": { "route": "SQL", "intents": ["query_loan_origination_date"], "entities": {"contract_id": "123"}, "sql_prompt": "Quickly check the disbursement date of contract 123.", "policy_query": null, "language": "vi" }
+  }
+  {
+    "user_query": "Ngày bắt đầu tính lãi của khoản vay này là ngày nào?",
+    "output": { "route": "SQL", "intents": ["query_loan_origination_date"], "entities": {}, "sql_prompt": "What is the interest start date for this loan?", "policy_query": null, "language": "vi" }
+  }
+  {
+    "user_query": "Vui lòng cung cấp ngày giải ngân cho khoản vay của tôi.",
+    "output": { "route": "SQL", "intents": ["query_loan_origination_date"], "entities": {}, "sql_prompt": "Please provide the disbursement date for my loan.", "policy_query": null, "language": "vi" }
+  }

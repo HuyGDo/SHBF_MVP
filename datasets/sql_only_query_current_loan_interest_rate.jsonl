@@ -1,0 +1,110 @@
+{
+    "user_query": "Lãi suất hiện tại của khoản vay của tôi là bao nhiêu %?",
+    "output": {
+      "route": "SQL",
+      "intents": ["query_current_loan_interest_rate"],
+      "entities": {},
+      "sql_prompt": "What is the current interest rate of my loan in %?",
+      "policy_query": null,
+      "language": "vi"
+    }
+  }
+  {
+    "user_query": "Lãi suất giờ là mấy chấm vậy shop?",
+    "output": {
+      "route": "SQL",
+      "intents": ["query_current_loan_interest_rate"],
+      "entities": {},
+      "sql_prompt": "What's the interest rate now?",
+      "policy_query": null,
+      "language": "vi"
+    }
+  }
+  {
+    "user_query": "Cho tôi biết lãi suất đang áp dụng cho hợp đồng HD-666.",
+    "output": {
+      "route": "SQL",
+      "intents": ["query_current_loan_interest_rate"],
+      "entities": {"contract_id": "HD-666"},
+      "sql_prompt": "Tell me the interest rate being applied to contract HD-666.",
+      "policy_query": null,
+      "language": "vi"
+    }
+  }
+  {
+    "user_query": "Hợp đồng này của tôi đang chịu lãi suất bao nhiêu một năm?",
+    "output": {
+      "route": "SQL",
+      "intents": ["query_current_loan_interest_rate"],
+      "entities": {},
+      "sql_prompt": "What is the annual interest rate for this contract of mine?",
+      "policy_query": null,
+      "language": "vi"
+    }
+  }
+  {
+    "user_query": "Vui lòng cung cấp lãi suất danh nghĩa của khoản vay.",
+    "output": {
+      "route": "SQL",
+      "intents": ["query_current_loan_interest_rate"],
+      "entities": {},
+      "sql_prompt": "Please provide the nominal interest rate of the loan.",
+      "policy_query": null,
+      "language": "vi"
+    }
+  }
+  {
+    "user_query": "Xin cho biết lãi suất đang được áp dụng cho hợp đồng của tôi.",
+    "output": {
+      "route": "SQL",
+      "intents": ["query_current_loan_interest_rate"],
+      "entities": {},
+      "sql_prompt": "Please state the interest rate being applied to my contract.",
+      "policy_query": null,
+      "language": "vi"
+    }
+  }
+  {
+    "user_query": "Lãi của em bây giờ là bao nhiêu?",
+    "output": {
+      "route": "SQL",
+      "intents": ["query_current_loan_interest_rate"],
+      "entities": {},
+      "sql_prompt": "What is my interest rate now?",
+      "policy_query": null,
+      "language": "vi"
+    }
+  }
+  {
+    "user_query": "Check lẹ cái rate của HĐ này.",
+    "output": {
+      "route": "SQL",
+      "intents": ["query_current_loan_interest_rate"],
+      "entities": {},
+      "sql_prompt": "Quickly check the rate of this contract.",
+      "policy_query": null,
+      "language": "vi"
+    }
+  }
+  {
+    "user_query": "Tỷ lệ lãi suất tôi đang trả là bao nhiêu?",
+    "output": {
+      "route": "SQL",
+      "intents": ["query_current_loan_interest_rate"],
+      "entities": {},
+      "sql_prompt": "What is the interest rate percentage I am paying?",
+      "policy_query": null,
+      "language": "vi"
+    }
+  }
+  {
+    "user_query": "Cho xem lãi suất hiện hành của khoản vay.",
+    "output": {
+      "route": "SQL",
+      "intents": ["query_current_loan_interest_rate"],
+      "entities": {},
+      "sql_prompt": "Show the current interest rate of the loan.",
+      "policy_query": null,
+      "language": "vi"
+    }
+  }

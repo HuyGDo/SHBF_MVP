@@ -1,0 +1,110 @@
+{
+    "user_query": "Tình trạng khoản vay HD-555666 của tôi hiện tại như thế nào?",
+    "output": {
+      "route": "SQL",
+      "intents": ["query_loan_current_status"],
+      "entities": {"contract_id": "HD-555666"},
+      "sql_prompt": "What is the current status of my loan HD-555666?",
+      "policy_query": null,
+      "language": "vi"
+    }
+  }
+  {
+    "user_query": "Hợp đồng của tôi dạo này sao rồi?",
+    "output": {
+      "route": "SQL",
+      "intents": ["query_loan_current_status"],
+      "entities": {},
+      "sql_prompt": "How is my contract doing lately?",
+      "policy_query": null,
+      "language": "vi"
+    }
+  }
+  {
+    "user_query": "Khoản vay của tôi đang active hay đã paid-off?",
+    "output": {
+      "route": "SQL",
+      "intents": ["query_loan_current_status"],
+      "entities": {},
+      "sql_prompt": "Is my loan active or paid-off?",
+      "policy_query": null,
+      "language": "vi"
+    }
+  }
+  {
+    "user_query": "Cái hợp đồng vay của tui còn hiệu lực không shop?",
+    "output": {
+      "route": "SQL",
+      "intents": ["query_loan_current_status"],
+      "entities": {},
+      "sql_prompt": "Is my loan contract still valid?",
+      "policy_query": null,
+      "language": "vi"
+    }
+  }
+  {
+    "user_query": "Vui lòng cho biết trạng thái của hợp đồng vay LMS334455.",
+    "output": {
+      "route": "SQL",
+      "intents": ["query_loan_current_status"],
+      "entities": {"lms_cif_no": "LMS334455"},
+      "sql_prompt": "Please provide the status of loan contract LMS334455.",
+      "policy_query": null,
+      "language": "vi"
+    }
+  }
+  {
+    "user_query": "Hợp đồng HD-STATUS01 của tôi đã được tất toán chưa?",
+    "output": {
+      "route": "SQL",
+      "intents": ["query_loan_current_status"],
+      "entities": {"contract_id": "HD-STATUS01"},
+      "sql_prompt": "Has my contract HD-STATUS01 been settled yet?",
+      "policy_query": null,
+      "language": "vi"
+    }
+  }
+  {
+    "user_query": "Kiểm tra giúp tôi hợp đồng này đang ở giai đoạn nào.",
+    "output": {
+      "route": "SQL",
+      "intents": ["query_loan_current_status"],
+      "entities": {},
+      "sql_prompt": "Check for me what stage this contract is in.",
+      "policy_query": null,
+      "language": "vi"
+    }
+  }
+  {
+    "user_query": "Trạng thái của khoản vay của tôi bây giờ.",
+    "output": {
+      "route": "SQL",
+      "intents": ["query_loan_current_status"],
+      "entities": {},
+      "sql_prompt": "The status of my loan now.",
+      "policy_query": null,
+      "language": "vi"
+    }
+  }
+  {
+    "user_query": "HĐ XYZ987 của tui còn không hay trả xong rồi?",
+    "output": {
+      "route": "SQL",
+      "intents": ["query_loan_current_status"],
+      "entities": {"contract_id": "XYZ987"},
+      "sql_prompt": "Is my contract XYZ987 still active or is it paid off?",
+      "policy_query": null,
+      "language": "vi"
+    }
+  }
+  {
+    "user_query": "Khoản vay của tôi có đang bị quá hạn không?",
+    "output": {
+      "route": "SQL",
+      "intents": ["query_loan_current_status", "query_days_past_due_bucket"],
+      "entities": {},
+      "sql_prompt": "Is my loan currently overdue?",
+      "policy_query": null,
+      "language": "vi"
+    }
+  }

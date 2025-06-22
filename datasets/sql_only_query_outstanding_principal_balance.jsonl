@@ -1,0 +1,110 @@
+{
+    "user_query": "Dư nợ gốc hiện tại của tôi là bao nhiêu?",
+    "output": {
+      "route": "SQL",
+      "intents": ["query_outstanding_principal_balance"],
+      "entities": {},
+      "sql_prompt": "What is my current outstanding principal balance?",
+      "policy_query": null,
+      "language": "vi"
+    }
+  }
+  {
+    "user_query": "Giờ tôi còn nợ gốc chính xác là bao nhiêu tiền?",
+    "output": {
+      "route": "SQL",
+      "intents": ["query_outstanding_principal_balance"],
+      "entities": {},
+      "sql_prompt": "Exactly how much principal do I still owe now?",
+      "policy_query": null,
+      "language": "vi"
+    }
+  }
+  {
+    "user_query": "Check lẹ nợ gốc của hợp đồng HD-777888.",
+    "output": {
+      "route": "SQL",
+      "intents": ["query_outstanding_principal_balance"],
+      "entities": {"contract_id": "HD-777888"},
+      "sql_prompt": "Quickly check the principal debt of contract HD-777888.",
+      "policy_query": null,
+      "language": "vi"
+    }
+  }
+  {
+    "user_query": "Vui lòng cung cấp số dư nợ gốc còn lại của khoản vay của tôi.",
+    "output": {
+      "route": "SQL",
+      "intents": ["query_outstanding_principal_balance"],
+      "entities": {},
+      "sql_prompt": "Please provide the remaining principal balance of my loan.",
+      "policy_query": null,
+      "language": "vi"
+    }
+  }
+  {
+    "user_query": "Tính đến hôm nay, tiền gốc của tôi còn lại bao nhiêu?",
+    "output": {
+      "route": "SQL",
+      "intents": ["query_outstanding_principal_balance"],
+      "entities": {},
+      "sql_prompt": "As of today, how much of my principal is left?",
+      "policy_query": null,
+      "language": "vi"
+    }
+  }
+  {
+    "user_query": "Nợ gốc của em còn mấy đồng nữa shop?",
+    "output": {
+      "route": "SQL",
+      "intents": ["query_outstanding_principal_balance"],
+      "entities": {},
+      "sql_prompt": "How much principal do I have left to pay?",
+      "policy_query": null,
+      "language": "vi"
+    }
+  }
+  {
+    "user_query": "Soi giùm cái outstanding principal của tui.",
+    "output": {
+      "route": "SQL",
+      "intents": ["query_outstanding_principal_balance"],
+      "entities": {},
+      "sql_prompt": "Look up my outstanding principal for me.",
+      "policy_query": null,
+      "language": "vi"
+    }
+  }
+  {
+    "user_query": "Tôi cần biết số tiền gốc chưa trả cho khoản vay của mình.",
+    "output": {
+      "route": "SQL",
+      "intents": ["query_outstanding_principal_balance"],
+      "entities": {},
+      "sql_prompt": "I need to know the unpaid principal amount for my loan.",
+      "policy_query": null,
+      "language": "vi"
+    }
+  }
+  {
+    "user_query": "Số tiền gốc còn lại của hợp đồng tôi là bao nhiêu?",
+    "output": {
+      "route": "SQL",
+      "intents": ["query_outstanding_principal_balance"],
+      "entities": {},
+      "sql_prompt": "What is the remaining principal amount of my contract?",
+      "policy_query": null,
+      "language": "vi"
+    }
+  }
+  {
+    "user_query": "Cho tôi biết dư nợ gốc.",
+    "output": {
+      "route": "SQL",
+      "intents": ["query_outstanding_principal_balance"],
+      "entities": {},
+      "sql_prompt": "Tell me the outstanding principal balance.",
+      "policy_query": null,
+      "language": "vi"
+    }
+  }

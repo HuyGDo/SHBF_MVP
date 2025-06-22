@@ -1,0 +1,40 @@
+{
+    "user_query": "Ngoài lãi ra, hợp đồng HD-EXTRA-02 của tôi còn có những loại phí nào khác?",
+    "output": { "route": "SQL", "intents": ["query_other_applicable_fees"], "entities": {"contract_id": "HD-EXTRA-02"}, "sql_prompt": "Besides interest, what other fees does my contract HD-EXTRA-02 have?", "policy_query": null, "language": "vi" }
+  }
+  {
+    "user_query": "Cho tôi xem tất cả các loại phí đang áp dụng cho khoản vay của tôi.",
+    "output": { "route": "SQL", "intents": ["query_other_applicable_fees"], "entities": {}, "sql_prompt": "Show me all types of fees being applied to my loan.", "policy_query": null, "language": "vi" }
+  }
+  {
+    "user_query": "Khoản vay này của em còn phí ẩn nào không?",
+    "output": { "route": "SQL", "intents": ["query_other_applicable_fees"], "entities": {}, "sql_prompt": "Does this loan of mine have any hidden fees?", "policy_query": null, "language": "vi" }
+  }
+  {
+    "user_query": "Check các loại phí khác của HĐ 456.",
+    "output": { "route": "SQL", "intents": ["query_other_applicable_fees"], "entities": {"contract_id": "456"}, "sql_prompt": "Check other fees for contract 456.", "policy_query": null, "language": "vi" }
+  }
+  {
+    "user_query": "Vui lòng liệt kê các khoản phí (nếu có) ngoài lãi suất.",
+    "output": { "route": "SQL", "intents": ["query_other_applicable_fees"], "entities": {}, "sql_prompt": "Please list any fees besides the interest rate.", "policy_query": null, "language": "vi" }
+  }
+  {
+    "user_query": "Tôi có phải trả thêm phí gì trong quá trình vay không?",
+    "output": { "route": "SQL", "intents": ["query_other_applicable_fees"], "entities": {}, "sql_prompt": "Do I have to pay any additional fees during the loan process?", "policy_query": null, "language": "vi" }
+  }
+  {
+    "user_query": "Hợp đồng của tôi có phí trả nợ trước hạn không?",
+    "output": {"route": "BOTH", "intents": ["query_other_applicable_fees"], "entities": {}, "sql_prompt": "Check my contract details for early repayment fee information.", "policy_query": "Chính sách về phí trả nợ trước hạn là gì?", "language": "vi"}
+  }
+  {
+    "user_query": "Xem các khoản phí áp dụng cho HĐ 789.",
+    "output": { "route": "SQL", "intents": ["query_other_applicable_fees"], "entities": {"contract_id": "789"}, "sql_prompt": "Show the applicable fees for contract 789.", "policy_query": null, "language": "vi" }
+  }
+  {
+    "user_query": "Liệt kê các chi phí liên quan đến khoản vay của tôi.",
+    "output": { "route": "SQL", "intents": ["query_other_applicable_fees"], "entities": {}, "sql_prompt": "List the costs associated with my loan.", "policy_query": null, "language": "vi" }
+  }
+  {
+    "user_query": "Hợp đồng này có những loại phí nào?",
+    "output": { "route": "SQL", "intents": ["query_other_applicable_fees"], "entities": {}, "sql_prompt": "What types of fees does this contract have?", "policy_query": null, "language": "vi" }
+  }

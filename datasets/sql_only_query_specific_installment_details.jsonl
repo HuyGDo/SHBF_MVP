@@ -1,0 +1,40 @@
+{
+    "user_query": "Cho tôi xem chi tiết kỳ trả nợ thứ 5 của hợp đồng HD-DETAIL-02.",
+    "output": { "route": "SQL", "intents": ["query_specific_installment_details"], "entities": {"installment_no": 5, "contract_id": "HD-DETAIL-02"}, "sql_prompt": "Show me the details of the 5th repayment period for contract HD-DETAIL-02.", "policy_query": null, "language": "vi" }
+  }
+  {
+    "user_query": "Xem lại thông tin của kỳ trả góp tháng trước.",
+    "output": { "route": "SQL", "intents": ["query_specific_installment_details"], "entities": {}, "sql_prompt": "Review the information of last month's installment period.", "policy_query": null, "language": "vi" }
+  }
+  {
+    "user_query": "Chi tiết của lần trả tiền vào ngày 15/05/2025 là gì?",
+    "output": { "route": "SQL", "intents": ["query_specific_installment_details"], "entities": {"date": "2025-05-15"}, "sql_prompt": "What are the details of the payment made on 2025-05-15?", "policy_query": null, "language": "vi" }
+  }
+  {
+    "user_query": "Tôi muốn xem thông tin của kỳ trả nợ thứ 12.",
+    "output": { "route": "SQL", "intents": ["query_specific_installment_details"], "entities": {"installment_no": 12}, "sql_prompt": "I want to see the information for the 12th repayment period.", "policy_query": null, "language": "vi" }
+  }
+  {
+    "user_query": "Check giùm chi tiết của kỳ trả góp tháng 3/2025.",
+    "output": { "route": "SQL", "intents": ["query_specific_installment_details"], "entities": {"date": "2025-03-01"}, "sql_prompt": "Check the details of the installment period for March 2025.", "policy_query": null, "language": "vi" }
+  }
+  {
+    "user_query": "Lần trả thứ 3 của tôi có thông tin gì?",
+    "output": { "route": "SQL", "intents": ["query_specific_installment_details"], "entities": {"installment_no": 3}, "sql_prompt": "What information is there for my 3rd payment?", "policy_query": null, "language": "vi" }
+  }
+  {
+    "user_query": "Thông tin về kỳ thanh toán số 8 của HĐ 123.",
+    "output": { "route": "SQL", "intents": ["query_specific_installment_details"], "entities": {"installment_no": 8, "contract_id": "123"}, "sql_prompt": "Information about payment period number 8 of contract 123.", "policy_query": null, "language": "vi" }
+  }
+  {
+    "user_query": "Cho tôi xem chi tiết kỳ trả góp gần nhất.",
+    "output": { "route": "SQL", "intents": ["query_specific_installment_details"], "entities": {}, "sql_prompt": "Show me the details of the most recent installment period.", "policy_query": null, "language": "vi" }
+  }
+  {
+    "user_query": "Xem lại lần trả tiền thứ 2 của tôi.",
+    "output": { "route": "SQL", "intents": ["query_specific_installment_details"], "entities": {"installment_no": 2}, "sql_prompt": "Review my 2nd payment.", "policy_query": null, "language": "vi" }
+  }
+  {
+    "user_query": "Chi tiết của kỳ trả nợ vào tháng 1 năm nay.",
+    "output": { "route": "SQL", "intents": ["query_specific_installment_details"], "entities": {"date": "2025-01-01"}, "sql_prompt": "Details of the repayment period in January this year.", "policy_query": null, "language": "vi" }
+  }

@@ -1,0 +1,110 @@
+{
+    "user_query": "Nếu tôi muốn tất toán hợp đồng HD-444 hôm nay, tổng số tiền phải trả là bao nhiêu?",
+    "output": {
+      "route": "SQL",
+      "intents": ["query_total_amount_due"],
+      "entities": {"contract_id": "HD-444", "date": "2025-06-22"},
+      "sql_prompt": "If I want to settle contract HD-444 today, what is the total amount payable?",
+      "policy_query": null,
+      "language": "vi"
+    }
+  }
+  {
+    "user_query": "Muốn trả hết nợ của khoản vay này ngay bây giờ thì cần bao nhiêu tiền?",
+    "output": {
+      "route": "SQL",
+      "intents": ["query_total_amount_due"],
+      "entities": {},
+      "sql_prompt": "How much money is needed to pay off this loan right now?",
+      "policy_query": null,
+      "language": "vi"
+    }
+  }
+  {
+    "user_query": "Cho tôi con số chính xác để đóng hết hợp đồng này trong hôm nay.",
+    "output": {
+      "route": "SQL",
+      "intents": ["query_total_amount_due"],
+      "entities": {"date": "2025-06-22"},
+      "sql_prompt": "Give me the exact figure to close out this contract today.",
+      "policy_query": null,
+      "language": "vi"
+    }
+  }
+  {
+    "user_query": "Tính giúp số tiền cần để pay-off toàn bộ khoản vay của tôi.",
+    "output": {
+      "route": "SQL",
+      "intents": ["query_total_amount_due"],
+      "entities": {},
+      "sql_prompt": "Calculate the amount needed to pay-off my entire loan.",
+      "policy_query": null,
+      "language": "vi"
+    }
+  }
+  {
+    "user_query": "Tổng tiền phải thanh toán để kết thúc hợp đồng HD-555555 là?",
+    "output": {
+      "route": "SQL",
+      "intents": ["query_total_amount_due"],
+      "entities": {"contract_id": "HD-555555"},
+      "sql_prompt": "What is the total amount payable to terminate contract HD-555555?",
+      "policy_query": null,
+      "language": "vi"
+    }
+  }
+  {
+    "user_query": "Vui lòng tính toán số tiền tất toán cho hợp đồng của tôi tại ngày hôm nay.",
+    "output": {
+      "route": "SQL",
+      "intents": ["query_total_amount_due"],
+      "entities": {"date": "2025-06-22"},
+      "sql_prompt": "Please calculate the settlement amount for my contract as of today.",
+      "policy_query": null,
+      "language": "vi"
+    }
+  }
+  {
+    "user_query": "Giờ em muốn trả hết một cục thì cần bao nhiêu?",
+    "output": {
+      "route": "SQL",
+      "intents": ["query_total_amount_due"],
+      "entities": {},
+      "sql_prompt": "How much do I need if I want to pay it all off in one go now?",
+      "policy_query": null,
+      "language": "vi"
+    }
+  }
+  {
+    "user_query": "Cần bao nhiêu tiền để hoàn thành hết cái hợp đồng này?",
+    "output": {
+      "route": "SQL",
+      "intents": ["query_total_amount_due"],
+      "entities": {},
+      "sql_prompt": "How much money is needed to fully complete this contract?",
+      "policy_query": null,
+      "language": "vi"
+    }
+  }
+  {
+    "user_query": "Để đóng hợp đồng sớm thì tôi cần thanh toán bao nhiêu?",
+    "output": {
+      "route": "SQL",
+      "intents": ["query_total_amount_due"],
+      "entities": {},
+      "sql_prompt": "How much do I need to pay to close the contract early?",
+      "policy_query": null,
+      "language": "vi"
+    }
+  }
+  {
+    "user_query": "Số tiền trả nợ trước hạn toàn bộ cho khoản vay của tôi là bao nhiêu?",
+    "output": {
+      "route": "SQL",
+      "intents": ["query_total_amount_due"],
+      "entities": {},
+      "sql_prompt": "What is the full early repayment amount for my loan?",
+      "policy_query": null,
+      "language": "vi"
+    }
+  }

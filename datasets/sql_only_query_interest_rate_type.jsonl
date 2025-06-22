@@ -1,0 +1,110 @@
+{
+    "user_query": "Lãi suất của hợp đồng HD-555 là cố định hay thả nổi?",
+    "output": {
+      "route": "SQL",
+      "intents": ["query_interest_rate_type"],
+      "entities": {"contract_id": "HD-555"},
+      "sql_prompt": "Is the interest rate for contract HD-555 fixed or variable?",
+      "policy_query": null,
+      "language": "vi"
+    }
+  }
+  {
+    "user_query": "Lãi của khoản vay này có bị thay đổi trong tương lai không?",
+    "output": {
+      "route": "SQL",
+      "intents": ["query_interest_rate_type"],
+      "entities": {},
+      "sql_prompt": "Will the interest rate of this loan change in the future?",
+      "policy_query": null,
+      "language": "vi"
+    }
+  }
+  {
+    "user_query": "Check giúp tôi loại lãi suất của hợp đồng này, fixed hay variable?",
+    "output": {
+      "route": "SQL",
+      "intents": ["query_interest_rate_type"],
+      "entities": {"interest_rate_type": "fixed"},
+      "sql_prompt": "Check the interest rate type for this contract, fixed or variable?",
+      "policy_query": null,
+      "language": "vi"
+    }
+  }
+  {
+    "user_query": "Lãi suất của tôi có được giữ nguyên trong suốt thời hạn vay không?",
+    "output": {
+      "route": "SQL",
+      "intents": ["query_interest_rate_type"],
+      "entities": {},
+      "sql_prompt": "Will my interest rate remain the same throughout the loan term?",
+      "policy_query": null,
+      "language": "vi"
+    }
+  }
+  {
+    "user_query": "Cho biết loại lãi suất của khoản vay của tôi.",
+    "output": {
+      "route": "SQL",
+      "intents": ["query_interest_rate_type"],
+      "entities": {},
+      "sql_prompt": "State the interest rate type of my loan.",
+      "policy_query": null,
+      "language": "vi"
+    }
+  }
+  {
+    "user_query": "Vui lòng xác định loại lãi suất được áp dụng cho hợp đồng của tôi.",
+    "output": {
+      "route": "SQL",
+      "intents": ["query_interest_rate_type"],
+      "entities": {},
+      "sql_prompt": "Please determine the type of interest rate applied to my contract.",
+      "policy_query": null,
+      "language": "vi"
+    }
+  }
+  {
+    "user_query": "Lãi suất của em là cố định phải không?",
+    "output": {
+      "route": "SQL",
+      "intents": ["query_interest_rate_type"],
+      "entities": {},
+      "sql_prompt": "My interest rate is fixed, right?",
+      "policy_query": null,
+      "language": "vi"
+    }
+  }
+  {
+    "user_query": "Rate này là fixed hay float?",
+    "output": {
+      "route": "SQL",
+      "intents": ["query_interest_rate_type"],
+      "entities": {},
+      "sql_prompt": "Is this rate fixed or floating?",
+      "policy_query": null,
+      "language": "vi"
+    }
+  }
+  {
+    "user_query": "Lãi suất có điều chỉnh theo thị trường không?",
+    "output": {
+      "route": "SQL",
+      "intents": ["query_interest_rate_type"],
+      "entities": {},
+      "sql_prompt": "Does the interest rate adjust with the market?",
+      "policy_query": null,
+      "language": "vi"
+    }
+  }
+  {
+    "user_query": "Loại lãi suất: cố định hay biến đổi?",
+    "output": {
+      "route": "SQL",
+      "intents": ["query_interest_rate_type"],
+      "entities": {},
+      "sql_prompt": "Interest rate type: fixed or variable?",
+      "policy_query": null,
+      "language": "vi"
+    }
+  }

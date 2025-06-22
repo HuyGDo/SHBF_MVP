@@ -1,0 +1,72 @@
+{
+  "tables": {
+    "DEBT_CUSTOMER_LD_DETAIL": {
+      "description": "Master loan contract details per customer",
+      "columns": {
+        "SO_HOP_DONG": "VARCHAR2(15)",
+        "CUSTOMER_ID": "NUMBER",
+        "LD_NO": "VARCHAR2(20)",
+        "LD_DI_NO": "VARCHAR2(5)",
+        "KY_HAN_VAY": "NUMBER",
+        "LAI_SUAT": "NUMBER",
+        "SO_TIEN_GIAI_NGAN": "NUMBER",
+        "DU_NO": "NUMBER",
+        "DU_NO_LAI": "NUMBER",
+        "NGAY_GIAI_NGAN": "DATE",
+        "NGAY_KY_HOP_DONG": "DATE",
+        "MUC_DICH_VAY": "VARCHAR2(250)",
+        "NHOM_NO_THEO_HD_DPD": "VARCHAR2(3)",
+        "STATUS": "derived from internal DPD columns"
+      }
+    },
+    "DEBT_LD_REPAY_SCHEDULE": {
+      "description": "Planned instalment schedule for each loan",
+      "columns": {
+        "SO_HOP_DONG": "VARCHAR2(20)",
+        "KY_THANH_TOAN": "NUMBER",
+        "TU_NGAY": "DATE",
+        "DEN_NGAY": "DATE",
+        "GOC": "NUMBER",
+        "LAI": "NUMBER",
+        "EMI_AMOUNT": "NUMBER",
+        "DU_NO": "NUMBER"
+      }
+    },
+    "DEBT_LD_PAID_HISTORY": {
+      "description": "Actual payments posted against instalments",
+      "columns": {
+        "SO_HOP_DONG": "VARCHAR2(20)",
+        "NGAY_THANH_TOAN": "DATE",
+        "KY_THANH_TOAN": "NUMBER",
+        "GOC_DA_THU": "NUMBER",
+        "LAI_DA_THU": "NUMBER",
+        "TONG_TIEN_THU": "NUMBER",
+        "DPD_HOP_DONG_SAU_TT": "NUMBER"
+      }
+    },
+    "DEBT_CUSTOMER_ALLOCATED_HIST": {
+      "description": "Allocation history of loans to collection users",
+      "columns": {
+        "SO_HOP_DONG": "VARCHAR2(15)",
+        "DPD_KH": "NUMBER",
+        "BUCKET_CODE": "VARCHAR2(20)",
+        "ALLOCATED_GROUP_CODE": "VARCHAR2(20)",
+        "ALLOCATED_USER_CODE": "VARCHAR2(20)",
+        "LAST_ALLOCATED_DATE": "DATE"
+      }
+    },
+    "DEBT_CUSTOMERS": {
+      "description": "Static & dynamic customer profile",
+      "columns": {
+        "CUSTOMER_ID": "NUMBER",
+        "HO_TEN_DAY_DU": "VARCHAR2(250)",
+        "SO_CMND_THE_CAN_CUOC": "VARCHAR2(50)",
+        "SO_DIEN_THOAI": "VARCHAR2(50)",
+        "EMAIL": "VARCHAR2(100)",
+        "DU_NO": "NUMBER",
+        "DU_NO_LAI": "NUMBER",
+        "BUCKET_CODE": "VARCHAR2(20)"
+      }
+    }
+  }
+}

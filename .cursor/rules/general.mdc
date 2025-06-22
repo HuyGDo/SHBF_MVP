@@ -1,0 +1,90 @@
+---
+description: 
+globs: 
+alwaysApply: true
+---
+## MVP Context: Loan Status Chatbot (Gradio Interface)
+
+**Project Goal:** Build a Minimal Viable Product (MVP) of the Loan Status Inquiry Chatbot for SHBFinance. The MVP will demonstrate core functionalities using a simplified architecture and local resources, with Gradio as the user interface.
+
+**Core Functionalities to Implement:**
+1.  **RAG (Retrieval Augmented Generation):** Answer policy-related questions by retrieving information from a local vector database (Qdrant).
+2.  **Text-to-SQL:** Answer user-specific data questions by translating natural language to SQL, querying a local PostgreSQL database, and returning the results.
+3.  **Combined RAG & SQL ("Both"):** Handle queries requiring information from both policy documents and the user's database records.
+4.  **Multi-Turn Conversation:** Maintain basic conversation context for a few turns.
+
+**Key Technologies & Setup:**
+* **User Interface:** Gradio (`app_mvp.py`).
+* **Main LLM & Text-to-SQL LLM:** Served via local LM Studio instances (e.g., Vistral 7B for Main LLM, T5 Small or similar for Text-to-SQL). Configured via API endpoints in `.env`.
+* **Vector Database:** Local Qdrant instance. Store embeddings of policy documents.
+* **Relational Database:** Local PostgreSQL instance. Store mock user loan data.
+* **Core AI Logic:** Python with LangChain components.
+    * LLM Interaction: `ChatOpenAI` wrappers pointing to LM Studio.
+    * Embeddings: `SentenceTransformerEmbeddings` (e.g., `all-MiniLM-L6-v2`).
+    * Conversational Memory: `ConversationBufferWindowMemory` (simple, small window).
+* **Configuration:** Python scripts (`config_mvp/settings_mvp.py`) loading from an `.env` file.
+**Simplified Development Phases & Components:**
+
+**Phase 1: Setup & Foundational Components**
+* **Environment:** Python virtual env, install `requirements.txt`.
+* **`.env` file:** Store API URLs for LM Studio, PostgreSQL DSN, Qdrant URL.
+* **Databases:**
+    * **PostgreSQL:** Manually create a simple schema (1-2 tables like `loans`, `customers`) and populate with a few sample rows.
+    * **Qdrant:** Create a collection.
+* **Data Ingestion (`scripts_mvp/ingest_policy_data_mvp.py`):**
+    * Load sample policy text files (2-3 short `.txt` files from `data_mvp/policy_documents/`).
+    * Generate embeddings.
+    * Ingest into Qdrant.
+
+**Phase 2: Core AI Logic (MVP Simplification)**
+* **LLM Wrappers (`core_ai_mvp/llm/`):**
+    * `main_llm_mvp.py`: `ChatOpenAI` for Main LLM. Prompt for simple JSON plan output (e.g., `{"intent": "SQL_QUERY", "sql_query_prompt": "...", "policy_query_prompt": null}`). Use `JsonOutputParser`.
+    * `text_to_sql_llm_mvp.py`: `ChatOpenAI` for Text-to-SQL LLM. Prompt for SQL generation.
+* **Conversational Memory (`core_ai_mvp/memory/memory_manager_mvp.py`):**
+    * `ConversationBufferWindowMemory` (e.g., k=2 or 3).
+* **Simplified Data Access (`data_access_mvp/`):**
+    * `postgres_mvp.py`: Function to connect to PG and execute *validated SELECT SQL*. Basic validation: check for "SELECT", disallow "DROP", "DELETE", etc.
+    * `qdrant_mvp.py`: Function for Qdrant similarity search.
+* **Tools (`core_ai_mvp/agent/tools/`):**
+    * `rag_tool_mvp.py`: LangChain `Tool`. Takes `policy_query_prompt`, embeds, searches Qdrant via `data_access_mvp/qdrant_mvp.py`, returns snippets.
+    * `t2sql_tool_mvp.py`: LangChain `Tool`. Takes `sql_query_prompt`, calls Text-to-SQL LLM, performs basic SQL validation, executes via `data_access_mvp/postgres_mvp.py`, returns SQL result.
+* **Simplified Agent Logic (`core_ai_mvp/agent/agent_executor_mvp.py`):**
+    * This is a direct Python function, not a full LangChain AgentExecutor.
+    * Receives user input & conversation history (from memory).
+    * Calls Main LLM to generate the plan (simple JSON).
+    * Parses plan: `intent`, `sql_query_prompt`, `policy_query_prompt`.
+    * **Routing:** Conditional logic based on `intent`:
+        * If `SQL_QUERY` -> `t2sql_tool_mvp.py`.
+        * If `RAG_QUERY` -> `rag_tool_mvp.py`.
+        * If `BOTH` -> Call RAG tool, then T2SQL tool.
+        * If `CLARIFY`/unknown -> Generate clarification request (via Main LLM).
+    * Consolidates tool outputs.
+    * Calls Main LLM to synthesize the final natural language response.
+
+**Phase 3: Gradio UI & Application Entry Point**
+* **`app_mvp.py` (Root level):**
+    * Initialize memory and the simplified agent/orchestrator.
+    * Define a `chat_interface` function for Gradio:
+        * Takes `user_message` and `history`.
+        * Updates memory.
+        * Calls the agent logic.
+        * Updates memory with AI response.
+        * Returns AI response to Gradio.
+    * Use `gr.ChatInterface`.
+
+**Codebase Structure Reference:**
+* Follow the `shbfinance_chatbot_mvp/` directory structure previously outlined (main directories: `core_ai_mvp`, `data_access_mvp`, `config_mvp`, `data_mvp`, `scripts_mvp`, and root `app_mvp.py`).
+
+**Key MVP Simplifications:**
+* No FastAPI backend; Gradio is the direct UI and entry point.
+* Agent is a simplified conditional orchestrator, not a complex LangChain ReAct agent.
+* Plan from LLM is a simple, directly parsable JSON.
+* Minimal error handling. Focus on happy paths for RAG, SQL, and Both.
+* Basic SQL validation (e.g., must be `SELECT`, no destructive keywords).
+* No formal schema validation for plans or complex database catalog use for T2SQL context (provide a simple table description in the T2SQL prompt).
+
+**Testing Focus:**
+* Verify end-to-end flow for RAG queries.
+* Verify end-to-end flow for SQL queries.
+* Verify end-to-end flow for "Both" (RAG + SQL) queries.
+* Basic multi-turn conversation continuity.

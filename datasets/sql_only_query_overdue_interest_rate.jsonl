@@ -1,0 +1,110 @@
+{
+    "user_query": "Xin cho biết lãi suất phạt áp dụng khi khoản vay của tôi bị quá hạn.",
+    "output": {
+      "route": "SQL",
+      "intents": ["query_overdue_interest_rate"],
+      "entities": {},
+      "sql_prompt": "Please state the penalty interest rate applied when my loan is overdue.",
+      "policy_query": null,
+      "language": "vi"
+    }
+  }
+  {
+    "user_query": "Nếu tôi trả trễ thì lãi phạt tính bao nhiêu %?",
+    "output": {
+      "route": "SQL",
+      "intents": ["query_overdue_interest_rate"],
+      "entities": {},
+      "sql_prompt": "If I pay late, what is the penalty interest rate percentage?",
+      "policy_query": null,
+      "language": "vi"
+    }
+  }
+  {
+    "user_query": "Lãi quá hạn của cái HĐ này là bao nhiêu thế?",
+    "output": {
+      "route": "SQL",
+      "intents": ["query_overdue_interest_rate"],
+      "entities": {},
+      "sql_prompt": "What is the overdue interest rate for this contract?",
+      "policy_query": null,
+      "language": "vi"
+    }
+  }
+  {
+    "user_query": "Tỷ lệ lãi suất áp dụng cho các khoản nợ chậm trả của tôi là gì?",
+    "output": {
+      "route": "SQL",
+      "intents": ["query_overdue_interest_rate"],
+      "entities": {},
+      "sql_prompt": "What is the interest rate applied to my late payments?",
+      "policy_query": null,
+      "language": "vi"
+    }
+  }
+  {
+    "user_query": "Xem lãi suất quá hạn của hợp đồng của tôi.",
+    "output": {
+      "route": "SQL",
+      "intents": ["query_overdue_interest_rate"],
+      "entities": {},
+      "sql_prompt": "Show the overdue interest rate for my contract.",
+      "policy_query": null,
+      "language": "vi"
+    }
+  }
+  {
+    "user_query": "Vui lòng cung cấp lãi suất áp dụng cho dư nợ gốc quá hạn của tôi.",
+    "output": {
+      "route": "SQL",
+      "intents": ["query_overdue_interest_rate"],
+      "entities": {},
+      "sql_prompt": "Please provide the interest rate applied to my overdue principal balance.",
+      "policy_query": null,
+      "language": "vi"
+    }
+  }
+  {
+    "user_query": "Lỡ đóng muộn thì lãi suất bị tăng lên thành bao nhiêu?",
+    "output": {
+      "route": "SQL",
+      "intents": ["query_overdue_interest_rate"],
+      "entities": {},
+      "sql_prompt": "If I accidentally pay late, what does the interest rate increase to?",
+      "policy_query": null,
+      "language": "vi"
+    }
+  }
+  {
+    "user_query": "Penalty rate của tui là nhiêu?",
+    "output": {
+      "route": "SQL",
+      "intents": ["query_overdue_interest_rate"],
+      "entities": {},
+      "sql_prompt": "What's my penalty rate?",
+      "policy_query": null,
+      "language": "vi"
+    }
+  }
+  {
+    "user_query": "Lãi suất sẽ thay đổi như thế nào nếu tôi không thanh toán đúng hạn?",
+    "output": {
+      "route": "SQL",
+      "intents": ["query_overdue_interest_rate"],
+      "entities": {},
+      "sql_prompt": "How will the interest rate change if I do not pay on time?",
+      "policy_query": null,
+      "language": "vi"
+    }
+  }
+  {
+    "user_query": "Lãi suất phạt chậm trả của tôi là bao nhiêu?",
+    "output": {
+      "route": "SQL",
+      "intents": ["query_overdue_interest_rate"],
+      "entities": {},
+      "sql_prompt": "What is my late payment penalty interest rate?",
+      "policy_query": null,
+      "language": "vi"
+    }
+  }

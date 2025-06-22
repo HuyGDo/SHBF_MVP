@@ -1,0 +1,41 @@
+
+{
+    "user_query": "Vui lòng cho biết ngày thanh toán gần nhất của tôi là ngày nào?",
+    "output": { "route": "SQL", "intents": ["query_last_payment_date"], "entities": {}, "sql_prompt": "Please provide the date of my most recent payment.", "policy_query": null, "language": "vi" }
+  }
+  {
+    "user_query": "Lần cuối em đóng tiền là hôm nào ấy nhỉ?",
+    "output": { "route": "SQL", "intents": ["query_last_payment_date"], "entities": {}, "sql_prompt": "When was the last time I made a payment?", "policy_query": null, "language": "vi" }
+  }
+  {
+    "user_query": "Check lẹ coi lần cuối tui trả tiền là ngày mấy.",
+    "output": { "route": "SQL", "intents": ["query_last_payment_date"], "entities": {}, "sql_prompt": "Quickly check the date of my last payment.", "policy_query": null, "language": "vi" }
+  }
+  {
+    "user_query": "Ngày thanh toán cuối cùng của tôi.",
+    "output": { "route": "SQL", "intents": ["query_last_payment_date"], "entities": {}, "sql_prompt": "My last payment date.", "policy_query": null, "language": "vi" }
+  }
+  {
+    "user_query": "Tôi muốn xem lại ngày tôi vừa thanh toán kỳ trước.",
+    "output": { "route": "SQL", "intents": ["query_last_payment_date"], "entities": {}, "sql_prompt": "I want to see the date I just paid for the previous period.", "policy_query": null, "language": "vi" }
+  }
+  {
+    "user_query": "Ngày giao dịch trả nợ gần đây nhất của hợp đồng HD-PAY-HIST1 là khi nào?",
+    "output": { "route": "SQL", "intents": ["query_last_payment_date"], "entities": {"contract_id": "HD-PAY-HIST1"}, "sql_prompt": "When was the most recent repayment transaction date for contract HD-PAY-HIST1?", "policy_query": null, "language": "vi" }
+  }
+  {
+    "user_query": "Tháng trước tôi đóng tiền ngày nào vậy?",
+    "output": { "route": "SQL", "intents": ["query_last_payment_date"], "entities": {}, "sql_prompt": "What day did I pay last month?", "policy_query": null, "language": "vi" }
+  }
+  {
+    "user_query": "Cho tôi biết thời điểm tôi thực hiện giao dịch trả nợ cuối cùng.",
+    "output": { "route": "SQL", "intents": ["query_last_payment_date"], "entities": {}, "sql_prompt": "Tell me the time I made the last repayment transaction.", "policy_query": null, "language": "vi" }
+  }
+  {
+    "user_query": "Last payment date của tui?",
+    "output": { "route": "SQL", "intents": ["query_last_payment_date"], "entities": {}, "sql_prompt": "My last payment date?", "policy_query": null, "language": "vi" }
+  }
+  {
+    "user_query": "Bạn có thể xem giúp mình ngày mình trả tiền lần cuối được không?",
+    "output": { "route": "SQL", "intents": ["query_last_payment_date"], "entities": {}, "sql_prompt": "Can you please check the date of my last payment?", "policy_query": null, "language": "vi" }
+  }

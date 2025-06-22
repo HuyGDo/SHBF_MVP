@@ -1,0 +1,12 @@
+fastapi
+langchain
+gradio
+psycopg2-binary
+qdrant-client
+pydantic
+python-dotenv
+uvicorn
+sentence-transformers
+openai
+tiktoken
+google-generativeai

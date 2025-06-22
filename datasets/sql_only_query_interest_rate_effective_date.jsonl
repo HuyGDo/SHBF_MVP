@@ -1,0 +1,110 @@
+{
+    "user_query": "Vui lòng cho biết ngày lãi suất hiện tại của tôi bắt đầu có hiệu lực.",
+    "output": {
+      "route": "SQL",
+      "intents": ["query_interest_rate_effective_date"],
+      "entities": {},
+      "sql_prompt": "Please state the date my current interest rate became effective.",
+      "policy_query": null,
+      "language": "vi"
+    }
+  }
+  {
+    "user_query": "Cái lãi suất này áp dụng từ ngày mấy vậy?",
+    "output": {
+      "route": "SQL",
+      "intents": ["query_interest_rate_effective_date"],
+      "entities": {},
+      "sql_prompt": "From what date does this interest rate apply?",
+      "policy_query": null,
+      "language": "vi"
+    }
+  }
+  {
+    "user_query": "Rate này nó chạy từ khi nào thế?",
+    "output": {
+      "route": "SQL",
+      "intents": ["query_interest_rate_effective_date"],
+      "entities": {},
+      "sql_prompt": "When did this rate start?",
+      "policy_query": null,
+      "language": "vi"
+    }
+  }
+  {
+    "user_query": "Lãi suất tôi đang trả bắt đầu được tính từ thời điểm nào?",
+    "output": {
+      "route": "SQL",
+      "intents": ["query_interest_rate_effective_date"],
+      "entities": {},
+      "sql_prompt": "From what point in time did the interest rate I'm paying start being calculated?",
+      "policy_query": null,
+      "language": "vi"
+    }
+  }
+  {
+    "user_query": "Ngày hiệu lực của lãi suất hiện tại cho hợp đồng của tôi.",
+    "output": {
+      "route": "SQL",
+      "intents": ["query_interest_rate_effective_date"],
+      "entities": {},
+      "sql_prompt": "The effective date of the current interest rate for my contract.",
+      "policy_query": null,
+      "language": "vi"
+    }
+  }
+  {
+    "user_query": "Xin xác nhận ngày mà lãi suất hiện hành được áp dụng cho khoản vay của tôi.",
+    "output": {
+      "route": "SQL",
+      "intents": ["query_interest_rate_effective_date"],
+      "entities": {},
+      "sql_prompt": "Please confirm the date on which the current interest rate was applied to my loan.",
+      "policy_query": null,
+      "language": "vi"
+    }
+  }
+  {
+    "user_query": "Lãi suất mới của em tính từ hôm nào?",
+    "output": {
+      "route": "SQL",
+      "intents": ["query_interest_rate_effective_date"],
+      "entities": {},
+      "sql_prompt": "From which day is my new interest rate calculated?",
+      "policy_query": null,
+      "language": "vi"
+    }
+  }
+  {
+    "user_query": "Effective date của cái rate này là ngày mấy?",
+    "output": {
+      "route": "SQL",
+      "intents": ["query_interest_rate_effective_date"],
+      "entities": {},
+      "sql_prompt": "What is the effective date of this rate?",
+      "policy_query": null,
+      "language": "vi"
+    }
+  }
+  {
+    "user_query": "Từ khi nào thì tôi bắt đầu trả theo mức lãi suất này?",
+    "output": {
+      "route": "SQL",
+      "intents": ["query_interest_rate_effective_date"],
+      "entities": {},
+      "sql_prompt": "Since when did I start paying according to this interest rate?",
+      "policy_query": null,
+      "language": "vi"
+    }
+  }
+  {
+    "user_query": "Cho xem ngày áp dụng lãi suất của khoản vay.",
+    "output": {
+      "route": "SQL",
+      "intents": ["query_interest_rate_effective_date"],
+      "entities": {},
+      "sql_prompt": "Show the interest rate application date for the loan.",
+      "policy_query": null,
+      "language": "vi"
+    }
+  }

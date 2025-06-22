@@ -1,0 +1,110 @@
+{
+    "user_query": "Hợp đồng HD-XYZ01 của tôi thuộc sản phẩm vay nào vậy?",
+    "output": {
+      "route": "SQL",
+      "intents": ["query_loan_product_type"],
+      "entities": {"contract_id": "HD-XYZ01"},
+      "sql_prompt": "What loan product does my contract HD-XYZ01 belong to?",
+      "policy_query": null,
+      "language": "vi"
+    }
+  }
+  {
+    "user_query": "Cái khoản vay này của em là vay tiêu dùng hay vay gì?",
+    "output": {
+      "route": "SQL",
+      "intents": ["query_loan_product_type"],
+      "entities": {},
+      "sql_prompt": "Is this loan of mine a consumer loan or something else?",
+      "policy_query": null,
+      "language": "vi"
+    }
+  }
+  {
+    "user_query": "Check giúp loại sản phẩm của hợp đồng 112233.",
+    "output": {
+      "route": "SQL",
+      "intents": ["query_loan_product_type"],
+      "entities": {"contract_id": "112233"},
+      "sql_prompt": "Check the product type for contract 112233.",
+      "policy_query": null,
+      "language": "vi"
+    }
+  }
+  {
+    "user_query": "Tôi đang tham gia gói vay nào cho hợp đồng này?",
+    "output": {
+      "route": "SQL",
+      "intents": ["query_loan_product_type"],
+      "entities": {},
+      "sql_prompt": "Which loan package am I on for this contract?",
+      "policy_query": null,
+      "language": "vi"
+    }
+  }
+  {
+    "user_query": "Hợp đồng của tôi là vay có tài sản đảm bảo hay không?",
+    "output": {
+      "route": "SQL",
+      "intents": ["query_loan_product_type"],
+      "entities": {},
+      "sql_prompt": "Is my contract a secured or unsecured loan?",
+      "policy_query": null,
+      "language": "vi"
+    }
+  }
+  {
+    "user_query": "Đây là loại cho vay nào?",
+    "output": {
+      "route": "SQL",
+      "intents": ["query_loan_product_type"],
+      "entities": {},
+      "sql_prompt": "What type of loan is this?",
+      "policy_query": null,
+      "language": "vi"
+    }
+  }
+  {
+    "user_query": "Khoản vay HD-PRODUCT của tôi là vay tín chấp hay thế chấp?",
+    "output": {
+      "route": "SQL",
+      "intents": ["query_loan_product_type", "query_loan_type"],
+      "entities": {"contract_id": "HD-PRODUCT"},
+      "sql_prompt": "Is my loan HD-PRODUCT an unsecured or mortgage loan?",
+      "policy_query": null,
+      "language": "vi"
+    }
+  }
+  {
+    "user_query": "Cho tôi biết tên gói vay của hợp đồng này.",
+    "output": {
+      "route": "SQL",
+      "intents": ["query_loan_product_type"],
+      "entities": {},
+      "sql_prompt": "Tell me the name of the loan package for this contract.",
+      "policy_query": null,
+      "language": "vi"
+    }
+  }
+  {
+    "user_query": "Vui lòng cho biết loại hình cho vay của khoản vay này.",
+    "output": {
+      "route": "SQL",
+      "intents": ["query_loan_product_type"],
+      "entities": {},
+      "sql_prompt": "Please provide the lending type for this loan.",
+      "policy_query": null,
+      "language": "vi"
+    }
+  }
+  {
+    "user_query": "Sản phẩm vay mà tôi đang sử dụng là gì?",
+    "output": {
+      "route": "SQL",
+      "intents": ["query_loan_product_type"],
+      "entities": {},
+      "sql_prompt": "What is the loan product I am currently using?",
+      "policy_query": null,
+      "language": "vi"
+    }
+  }

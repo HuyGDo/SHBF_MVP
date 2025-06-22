@@ -1,0 +1,40 @@
+{
+    "user_query": "Cho tôi xem toàn bộ lịch trả nợ của hợp đồng HD-SCHEDULE-01.",
+    "output": { "route": "SQL", "intents": ["query_full_repayment_schedule"], "entities": {"contract_id": "HD-SCHEDULE-01"}, "sql_prompt": "Show me the entire repayment schedule for contract HD-SCHEDULE-01.", "policy_query": null, "language": "vi" }
+  }
+  {
+    "user_query": "Gửi cho tôi bảng kế hoạch trả nợ chi tiết của khoản vay này.",
+    "output": { "route": "SQL", "intents": ["query_full_repayment_schedule"], "entities": {}, "sql_prompt": "Send me the detailed repayment plan for this loan.", "policy_query": null, "language": "vi" }
+  }
+  {
+    "user_query": "Check giùm cái lịch trả nợ từ đầu đến cuối của HĐ này.",
+    "output": { "route": "SQL", "intents": ["query_full_repayment_schedule"], "entities": {}, "sql_prompt": "Check the repayment schedule from start to finish for this contract.", "policy_query": null, "language": "vi" }
+  }
+  {
+    "user_query": "Tôi muốn xem lịch thanh toán cho cả quá trình vay.",
+    "output": { "route": "SQL", "intents": ["query_full_repayment_schedule"], "entities": {}, "sql_prompt": "I want to see the payment schedule for the entire loan process.", "policy_query": null, "language": "vi" }
+  }
+  {
+    "user_query": "Vui lòng cung cấp bảng phân bổ trả nợ đầy đủ.",
+    "output": { "route": "SQL", "intents": ["query_full_repayment_schedule"], "entities": {}, "sql_prompt": "Please provide the full amortization schedule.", "policy_query": null, "language": "vi" }
+  }
+  {
+    "user_query": "Xem full cái lịch trả góp của tui.",
+    "output": { "route": "SQL", "intents": ["query_full_repayment_schedule"], "entities": {}, "sql_prompt": "Show my full installment schedule.", "policy_query": null, "language": "vi" }
+  }
+  {
+    "user_query": "Tôi cần bảng chi tiết các kỳ trả nợ.",
+    "output": { "route": "SQL", "intents": ["query_full_repayment_schedule"], "entities": {}, "sql_prompt": "I need a detailed table of repayment periods.", "policy_query": null, "language": "vi" }
+  }
+  {
+    "user_query": "Lịch trình trả nợ của tôi như thế nào?",
+    "output": { "route": "SQL", "intents": ["query_full_repayment_schedule"], "entities": {}, "sql_prompt": "What is my repayment schedule?", "policy_query": null, "language": "vi" }
+  }
+  {
+    "user_query": "Cho tôi xem kế hoạch trả nợ của khoản vay này.",
+    "output": { "route": "SQL", "intents": ["query_full_repayment_schedule"], "entities": {}, "sql_prompt": "Show me the repayment plan for this loan.", "policy_query": null, "language": "vi" }
+  }
+  {
+    "user_query": "Trích xuất toàn bộ lịch thanh toán của tôi.",
+    "output": { "route": "SQL", "intents": ["query_full_repayment_schedule"], "entities": {}, "sql_prompt": "Extract my entire payment schedule.", "policy_query": null, "language": "vi" }
+  }

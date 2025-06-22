@@ -1,0 +1,40 @@
+{
+    "user_query": "Phân tích giúp tôi tiền gốc và lãi trong kỳ trả góp tới của HĐ-SPLIT-03.",
+    "output": { "route": "SQL", "intents": ["query_next_installment_breakdown"], "entities": {"contract_id": "HĐ-SPLIT-03"}, "sql_prompt": "Analyze the principal and interest in the next installment of contract HĐ-SPLIT-03.", "policy_query": null, "language": "vi" }
+  }
+  {
+    "user_query": "Tháng này tôi trả bao nhiêu gốc, bao nhiêu lãi?",
+    "output": { "route": "SQL", "intents": ["query_next_installment_breakdown"], "entities": {}, "sql_prompt": "This month, how much principal and how much interest do I pay?", "policy_query": null, "language": "vi" }
+  }
+  {
+    "user_query": "Cho xem chi tiết gốc/lãi của kỳ thanh toán sắp tới.",
+    "output": { "route": "SQL", "intents": ["query_next_installment_breakdown"], "entities": {}, "sql_prompt": "Show the principal/interest details of the upcoming payment period.", "policy_query": null, "language": "vi" }
+  }
+  {
+    "user_query": "Kỳ tới tôi đóng tiền thì bao nhiêu vào gốc?",
+    "output": { "route": "SQL", "intents": ["query_next_installment_breakdown"], "entities": {}, "sql_prompt": "Next period when I pay, how much goes to the principal?", "policy_query": null, "language": "vi" }
+  }
+  {
+    "user_query": "Breakdown số tiền trả góp tháng này giúp tôi.",
+    "output": { "route": "SQL", "intents": ["query_next_installment_breakdown"], "entities": {}, "sql_prompt": "Breakdown this month's installment amount for me.", "policy_query": null, "language": "vi" }
+  }
+  {
+    "user_query": "Trong số tiền tháng này, bao nhiêu là lãi?",
+    "output": { "route": "SQL", "intents": ["query_next_installment_breakdown"], "entities": {}, "sql_prompt": "Of this month's amount, how much is interest?", "policy_query": null, "language": "vi" }
+  }
+  {
+    "user_query": "Tách giùm em tiền gốc và lãi của kỳ này.",
+    "output": { "route": "SQL", "intents": ["query_next_installment_breakdown"], "entities": {}, "sql_prompt": "Separate the principal and interest for this period for me.", "policy_query": null, "language": "vi" }
+  }
+  {
+    "user_query": "Tôi muốn biết cơ cấu tiền trả góp tháng này.",
+    "output": { "route": "SQL", "intents": ["query_next_installment_breakdown"], "entities": {}, "sql_prompt": "I want to know the structure of this month's installment payment.", "policy_query": null, "language": "vi" }
+  }
+  {
+    "user_query": "Xem chi tiết phân bổ tiền trả của kỳ tới.",
+    "output": { "route": "SQL", "intents": ["query_next_installment_breakdown"], "entities": {}, "sql_prompt": "Show the detailed allocation of the payment for the next period.", "policy_query": null, "language": "vi" }
+  }
+  {
+    "user_query": "Cho tôi xem chi tiết tiền gốc và lãi của lần thanh toán tiếp theo.",
+    "output": { "route": "SQL", "intents": ["query_next_installment_breakdown"], "entities": {}, "sql_prompt": "Show me the principal and interest details of the next payment.", "policy_query": null, "language": "vi" }
+  }

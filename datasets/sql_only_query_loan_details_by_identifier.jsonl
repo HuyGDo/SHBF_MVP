@@ -1,0 +1,110 @@
+{
+    "user_query": "Xem giúp tôi thông tin chi tiết của hợp đồng HD123456.",
+    "output": {
+      "route": "SQL",
+      "intents": ["query_loan_details_by_identifier"],
+      "entities": {"contract_id": "HD123456"},
+      "sql_prompt": "Show full details for contract HD123456.",
+      "policy_query": null,
+      "language": "vi"
+    }
+  }
+  {
+    "user_query": "Cho em xin full info của cái hợp đồng LMS001122 với.",
+    "output": {
+      "route": "SQL",
+      "intents": ["query_loan_details_by_identifier"],
+      "entities": {"lms_cif_no": "LMS001122"},
+      "sql_prompt": "Get full info for contract LMS001122.",
+      "policy_query": null,
+      "language": "vi"
+    }
+  }
+  {
+    "user_query": "Hợp đồng LD_NO=00001 có những điều khoản gì, xem giúp tôi.",
+    "output": {
+      "route": "SQL",
+      "intents": ["query_loan_details_by_identifier"],
+      "entities": {"loan_id": "LD_NO=00001"},
+      "sql_prompt": "What are the terms for contract LD_NO=00001?",
+      "policy_query": null,
+      "language": "vi"
+    }
+  }
+  {
+    "user_query": "Tôi muốn xem lại toàn bộ thông tin của khoản vay LOS000987.",
+    "output": {
+      "route": "SQL",
+      "intents": ["query_loan_details_by_identifier"],
+      "entities": {"los_cif_no": "LOS000987"},
+      "sql_prompt": "I want to review all information for loan LOS000987.",
+      "policy_query": null,
+      "language": "vi"
+    }
+  }
+  {
+    "user_query": "Check thông tin HĐ 987654ABC.",
+    "output": {
+      "route": "SQL",
+      "intents": ["query_loan_details_by_identifier"],
+      "entities": {"contract_id": "987654ABC"},
+      "sql_prompt": "Check information for contract 987654ABC.",
+      "policy_query": null,
+      "language": "vi"
+    }
+  }
+  {
+    "user_query": "Chi tiết của khoản vay có mã 112233 là gì?",
+    "output": {
+      "route": "SQL",
+      "intents": ["query_loan_details_by_identifier"],
+      "entities": {"contract_id": "112233"},
+      "sql_prompt": "What are the details for the loan with code 112233?",
+      "policy_query": null,
+      "language": "vi"
+    }
+  }
+  {
+    "user_query": "Vui lòng cung cấp mọi thông tin liên quan đến hợp đồng HD-SPECIFIC.",
+    "output": {
+      "route": "SQL",
+      "intents": ["query_loan_details_by_identifier"],
+      "entities": {"contract_id": "HD-SPECIFIC"},
+      "sql_prompt": "Please provide all information related to contract HD-SPECIFIC.",
+      "policy_query": null,
+      "language": "vi"
+    }
+  }
+  {
+    "user_query": "Soi giùm em cái hợp đồng số 888999.",
+    "output": {
+      "route": "SQL",
+      "intents": ["query_loan_details_by_identifier"],
+      "entities": {"contract_id": "888999"},
+      "sql_prompt": "Look up contract number 888999 for me.",
+      "policy_query": null,
+      "language": "vi"
+    }
+  }
+  {
+    "user_query": "Cho tôi xem hợp đồng vay có mã tham chiếu là 555666.",
+    "output": {
+      "route": "SQL",
+      "intents": ["query_loan_details_by_identifier"],
+      "entities": {"contract_id": "555666"},
+      "sql_prompt": "Show me the loan contract with reference code 555666.",
+      "policy_query": null,
+      "language": "vi"
+    }
+  }
+  {
+    "user_query": "Tôi cần thông tin đầy đủ về khoản vay có mã HD-789.",
+    "output": {
+      "route": "SQL",
+      "intents": ["query_loan_details_by_identifier"],
+      "entities": {"contract_id": "HD-789"},
+      "sql_prompt": "I need full information about the loan with code HD-789.",
+      "policy_query": null,
+      "language": "vi"
+    }
+  }

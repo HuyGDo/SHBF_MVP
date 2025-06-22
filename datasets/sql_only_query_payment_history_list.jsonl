@@ -1,0 +1,40 @@
+{
+    "user_query": "Vui lòng cung cấp lịch sử thanh toán của tôi trong 3 tháng gần nhất.",
+    "output": { "route": "SQL", "intents": ["query_payment_history_list"], "entities": {"period_months": 3}, "sql_prompt": "Please provide my payment history for the last 3 months.", "policy_query": null, "language": "vi" }
+  }
+  {
+    "user_query": "Cho em xem lại mấy lần đóng tiền gần đây với.",
+    "output": { "route": "SQL", "intents": ["query_payment_history_list"], "entities": {}, "sql_prompt": "Let me see my recent payments.", "policy_query": null, "language": "vi" }
+  }
+  {
+    "user_query": "Soi giùm cái history trả nợ của tui trong năm nay.",
+    "output": { "route": "SQL", "intents": ["query_payment_history_list"], "entities": {"date_from": "2025-01-01"}, "sql_prompt": "Look up my repayment history for this year.", "policy_query": null, "language": "vi" }
+  }
+  {
+    "user_query": "Lịch sử thanh toán của tôi từ tháng 1 đến tháng 6 năm nay.",
+    "output": { "route": "SQL", "intents": ["query_payment_history_list"], "entities": {"date_from": "2025-01-01", "date_to": "2025-06-30"}, "sql_prompt": "My payment history from January to June this year.", "policy_query": null, "language": "vi" }
+  }
+  {
+    "user_query": "Tôi muốn xem lại các giao dịch trả nợ của mình cho hợp đồng này.",
+    "output": { "route": "SQL", "intents": ["query_payment_history_list"], "entities": {}, "sql_prompt": "I want to review my repayment transactions for this contract.", "policy_query": null, "language": "vi" }
+  }
+  {
+    "user_query": "Liệt kê 5 lần thanh toán cuối cùng cho HĐ-HIST-LIST.",
+    "output": { "route": "SQL", "intents": ["query_payment_history_list"], "entities": {"contract_id": "HĐ-HIST-LIST"}, "sql_prompt": "List the last 5 payments for contract HĐ-HIST-LIST.", "policy_query": null, "language": "vi" }
+  }
+  {
+    "user_query": "Xem lại lịch sử trả tiền của tôi.",
+    "output": { "route": "SQL", "intents": ["query_payment_history_list"], "entities": {}, "sql_prompt": "Review my payment history.", "policy_query": null, "language": "vi" }
+  }
+  {
+    "user_query": "Trích xuất danh sách các giao dịch thanh toán đã thực hiện của tôi.",
+    "output": { "route": "SQL", "intents": ["query_payment_history_list"], "entities": {}, "sql_prompt": "Extract a list of my completed payment transactions.", "policy_query": null, "language": "vi" }
+  }
+  {
+    "user_query": "Payment history 6 tháng qua của tôi.",
+    "output": { "route": "SQL", "intents": ["query_payment_history_list"], "entities": {"period_months": 6}, "sql_prompt": "My payment history for the past 6 months.", "policy_query": null, "language": "vi" }
+  }
+  {
+    "user_query": "Bạn cho mình xem lại lịch sử đóng tiền được không?",
+    "output": { "route": "SQL", "intents": ["query_payment_history_list"], "entities": {}, "sql_prompt": "Can you show me my payment history?", "policy_query": null, "language": "vi" }
+  }

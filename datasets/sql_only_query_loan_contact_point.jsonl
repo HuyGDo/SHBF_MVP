@@ -1,0 +1,110 @@
+{
+    "user_query": "Để hỏi về hợp đồng HD-111, tôi nên gọi số nào?",
+    "output": {
+      "route": "SQL",
+      "intents": ["query_loan_contact_point"],
+      "entities": {"contract_id": "HD-111"},
+      "sql_prompt": "To ask about contract HD-111, which number should I call?",
+      "policy_query": null,
+      "language": "vi"
+    }
+  }
+  {
+    "user_query": "Muốn hỏi về nợ của khoản vay này thì gọi ai cho lẹ?",
+    "output": {
+      "route": "SQL",
+      "intents": ["query_loan_contact_point"],
+      "entities": {},
+      "sql_prompt": "Who should I call to quickly ask about the debt for this loan?",
+      "policy_query": null,
+      "language": "vi"
+    }
+  }
+  {
+    "user_query": "Cho tôi kênh liên lạc tốt nhất để giải quyết vấn đề của hợp đồng LMS999.",
+    "output": {
+      "route": "SQL",
+      "intents": ["query_loan_contact_point"],
+      "entities": {"lms_cif_no": "LMS999"},
+      "sql_prompt": "Give me the best contact channel to resolve issues with contract LMS999.",
+      "policy_query": null,
+      "language": "vi"
+    }
+  }
+  {
+    "user_query": "Cần hỗ trợ về khoản vay, gọi đâu bây giờ?",
+    "output": {
+      "route": "SQL",
+      "intents": ["query_loan_contact_point"],
+      "entities": {},
+      "sql_prompt": "I need support with my loan, where should I call?",
+      "policy_query": null,
+      "language": "vi"
+    }
+  }
+  {
+    "user_query": "Hợp đồng của tôi gặp sự cố, liên hệ bộ phận nào?",
+    "output": {
+      "route": "SQL",
+      "intents": ["query_loan_contact_point"],
+      "entities": {},
+      "sql_prompt": "My contract has an issue, which department should I contact?",
+      "policy_query": null,
+      "language": "vi"
+    }
+  }
+  {
+    "user_query": "Có gì thì alo số nào shop?",
+    "output": {
+      "route": "SQL",
+      "intents": ["query_loan_contact_point"],
+      "entities": {},
+      "sql_prompt": "If anything comes up, which number should I call?",
+      "policy_query": null,
+      "language": "vi"
+    }
+  }
+  {
+    "user_query": "Contact point cho cái HĐ ABCXYZ?",
+    "output": {
+      "route": "SQL",
+      "intents": ["query_loan_contact_point"],
+      "entities": {"contract_id": "ABCXYZ"},
+      "sql_prompt": "Contact point for contract ABCXYZ?",
+      "policy_query": null,
+      "language": "vi"
+    }
+  }
+  {
+    "user_query": "Kênh liên lạc chính cho khoản vay của tôi là gì?",
+    "output": {
+      "route": "SQL",
+      "intents": ["query_loan_contact_point"],
+      "entities": {},
+      "sql_prompt": "What is the main contact channel for my loan?",
+      "policy_query": null,
+      "language": "vi"
+    }
+  }
+  {
+    "user_query": "Cho tôi cách liên hệ để được tư vấn về hợp đồng này.",
+    "output": {
+      "route": "SQL",
+      "intents": ["query_loan_contact_point"],
+      "entities": {},
+      "sql_prompt": "Give me the contact method to get advice on this contract.",
+      "policy_query": null,
+      "language": "vi"
+    }
+  }
+  {
+    "user_query": "Tôi có thể chat với ai về khoản vay này không hay phải gọi điện?",
+    "output": {
+      "route": "SQL",
+      "intents": ["query_loan_contact_point"],
+      "entities": {},
+      "sql_prompt": "Can I chat with someone about this loan or do I have to call?",
+      "policy_query": null,
+      "language": "vi"
+    }
+  }

@@ -1,0 +1,254 @@
+Tuyệt vời! Dưới đây là các ví dụ câu truy vấn bằng tiếng Việt, được thiết kế để kiểm tra khả năng nhận dạng ý định và quyết định định tuyến của chatbot của bạn giữa RAG (Retrieval Augmented Generation), SQL hoặc cả hai. Các câu truy vấn này được nhóm theo ý định bạn đã cung cấp.
+
+Để đảm bảo chatbot của bạn được kiểm tra kỹ lưỡng, các ví dụ này bao gồm các biến thể trong cách diễn đạt, cách hỏi trực tiếp và gián tiếp, đồng thời cũng bao gồm các yêu cầu có thể cần kết hợp thông tin từ cơ sở dữ liệu (SQL) và tài liệu (RAG).
+
+## Ví dụ câu truy vấn tiếng Việt
+
+---
+### Loan-level intents (Ý định cấp độ khoản vay)
+
+**`query_list_active_loans` (Truy vấn danh sách khoản vay đang hoạt động)**
+* "Cho tôi xem tất cả các khoản vay còn hiệu lực của khách hàng [CUSTOMER_ID]."
+* "Khách hàng [CUSTOMER_ID] có những hợp đồng vay nào đang hoạt động?"
+* "Liệt kê các khoản vay hiện tại của khách hàng có mã [CUSTOMER_ID]."
+* "Tình trạng các khoản vay của khách hàng [CUSTOMER_ID] như thế nào?"
+* "Tôi muốn biết dư nợ và mục đích vay của các hợp đồng đang hoạt động của khách hàng [CUSTOMER_ID]."
+
+**`query_loan_details_by_identifier` (Truy vấn chi tiết khoản vay theo mã định danh)**
+* "Chi tiết hợp đồng vay [SO_HOP_DONG] là gì?"
+* "Cho tôi biết thông tin đầy đủ về khoản vay có số hợp đồng [SO_HOP_DONG]."
+* "Xem lãi suất, số tiền giải ngân, và ngày giải ngân của hợp đồng [SO_HOP_DONG]."
+* "Tình trạng hiện tại và nhóm nợ của khoản vay [SO_HOP_DONG]?"
+* "Hợp đồng [SO_HOP_DONG]: kỳ hạn, mục đích vay và dư nợ gốc còn lại?"
+
+**`query_loan_current_status` (Truy vấn trạng thái hiện tại của khoản vay)**
+* "Trạng thái của khoản vay [SO_HOP_DONG] hiện giờ ra sao?"
+* "Hợp đồng [SO_HOP_DONG] có còn hiệu lực không?"
+* "Cho biết tình trạng hiện tại của hợp đồng [SO_HOP_DONG]."
+* "Khoản vay [SO_HOP_DONG] đang ở trạng thái nào?"
+* "Cập nhật trạng thái cho hợp đồng [SO_HOP_DONG]."
+
+**`query_loan_product_type` (Truy vấn loại sản phẩm của khoản vay)**
+* "Mục đích vay của hợp đồng [SO_HOP_DONG] là gì?"
+* "Khoản vay [SO_HOP_DONG] thuộc loại sản phẩm nào?"
+* "Cho tôi biết loại hình vay của hợp đồng [SO_HOP_DONG]."
+* "Sản phẩm vay của hợp đồng [SO_HOP_DONG]?"
+* "Hợp đồng [SO_HOP_DONG] được vay cho mục đích gì?"
+
+**`query_assigned_loan_officer` (Truy vấn cán bộ tín dụng được giao)**
+* "Ai là người phụ trách khoản vay [SO_HOP_DONG]?"
+* "Cán bộ nào đang quản lý hợp đồng [SO_HOP_DONG]?"
+* "Thông tin nhân viên thu hồi nợ được phân công cho hợp đồng [SO_HOP_DONG]?"
+* "Hợp đồng [SO_HOP_DONG] được giao cho nhóm nào và nhân viên nào xử lý?"
+* "Ngày phân công gần nhất của khoản vay [SO_HOP_DONG] là khi nào và cho ai?"
+
+**`query_loan_contact_point` (Truy vấn điểm liên hệ của khoản vay)**
+* "Tôi nên liên hệ bộ phận nào về khoản vay [SO_HOP_DONG]?"
+* "Thông tin liên hệ cho hợp đồng [SO_HOP_DONG] là gì?"
+* "Đầu mối xử lý khoản vay [SO_HOP_DONG]?"
+* "Nhóm nào và nhân viên nào là đầu mối liên hệ cho hợp đồng [SO_HOP_DONG]?"
+* "Cho tôi mã nhóm và mã nhân viên phụ trách hợp đồng [SO_HOP_DONG]."
+
+---
+### Amount & rate (Số tiền & lãi suất)
+
+**`query_original_loan_amount` (Truy vấn số tiền vay gốc)**
+* "Số tiền vay ban đầu của hợp đồng [SO_HOP_DONG] là bao nhiêu?"
+* "Khoản vay [SO_HOP_DONG] có giá trị gốc là bao nhiêu?"
+* "Hợp đồng [SO_HOP_DONG] được giải ngân bao nhiêu tiền lúc đầu?"
+* "Xem số tiền gốc của khoản vay [SO_HOP_DONG]."
+* "Giá trị khoản vay ban đầu của [SO_HOP_DONG]?"
+
+**`query_disbursed_amount` (Truy vấn số tiền đã giải ngân)**
+* "Số tiền đã giải ngân cho hợp đồng [SO_HOP_DONG] là bao nhiêu?"
+* "Hợp đồng [SO_HOP_DONG] thực tế đã giải ngân bao nhiêu?"
+* "Tổng số tiền giải ngân của khoản vay [SO_HOP_DONG]?"
+* "Cho biết số tiền giải ngân của [SO_HOP_DONG]."
+* "Đã giải ngân bao nhiêu cho khoản vay [SO_HOP_DONG]?"
+
+**`query_outstanding_principal_balance` (Truy vấn dư nợ gốc còn lại)**
+* "Dư nợ gốc của hợp đồng [SO_HOP_DONG] còn lại bao nhiêu?"
+* "Khoản vay [SO_HOP_DONG] hiện còn nợ gốc bao nhiêu?"
+* "Số tiền gốc chưa thanh toán của hợp đồng [SO_HOP_DONG]?"
+* "Xem dư nợ gốc hiện tại của [SO_HOP_DONG]."
+* "Nợ gốc còn lại của khoản vay [SO_HOP_DONG] là bao nhiêu?"
+
+**`query_total_amount_due` (Truy vấn tổng số tiền phải trả)**
+* "Tổng số tiền cần thanh toán cho hợp đồng [SO_HOP_DONG] là bao nhiêu (bao gồm cả gốc và lãi)?"
+* "Khoản vay [SO_HOP_DONG] hiện còn nợ tổng cộng bao nhiêu?"
+* "Cho biết tổng dư nợ (gốc + lãi) của hợp đồng [SO_HOP_DONG]."
+* "Tôi cần trả bao nhiêu tất cả cho khoản vay [SO_HOP_DONG]?"
+* "Xem tổng nợ gốc và lãi của [SO_HOP_DONG]."
+
+**`query_current_loan_interest_rate` (Truy vấn lãi suất hiện tại của khoản vay)**
+* "Lãi suất hiện tại của hợp đồng [SO_HOP_DONG] là bao nhiêu?"
+* "Khoản vay [SO_HOP_DONG] đang áp dụng lãi suất nào?"
+* "Cho biết tỷ lệ lãi suất của hợp đồng [SO_HOP_DONG]."
+* "Lãi suất của [SO_HOP_DONG] là bao nhiêu phần trăm?"
+* "Xem lãi suất đang áp dụng cho khoản vay [SO_HOP_DONG]."
+
+**`query_interest_rate_type` (Truy vấn loại lãi suất)**
+* "Loại lãi suất của hợp đồng [SO_HOP_DONG] là cố định hay thả nổi?" (Cần RAG để giải thích loại lãi suất dựa trên giá trị `LAI_SUAT` và chính sách sản phẩm)
+* "Hợp đồng [SO_HOP_DONG] áp dụng lãi suất gì?" (Có thể cần RAG)
+* "Cho biết thông tin về loại lãi suất của khoản vay [SO_HOP_DONG]." (Cần RAG)
+* "Lãi suất [LAI_SUAT]% của hợp đồng [SO_HOP_DONG] là loại nào?" (Cần RAG)
+* "Giải thích về lãi suất áp dụng cho khoản vay [SO_HOP_DONG]." (Cần RAG)
+
+---
+### Penalty / fees (Phí phạt / các loại phí)
+
+**`query_late_payment_penalty` (Truy vấn phí phạt trả chậm)**
+* "Nếu tôi trả trễ hạn cho hợp đồng [SO_HOP_DONG] thì phí phạt là bao nhiêu?" (Cần RAG về chính sách phí phạt và SQL để lấy `DU_NO`, `EMI_AMOUNT`, `DUE_DATE`) [cite: 37, 38]
+* "Cách tính phí phạt trả chậm cho khoản vay [SO_HOP_DONG] như thế nào?" (Cần RAG và SQL) [cite: 37, 38]
+* "Hợp đồng [SO_HOP_DONG] có quy định về phí trả chậm không? Nếu có thì là bao nhiêu?" (Cần RAG và SQL) [cite: 37, 38]
+* "Phí phạt nếu không thanh toán đúng hạn cho khoản vay [SO_HOP_DONG] với dư nợ [DU_NO] và số tiền phải trả hàng tháng [EMI_AMOUNT] vào ngày [DUE_DATE] là gì?" (SQL có thể cung cấp các giá trị, RAG cung cấp công thức/tỷ lệ phạt) [cite: 37, 38]
+* "Cho tôi biết chính sách phạt trễ hạn của SHB Finance đối với hợp đồng [SO_HOP_DONG]." (Chủ yếu RAG, có thể SQL để lấy thông tin khoản vay cụ thể nếu cần) [cite: 37, 38]
+* "Lãi suất quá hạn của khoản vay [SO_HOP_DONG] được tính như thế nào?" (Cần RAG và SQL) [cite: 37]
+* "Nếu khoản vay [SO_HOP_DONG] bị quá hạn, tôi phải trả thêm những khoản lãi nào?" (Cần RAG và SQL) [cite: 37, 38]
+
+---
+### Date & tenor (Ngày & kỳ hạn)
+
+**`query_loan_origination_date` (Truy vấn ngày giải ngân khoản vay)**
+* "Ngày giải ngân của hợp đồng [SO_HOP_DONG] là khi nào?"
+* "Khoản vay [SO_HOP_DONG] được giải ngân vào ngày nào?"
+* "Cho biết ngày bắt đầu khoản vay [SO_HOP_DONG]."
+* "Hợp đồng [SO_HOP_DONG] có hiệu lực từ ngày nào?" [cite: 4]
+* "Xem ngày giải ngân của khoản vay [SO_HOP_DONG]." [cite: 4]
+
+**`query_loan_maturity_date` (Truy vấn ngày đáo hạn khoản vay)**
+* "Ngày đáo hạn của hợp đồng [SO_HOP_DONG] là khi nào?"
+* "Khoản vay [SO_HOP_DONG] sẽ kết thúc vào ngày nào?"
+* "Cho biết ngày đến hạn cuối cùng của khoản vay [SO_HOP_DONG]."
+* "Kỳ thanh toán cuối cùng của hợp đồng [SO_HOP_DONG] là ngày nào?"
+* "Xem ngày đáo hạn cho khoản vay [SO_HOP_DONG]."
+
+**`query_loan_term_duration` (Truy vấn thời hạn khoản vay)**
+* "Kỳ hạn vay của hợp đồng [SO_HOP_DONG] là bao lâu?"
+* "Thời hạn của khoản vay [SO_HOP_DONG] là mấy tháng?"
+* "Cho biết tổng thời gian vay của hợp đồng [SO_HOP_DONG]."
+* "Hợp đồng [SO_HOP_DONG] có kỳ hạn bao nhiêu?"
+* "Xem thời hạn vay của [SO_HOP_DONG]."
+
+**`query_remaining_loan_term` (Truy vấn thời hạn còn lại của khoản vay)**
+* "Thời hạn còn lại của hợp đồng [SO_HOP_DONG] là bao lâu?"
+* "Khoản vay [SO_HOP_DONG] còn phải trả trong mấy tháng nữa?"
+* "Cho biết số kỳ hạn còn lại của hợp đồng [SO_HOP_DONG]." (Cần tính toán dựa trên `KY_HAN_VAY` và số kỳ đã trả hoặc ngày hiện tại)
+* "Tôi còn phải đóng tiền cho hợp đồng [SO_HOP_DONG] trong bao lâu nữa?"
+* "Xem thời gian vay còn lại của [SO_HOP_DONG]."
+
+---
+### Instalment schedule (Lịch trả góp)
+
+**`query_next_installment_due_date` (Truy vấn ngày đến hạn trả góp tiếp theo)**
+* "Ngày đến hạn trả góp tiếp theo của hợp đồng [SO_HOP_DONG] là khi nào?"
+* "Kỳ thanh toán kế tiếp của khoản vay [SO_HOP_DONG] là ngày nào?"
+* "Khi nào tôi cần thanh toán kỳ tiếp theo cho hợp đồng [SO_HOP_DONG]?"
+* "Cho biết ngày đóng tiền kỳ tới của [SO_HOP_DONG]."
+* "Xem ngày trả góp tiếp theo của khoản vay [SO_HOP_DONG]."
+
+**`query_next_installment_amount` (Truy vấn số tiền trả góp tiếp theo)**
+* "Số tiền trả góp tiếp theo của hợp đồng [SO_HOP_DONG] là bao nhiêu?"
+* "Kỳ thanh toán kế tiếp của khoản vay [SO_HOP_DONG] cần đóng bao nhiêu tiền?"
+* "Tôi cần thanh toán bao nhiêu cho kỳ tiếp theo của hợp đồng [SO_HOP_DONG]?"
+* "Số tiền phải đóng kỳ tới của [SO_HOP_DONG] là bao nhiêu?"
+* "Xem số tiền trả góp tiếp theo của khoản vay [SO_HOP_DONG]." [cite: 10]
+
+**`query_next_installment_breakdown` (Truy vấn chi tiết số tiền trả góp tiếp theo)**
+* "Chi tiết số tiền trả góp tiếp theo (gốc, lãi) của hợp đồng [SO_HOP_DONG] là gì?"
+* "Kỳ thanh toán kế tiếp của khoản vay [SO_HOP_DONG] bao gồm bao nhiêu tiền gốc, bao nhiêu tiền lãi?"
+* "Phân tích số tiền gốc và lãi trong kỳ trả góp tới của hợp đồng [SO_HOP_DONG]."
+* "Cho tôi xem chi tiết gốc/lãi của kỳ đóng tiền tiếp theo cho [SO_HOP_DONG]."
+* "Xem cơ cấu nợ gốc và lãi của kỳ trả góp tiếp theo của khoản vay [SO_HOP_DONG]."
+
+**`query_full_repayment_schedule` (Truy vấn toàn bộ lịch trả góp)**
+* "Cho tôi xem toàn bộ lịch trả góp của hợp đồng [SO_HOP_DONG]."
+* "Lịch thanh toán chi tiết của khoản vay [SO_HOP_DONG] như thế nào?"
+* "Tôi muốn xem bảng kê các kỳ trả nợ cho hợp đồng [SO_HOP_DONG]." [cite: 40]
+* "In lịch trả nợ đầy đủ của [SO_HOP_DONG]." [cite: 41]
+* "Xem tất cả các kỳ thanh toán, số tiền gốc, lãi, và ngày đến hạn của khoản vay [SO_HOP_DONG]." [cite: 40]
+
+**`query_specific_installment_details` (Truy vấn chi tiết một kỳ trả góp cụ thể)**
+* "Chi tiết kỳ trả góp thứ [KY_THANH_TOAN] của hợp đồng [SO_HOP_DONG] là gì?"
+* "Cho tôi biết thông tin về kỳ thanh toán số [KY_THANH_TOAN] của khoản vay [SO_HOP_DONG], bao gồm ngày bắt đầu, ngày kết thúc, gốc, lãi và dư nợ."
+* "Xem chi tiết (ngày từ, ngày đến, gốc, lãi, số tiền trả hàng tháng, dư nợ) cho kỳ trả nợ thứ [KY_THANH_TOAN] của hợp đồng [SO_HOP_DONG]."
+* "Thông tin của kỳ [KY_THANH_TOAN] trong lịch trả nợ của [SO_HOP_DONG]?"
+* "Tôi muốn xem số tiền gốc và lãi của kỳ thanh toán [KY_THANH_TOAN] của hợp đồng [SO_HOP_DONG]."
+
+**`query_total_number_of_installments` (Truy vấn tổng số kỳ trả góp)**
+* "Tổng số kỳ trả góp của hợp đồng [SO_HOP_DONG] là bao nhiêu?"
+* "Khoản vay [SO_HOP_DONG] có tất cả bao nhiêu kỳ thanh toán?"
+* "Hợp đồng [SO_HOP_DONG] phải trả trong bao nhiêu kỳ?"
+* "Cho biết tổng số lần trả góp của [SO_HOP_DONG]."
+* "Xem tổng số kỳ thanh toán cho khoản vay [SO_HOP_DONG]."
+
+**`query_remaining_number_of_installments` (Truy vấn số kỳ trả góp còn lại)**
+* "Số kỳ trả góp còn lại của hợp đồng [SO_HOP_DONG] là bao nhiêu?"
+* "Khoản vay [SO_HOP_DONG] còn phải trả bao nhiêu kỳ nữa?"
+* "Hợp đồng [SO_HOP_DONG] còn lại mấy kỳ thanh toán?" (Cần SQL để lấy tổng số kỳ và số kỳ đã qua, hoặc kiểm tra `DU_NO` của các kỳ trong `DEBT_LD_REPAY_SCHEDULE`)
+* "Cho biết số lần trả góp còn lại của [SO_HOP_DONG]."
+* "Xem số kỳ thanh toán còn lại cho khoản vay [SO_HOP_DONG]."
+
+---
+### Payment history (Lịch sử thanh toán)
+
+**`query_last_payment_date` (Truy vấn ngày thanh toán gần nhất)**
+* "Ngày thanh toán gần nhất của hợp đồng [SO_HOP_DONG] là khi nào?"
+* "Lần cuối tôi trả tiền cho khoản vay [SO_HOP_DONG] là ngày nào?"
+* "Cho biết ngày giao dịch thanh toán cuối cùng của [SO_HOP_DONG]."
+* "Hợp đồng [SO_HOP_DONG] được thanh toán lần cuối khi nào?"
+* "Xem ngày trả nợ gần nhất của khoản vay [SO_HOP_DONG]."
+
+**`query_last_payment_amount` (Truy vấn số tiền thanh toán gần nhất)**
+* "Số tiền thanh toán gần nhất của hợp đồng [SO_HOP_DONG] là bao nhiêu?"
+* "Lần cuối tôi trả cho khoản vay [SO_HOP_DONG] là bao nhiêu tiền?"
+* "Cho biết giá trị giao dịch thanh toán cuối cùng của [SO_HOP_DONG]."
+* "Hợp đồng [SO_HOP_DONG] lần cuối thanh toán bao nhiêu?"
+* "Xem số tiền đã trả gần nhất của khoản vay [SO_HOP_DONG]."
+
+**`query_last_payment_status` (Truy vấn trạng thái thanh toán gần nhất)**
+* "Trạng thái thanh toán gần nhất của hợp đồng [SO_HOP_DONG] như thế nào?" (Cần SQL để lấy `TONG_TIEN_THU`, `DPD_HOP_DONG_SAU_TT` và có thể RAG để diễn giải trạng thái dựa trên DPD)
+* "Lần thanh toán cuối của khoản vay [SO_HOP_DONG] có bị trễ hạn không?"
+* "Cho biết tình trạng của lần trả tiền cuối cùng cho hợp đồng [SO_HOP_DONG], đã đủ chưa và có bị phạt không?"
+* "Sau khi thanh toán ngày [NGAY_THANH_TOAN] với số tiền [TONG_TIEN_THU], hợp đồng [SO_HOP_DONG] có bị quá hạn không?"
+* "Xem trạng thái của giao dịch thanh toán cuối cùng cho khoản vay [SO_HOP_DONG]."
+
+**`query_payment_history_list` (Truy vấn danh sách lịch sử thanh toán)**
+* "Cho tôi xem lịch sử thanh toán của hợp đồng [SO_HOP_DONG]."
+* "Liệt kê các lần trả tiền cho khoản vay [SO_HOP_DONG], bao gồm ngày, tổng tiền, gốc và lãi đã thu."
+* "Tôi muốn xem chi tiết các giao dịch thanh toán của hợp đồng [SO_HOP_DONG]."
+* "In lịch sử đóng tiền của [SO_HOP_DONG]."
+* "Xem tất cả các khoản đã thanh toán cho khoản vay [SO_HOP_DONG]."
+
+**`query_specific_payment_details` (Truy vấn chi tiết một giao dịch thanh toán cụ thể)**
+* "Chi tiết giao dịch thanh toán vào ngày [NGAY_THANH_TOAN] của hợp đồng [SO_HOP_DONG] là gì?" (Giả sử `NGAY_THANH_TOAN` là duy nhất hoặc người dùng cung cấp thêm thông tin để xác định)
+* "Cho tôi biết đầy đủ thông tin về lần trả tiền ngày [NGAY_THANH_TOAN] cho khoản vay [SO_HOP_DONG]."
+* "Xem tất cả thông tin của giao dịch thanh toán ngày [NGAY_THANH_TOAN] cho hợp đồng [SO_HOP_DONG]."
+* "Thông tin lần thanh toán ngày [NGAY_THANH_TOAN] của [SO_HOP_DONG]?"
+* "Tôi muốn xem chi tiết khoản tiền đã trả vào [NGAY_THANH_TOAN] cho hợp đồng [SO_HOP_DONG]."
+
+**`query_missed_payments` (Truy vấn các khoản thanh toán bị bỏ lỡ)**
+* "Hợp đồng [SO_HOP_DONG] có những kỳ nào bị thanh toán trễ hoặc thiếu không?" (Cần SQL để so sánh `DEBT_LD_REPAY_SCHEDULE` và `DEBT_LD_PAID_HISTORY`)
+* "Liệt kê các kỳ trả góp bị bỏ lỡ của khoản vay [SO_HOP_DONG]."
+* "Tôi có bỏ lỡ kỳ thanh toán nào cho hợp đồng [SO_HOP_DONG] không?"
+* "Cho biết các kỳ chưa thanh toán hoặc thanh toán không đủ của [SO_HOP_DONG], bao gồm ngày đến hạn và số tiền phải trả."
+* "Kiểm tra xem có kỳ nào của khoản vay [SO_HOP_DONG] bị trễ hạn thanh toán không, nếu có thì đó là kỳ nào, ngày nào và số tiền bao nhiêu?"
+
+---
+### Interest & DPD snapshots (Thông tin lãi & số ngày quá hạn)
+
+**`query_accrued_interest_to_date` (Truy vấn lãi cộng dồn đến hiện tại)**
+* "Lãi cộng dồn đến hôm nay của hợp đồng [SO_HOP_DONG] là bao nhiêu?"
+* "Tổng số lãi phát sinh cho khoản vay [SO_HOP_DONG] tính đến hiện tại là bao nhiêu?"
+* "Cho biết dư nợ lãi của hợp đồng [SO_HOP_DONG]."
+* "Số tiền lãi chưa trả của [SO_HOP_DONG] là bao nhiêu?"
+* "Xem tổng lãi đã tích lũy của khoản vay [SO_HOP_DONG]."
+
+**`query_days_past_due_bucket` (Truy vấn nhóm số ngày quá hạn)**
+* "Hợp đồng [SO_HOP_DONG] đang bị quá hạn bao nhiêu ngày và thuộc nhóm nợ nào?"
+* "Khoản vay [SO_HOP_DONG] thuộc nhóm quá hạn (bucket) nào?"
+* "Cho biết số ngày quá hạn theo khách hàng (DPD_KH) và nhóm nợ (BUCKET_CODE) của hợp đồng [SO_HOP_DONG] sau lần thanh toán cuối (DPD_HOP_DONG_SAU_TT)."
+* "Tình trạng quá hạn của [SO_HOP_DONG] như thế nào?"
+* "Xem thông tin DPD và bucket của khoản vay [SO_HOP_DONG]."
+
+---
