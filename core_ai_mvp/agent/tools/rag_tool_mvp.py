@@ -52,7 +52,7 @@ class RagToolMvp(BaseTool):
             # Assuming payload contains a 'text_chunk' and 'source' field from ingestion script
             formatted_results = []
             for hit in search_results:
-                content = hit.get('payload', {}).get('text_chunk', 'No content available')
+                content = hit.get('payload', {}).get('page_content', 'No content available')
                 source = hit.get('payload', {}).get('source', 'Unknown source')
                 score = hit.get('score')
                 formatted_results.append({
@@ -89,56 +89,4 @@ if __name__ == '__main__':
 
     rag_tool = RagToolMvp()
 
-    # Test Case 1: Simple query
-    query1 = "What is the interest rate policy?"
-    logger.info(f"\n--- Test Case 1: Query = '{query1}' ---")
-    try:
-        results1 = rag_tool.run(tool_input={"policy_query_prompt": query1, "top_k": 2})
-        logger.info("Results 1:")
-        for res in results1:
-            logger.info(f"  Source: {res.get('source')}, Score: {res.get('score'):.4f}, Content: {res.get('content', '')[:100]}...")
-    except Exception as e:
-        logger.error(f"Error in Test Case 1: {e}")
-
-    # Test Case 2: Query that might not have many results
-    query2 = "policy on alien spacecraft loans"
-    logger.info(f"\n--- Test Case 2: Query = '{query2}' ---")
-    try:
-        results2 = rag_tool.run(tool_input={"policy_query_prompt": query2})
-        logger.info("Results 2:")
-        for res in results2:
-            logger.info(f"  Source: {res.get('source')}, Score: {res.get('score')}, Content: {res.get('content', '')[:100]}...")
-            if "error" in res or "info" in res:
-                 logger.info(f"  Message: {res.get('error') or res.get('info')}")
-    except Exception as e:
-        logger.error(f"Error in Test Case 2: {e}")
-
-    # Test Case 3: Empty query (should be handled by the tool)
-    query3 = ""
-    logger.info(f"\n--- Test Case 3: Empty Query ---")
-    try:
-        results3 = rag_tool.run(tool_input={"policy_query_prompt": query3})
-        logger.info("Results 3:")
-        for res in results3:
-            logger.info(f"  Message: {res.get('error') or res.get('info')}")
-    except Exception as e:
-        # The tool itself should handle empty input gracefully, but pydantic might raise before _run if not optional.
-        # Let's ensure policy_query_prompt is not optional in RagToolInput or handled in _run.
-        # Current RagToolInput makes policy_query_prompt required, so this might not pass to _run.
-        # Tool.run might catch pydantic error if tool_input is not a dict with the key.
-        # If passing a string directly to tool.run(query3) for a single input tool, that's different. 
-        # With args_schema, it expects a dict or the model instance.
-        logger.error(f"Error in Test Case 3 (expected if Pydantic validation hits first for empty string if not allowed by model): {e}")
-        # If RagToolInput made policy_query_prompt allow empty string, then the tool's internal check would activate.
-
-    # Demonstrating how it might be called by an agent (simplified)
-    # An agent would typically pass a dictionary matching RagToolInput or just the required string if the tool is designed for it.
-    logger.info("\nSimulating agent call with dictionary input:")
-    agent_input_dict = {"policy_query_prompt": "Tell me about loan pre-payment penalties", "top_k": 1}
-    try:
-        results_agent = rag_tool.run(agent_input_dict)
-        logger.info("Agent Call Results:")
-        for res in results_agent:
-            logger.info(f"  Source: {res.get('source')}, Score: {res.get('score')}, Content: {res.get('content', '')[:100]}...")
-    except Exception as e:
-        logger.error(f"Error in agent-like call: {e}")
+    

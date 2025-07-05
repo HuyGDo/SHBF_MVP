@@ -1,0 +1,112 @@
+{
+    "user_query": "Cho tôi xem tất cả các khoản vay còn hiệu lực của tôi.",
+    "output": {
+      "route": "SQL",
+      "intents": ["query_list_active_loans"],
+      "entities": {},
+      "sql_prompt": "List all active loans for the current customer.",
+      "policy_query": null,
+      "language": "vi"
+    }
+  }
+  {
+    "user_query": "Liệt kê các hợp đồng đang còn nợ của tôi.",
+    "output": {
+      "route": "SQL",
+      "intents": ["query_list_active_loans"],
+      "entities": {},
+      "sql_prompt": "List all contracts with outstanding debt for the current customer.",
+      "policy_query": null,
+      "language": "vi"
+    }
+  }
+  {
+    "user_query": "Hiện tại tôi đang có những khoản vay nào đang hoạt động bên bạn?",
+    "output": {
+      "route": "SQL",
+      "intents": ["query_list_active_loans"],
+      "entities": {},
+      "sql_prompt": "What are the currently active loans for the customer?",
+      "policy_query": null,
+      "language": "vi"
+    }
+  }
+  {
+    "user_query": "Check lẹ coi tui còn mấy cái hợp đồng đang vay.",
+    "output": {
+      "route": "SQL",
+      "intents": ["query_list_active_loans"],
+      "entities": {},
+      "sql_prompt": "Check how many active loan contracts the customer has.",
+      "policy_query": null,
+      "language": "vi"
+    }
+  }
+  {
+    "user_query": "Vui lòng cung cấp danh sách các khoản vay mà tôi đang phải trả.",
+    "output": {
+      "route": "SQL",
+      "intents": ["query_list_active_loans"],
+      "entities": {},
+      "sql_prompt": "Please provide a list of loans the customer is currently paying off.",
+      "policy_query": null,
+      "language": "vi"
+    }
+  }
+  {
+    "user_query": "Tôi đang trả góp bao nhiêu hợp đồng tất cả?",
+    "output": {
+      "route": "SQL",
+      "intents": ["query_list_active_loans"],
+      "entities": {},
+      "sql_prompt": "How many installment contracts is the customer paying in total?",
+      "policy_query": null,
+      "language": "vi"
+    }
+  }
+  {
+    "user_query": "Xem giúp tôi các khoản vay đang trong thời hạn.",
+    "output": {
+      "route": "SQL",
+      "intents": ["query_list_active_loans"],
+      "entities": {},
+      "sql_prompt": "Show me the loans that are currently within their term.",
+      "policy_query": null,
+      "language": "vi"
+    }
+  }
+  {
+    "user_query": "Tất cả các khoản vay của tôi hiện nay.",
+    "output": {
+      "route": "SQL",
+      "intents": ["query_list_active_loans"],
+      "entities": {},
+      "sql_prompt": "All of my current loans.",
+      "policy_query": null,
+      "language": "vi"
+    }
+  }
+  {
+    "user_query": "ID khách hàng của tôi là 1001, cho tôi xem các khoản vay đang có.",
+    "output": {
+      "route": "SQL",
+      "intents": ["query_list_active_loans"],
+      "entities": {
+        "customer_id": 1001
+      },
+      "sql_prompt": "For customer ID 1001, show existing loans.",
+      "policy_query": null,
+      "language": "vi"
+    }
+  }
+  {
+    "user_query": "Hiện tôi có bao nhiêu khoản nợ ở SHBFinance?",
+    "output": {
+      "route": "SQL",
+      "intents": ["query_list_active_loans"],
+      "entities": {},
+      "sql_prompt": "How many debts do I currently have with SHBFinance?",
+      "policy_query": null,
+      "language": "vi"
+    }
+  }

@@ -23,7 +23,7 @@
       },
       "sql_prompt": {
         "type": "string",
-        "description": "Concise English question given to the Text-to-SQL model."
+        "description": "Concise English question given to the Text-to-SQL model/Or maybe a combination of Intent as Action: get_payment_history; Entities as Parameters: {'user_id': 'CUST-007'}; Intent-Mapping value as Target-Columns: [payment_date, amount, status]"
       },
       "policy_query": {
         "type": "string",

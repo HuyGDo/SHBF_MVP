@@ -1,8 +1,11 @@
 from qdrant_client import QdrantClient
 from qdrant_client.http.models import PointStruct, SearchRequest, Filter
 from typing import List, Dict, Any, Optional
+import logging
 from config_mvp.settings_mvp import QDRANT_URL, QDRANT_COLLECTION_NAME
 from core_ai_mvp.embeddings.embedding_client_mvp import get_embedding_client_mvp # Assuming this provides embed_query
+
+logger = logging.getLogger(__name__)
 
 def qdrant_similarity_search(
     query_text: Optional[str] = None,
@@ -42,23 +45,27 @@ def qdrant_similarity_search(
         raise ValueError("Either query_text or query_vector must be provided for similarity search.")
 
     try:
+        logger.info(f"Connecting to Qdrant at {qdrant_url} and accessing collection '{collection_name}'.")
         client = QdrantClient(url=qdrant_url)
-        client.get_collection(collection_name) # Check if collection exists
+        client.get_collection(collection_name=collection_name) # Check if collection exists
 
         if query_text and not query_vector:
-            # Get the embedding client and embed the query text
-            # This assumes get_embedding_client_mvp() is set up correctly
-            # and provides an embed_query method similar to LangChain's embedding components.
+            logger.info("Query text provided. Getting embedding client to generate vector...")
             embedding_model = get_embedding_client_mvp()
+            logger.info(f"Embedding query: '{query_text[:80]}...'") # Log snippet of query
             query_vector = embedding_model.embed_query(query_text)
+            logger.info(f"Successfully generated query vector with dimension {len(query_vector)}.")
 
+        logger.info(f"Performing search in Qdrant with top_k={top_k}...")
         search_result = client.search(
             collection_name=collection_name,
             query_vector=query_vector,
             query_filter=search_filter, 
             limit=top_k,
-            score_threshold=score_threshold
+            score_threshold=score_threshold,
+            with_payload=True # Ensure payload is returned
         )
+        logger.info(f"Qdrant search completed. Found {len(search_result)} results.")
         
         # Convert ScoredPoint objects to dictionaries for easier use
         results = [
@@ -73,7 +80,7 @@ def qdrant_similarity_search(
         return results
 
     except Exception as e:
-        print(f"Error during Qdrant similarity search in collection '{collection_name}': {e}")
+        logger.error(f"Error during Qdrant similarity search in collection '{collection_name}': {e}", exc_info=True)
         # In a real application, you might want to handle different exceptions more granularly
         # or re-raise them after logging.
         return [] # Return empty list on error for MVP simplicity

@@ -23,24 +23,25 @@ EMBEDDINGS_API_URL = os.getenv("EMBEDDING_MODEL_API_URL", "http://localhost:1234
 EMBEDDING_MODEL_NAME = os.getenv("EMBEDDING_MODEL_NAME", "AITeamVN-Vietnamese_Embedding-gguf")
 
 POLICY_DOCS_PATH = os.path.join(os.path.dirname(__file__), '..', "data_mvp", "policy_documents")
-CHUNK_SIZE = 1000
-CHUNK_OVERLAP = 200
+CHUNK_SIZE = 512
+CHUNK_OVERLAP = 100
 
 def load_documents_from_path(docs_path: str) -> List[TextLoader]: # Adjusted type hint
-    """Loads all .txt documents from the specified directory."""
-    print(f"Attempting to load documents from: {docs_path}")
-    doc_files = glob.glob(os.path.join(docs_path, "*.txt"))
-    if not doc_files:
-        print(f"No .txt files found in {docs_path}")
-    loaded_documents = []
-    for doc_file in doc_files:
-        try:
-            loader = TextLoader(doc_file, encoding='utf-8')
-            loaded_documents.extend(loader.load()) # loader.load() returns List[Document]
-            print(f"Successfully loaded: {doc_file}")
-        except Exception as e:
-            print(f"Error loading {doc_file}: {e}")
-    return loaded_documents
+    doc_file = os.path.join(docs_path, "BẢN_ĐIỀU_KHOẢN_ĐIỀU_KIỆ̂N.txt")
+    print(f"Attempting to load specific document: {doc_file}")
+
+    if not os.path.isfile(doc_file):
+        print(f"Error: The specified document was not found at '{doc_file}'")
+        return []
+
+    try:
+        loader = TextLoader(doc_file, encoding='utf-8')
+        documents = loader.load()
+        print(f"Successfully loaded: {doc_file}")
+        return documents
+    except Exception as e:
+        print(f"Error loading {doc_file}: {e}")
+        return []
 
 def chunk_documents(documents: list, chunk_size: int, chunk_overlap: int) -> list: # documents is List[Document]
     """Splits loaded documents into smaller chunks."""
@@ -50,7 +51,8 @@ def chunk_documents(documents: list, chunk_size: int, chunk_overlap: int) -> lis
     text_splitter = RecursiveCharacterTextSplitter(
         chunk_size=chunk_size,
         chunk_overlap=chunk_overlap,
-        length_function=len
+        length_function=len,
+        separators=["\n\n", "\n", ". ", ", ", " ", ""]
     )
     chunked_docs = text_splitter.split_documents(documents)
     print(f"Split {len(documents)} documents into {len(chunked_docs)} chunks.")
@@ -183,7 +185,7 @@ def ingest_data_to_qdrant(
 
         if vector:
             point_id = str(uuid.uuid4())
-            payload = {"text": chunk.page_content, "source": chunk.metadata.get("source", "Unknown")}
+            payload = {"page_content": chunk.page_content, "source": chunk.metadata.get("source", "Unknown")}
             points_to_upsert.append(models.PointStruct(id=point_id, vector=vector, payload=payload))
         else:
             # Warning already printed by _get_embedding_via_direct_request

@@ -3,6 +3,8 @@ import json
 from typing import Dict, Any, List, Optional
 import google.generativeai as genai
 import logging
+import datetime
+from decimal import Decimal
 
 from langchain_google_genai import ChatGoogleGenerativeAI
 from langchain_core.prompts import ChatPromptTemplate
@@ -25,6 +27,15 @@ GEMINI_MODEL_FOR_SYNTHESIS = "gemini-2.0-flash" # Or your preferred Gemini model
 GEMINI_MODEL_FOR_PLANNING = "gemini-2.0-flash" # Consistent with main_llm_mvp.py default
 
 DEFAULT_LANGUAGE = "vi" # Default language if not specified in plan
+
+def json_serial_default(o: Any) -> Any:
+    """JSON serializer for objects not serializable by default json code"""
+    if isinstance(o, (datetime.date, datetime.datetime)):
+        return o.isoformat()
+    if isinstance(o, Decimal):
+        # Using str is safer for precision than float
+        return str(o)
+    raise TypeError(f"Object of type {o.__class__.__name__} is not JSON serializable")
 
 def format_rag_results_for_llm(rag_output: List[Dict[str, Any]]) -> str:
     if not rag_output:
@@ -66,8 +77,10 @@ def format_sql_results_for_llm(t2sql_output: Any) -> str:
         if not t2sql_output: # Empty list from a successful query
             return "Query executed successfully but found no matching records in the database."
         try:
-            # Pretty print JSON for better LLM readability
-            return json.dumps(t2sql_output, indent=2, ensure_ascii=False)
+            # Convert RealDictRow objects to standard dicts
+            results_as_dicts = [dict(row) for row in t2sql_output]
+            # Pretty print JSON for better LLM readability, with custom serializer
+            return json.dumps(results_as_dicts, indent=2, ensure_ascii=False, default=json_serial_default)
         except TypeError:
             return f"Database query returned data that could not be formatted as JSON: {str(t2sql_output)}"
     
@@ -136,68 +149,57 @@ def agent_orchestrator_mvp(user_query: str, history_string: str) -> str:
     try:
         # Clean the query text by removing extra whitespace and newlines
         cleaned_query = " ".join(user_query.split())
-        logger.info(f"Generating plan for query: '{cleaned_query}' with history: '{history_string}'")
+        logger.info(f"--- Step 1: Generating Plan ---")
+        logger.info(f"Query: '{cleaned_query}' | History: '{history_string}'")
         
-        # Pre-process query to help with routing
-        has_customer_id = any(pattern in cleaned_query.lower() for pattern in ["mã id", "id của tôi", "id là"])
-        has_loan_query = any(pattern in cleaned_query.lower() for pattern in ["khoản vay", "hiệu lực"])
-        
-        # Force SQL route for customer ID + loan queries before even calling the LLM
-        if has_customer_id and has_loan_query:
-            logger.info("Query contains customer ID and loan information - forcing SQL route")
-            plan = Plan(
-                route="SQL",
-                intents=["get_active_loans", "view_loan_status"],
-                entities={"customer_id": cleaned_query.split(":")[-1].strip() if ":" in cleaned_query else ""},
-                sql_prompt=f"Find all active loans for customer with ID {cleaned_query.split(':')[-1].strip() if ':' in cleaned_query else ''}",
-                policy_query=None,
-                language="vi"
-            )
-            logger.info(f"Forced SQL plan: \n{json.dumps(plan.dict(), indent=4, ensure_ascii=False)}") # Pretty print JSON
-            return handle_sql_query(plan, cleaned_query, history_string, base_llm, t2sql_tool)
+        # The main planning LLM is robust enough to handle routing.
+        # The previous hardcoded SQL route has been removed to avoid misclassifying RAG queries.
+        # All queries will now go through the LLM planner.
             
-        # Only proceed with LLM planning if not a clear SQL case
         plan_dict = main_llm_planning_chain.invoke({
             "query": cleaned_query,
             "history": history_string
         })
-        logger.info(f"Raw plan dict: \n{json.dumps(plan_dict, indent=4, ensure_ascii=False)}") # Pretty print JSON
+        logger.info(f"--- Step 2: Plan Received --- \n{json.dumps(plan_dict, indent=2, ensure_ascii=False)}")
         
         # Convert the dictionary to a Plan object
         try:
             plan = Plan(**plan_dict)
-            logger.info(f"Plan generated and validated: \n{json.dumps(plan.dict(), indent=4, ensure_ascii=False)}") # Pretty print JSON
+            logger.info(f"Plan validated successfully: Route='{plan.route}'")
         except Exception as e:
-            logger.error(f"Error converting plan dict to Plan object: {e}")
-            # Fallback for parsing errors. If customer_id was part of the original intent, try basic SQL.
-            if has_customer_id: # 'has_customer_id' was defined earlier based on cleaned_query
-                logger.info("Defaulting to SQL route due to plan parsing error and presence of customer ID indicators.")
-                # Simplified plan for direct SQL attempt
-                customer_id_entity = cleaned_query.split(":")[-1].strip() if ":" in cleaned_query else "unknown" # Basic extraction
-                # Attempt to create a generic SQL prompt from the original query
+            logger.error(f"Fatal: Could not parse the plan from the LLM. Error: {e}", exc_info=True)
+            # Fallback for critical parsing errors.
+            has_customer_id = any(pattern in cleaned_query.lower() for pattern in ["mã id", "id của tôi", "id là", "hđ"])
+            if has_customer_id:
+                logger.warning("Plan parsing failed, but customer identifiers found. Attempting a direct SQL fallback.")
+                customer_id_entity = cleaned_query.split(":")[-1].strip() if ":" in cleaned_query else "unknown"
                 fallback_sql_prompt = f"Retrieve relevant information for customer based on query: '{cleaned_query}'"
                 if customer_id_entity != "unknown":
                     fallback_sql_prompt = f"Retrieve relevant information for customer ID {customer_id_entity} based on query: '{cleaned_query}'"
 
+                # Directly call handle_sql_query with a constructed plan
                 return handle_sql_query(
-                    Plan(
+                    plan=Plan(
                         route="SQL",
-                        intents=["fallback_get_customer_data"], # Generic fallback intent
+                        intents=["fallback_get_customer_data"],
                         entities={"customer_id": customer_id_entity} if customer_id_entity != "unknown" else {},
                         sql_prompt=fallback_sql_prompt,
                         policy_query=None,
                         language=DEFAULT_LANGUAGE
                     ),
-                    cleaned_query,
-                    history_string,
-                    base_llm, # 'base_llm' was initialized earlier
-                    t2sql_tool # 't2sql_tool' was initialized earlier
+                    query=cleaned_query,
+                    history=history_string,
+                    llm=base_llm,
+                    sql_tool=t2sql_tool
                 )
-            # If no clear customer ID, or SQL fallback is not appropriate, then ask for clarification.
-            return clarification_chain.invoke({"initial_query": cleaned_query}) # 'clarification_chain' was initialized earlier
+            
+            # If no customer ID, clarification is the only safe option.
+            logger.warning("Plan parsing failed and no clear fallback. Asking for clarification.")
+            return clarification_chain.invoke({"initial_query": cleaned_query})
 
         # 2. Execution Phase based on Plan
         final_response = ""
+        logger.info(f"--- Step 3: Executing Plan (Route: {plan.route}) ---")
         if plan.route == "SQL":
             if not plan.sql_prompt:
                 logger.warning("Plan specified SQL route but no sql_prompt was provided.")
@@ -229,36 +231,42 @@ def agent_orchestrator_mvp(user_query: str, history_string: str) -> str:
         return final_response
 
     except Exception as e:
-        logger.error(f"Error during planning or execution: {e}")
+        logger.error(f"Critical error in orchestrator: {e}", exc_info=True)
         # General fallback clarification if anything else goes wrong in the main orchestration logic
         return clarification_chain.invoke({"initial_query": user_query}) # Use original user_query for clarification context
 
 def handle_sql_query(plan: Plan, query: str, history: str, llm: Any, sql_tool: Any) -> str:
     """Helper function to handle SQL queries"""
-    logger.info(f"Handling SQL query with plan: \n{json.dumps(plan.dict(), indent=4, ensure_ascii=False)}") # Pretty print JSON
+    logger.info(f"Handling SQL query with plan: \\n{json.dumps(plan.dict(), indent=2, ensure_ascii=False)}")
     language = plan.language or DEFAULT_LANGUAGE # Added language parameter
     try:
-        t2sql_output = sql_tool.run({"sql_query_prompt": plan.sql_prompt})
+        t2sql_output = sql_tool.run({
+            "sql_query_prompt": plan.sql_prompt,
+            "intents": plan.intents # Pass intents to the tool
+        })
         # sql_results_str is already formatted by format_sql_results_for_llm, which includes JSON dump if it's a list
         # If t2sql_output (raw) needs to be pretty-printed:
-        # logger.debug(f"Raw SQL output: \n{json.dumps(t2sql_output, indent=4, ensure_ascii=False)}")
+        # logger.debug(f"Raw SQL output: \\n{json.dumps(t2sql_output, indent=4, ensure_ascii=False)}")
         sql_results_str = format_sql_results_for_llm(t2sql_output)
-        logger.info(f"SQL results: \n{sql_results_str}") # Log the formatted string
+        logger.info(f"SQL results: \\n{sql_results_str}") # Log the formatted string
         
         synthesis_prompt = ChatPromptTemplate.from_template('''
-        Based on the user's query about their loan information and the database results, provide a clear response.
-        
-        IMPORTANT:
-        1. Respond ONLY in {language}.
-        2. Be direct and concise.
-        3. If no data is found, politely inform the user.
-        4. Do not add translations or explanations.
-        
-        User Query: {query}
-        Database Results: {results}
-        
-        Your response in {language}: 
-        ''') # Added {language} to prompt
+        You are an assistant for SHBFinance. Based on the user's query and the following database results, provide a clear and helpful response in Vietnamese.
+
+        **Crucial Instructions:**
+        1.  **DO NOT** output the raw JSON. Summarize the key information from the database results in a natural, conversational way.
+        2.  Respond **ONLY** in {language}.
+        3.  Address the user's query directly.
+        4.  If the database results are empty, politely inform the user that no information was found.
+        5.  Do not add any meta-commentary or explanations about the data source.
+
+        **User Query:** "{query}"
+
+        **Database Results (in JSON format):**
+        {results}
+
+        **Your helpful, conversational response in {language}:**
+        ''')
         synthesis_chain = synthesis_prompt | llm | StrOutputParser()
 
         return synthesis_chain.invoke({
@@ -276,29 +284,36 @@ def handle_sql_query(plan: Plan, query: str, history: str, llm: Any, sql_tool: A
 
 def handle_rag_query(plan: Plan, query: str, history: str, llm: Any, rag_tool: Any) -> str:
     """Helper function to handle RAG queries"""
-    logger.info(f"Handling RAG query with plan: \n{json.dumps(plan.dict(), indent=4, ensure_ascii=False)}") # Pretty print JSON
+    logger.info(f"Handling RAG query with plan: \\n{json.dumps(plan.dict(), indent=2, ensure_ascii=False)}")
     language = plan.language or DEFAULT_LANGUAGE
     try:
-        rag_output = rag_tool.run({"policy_query_prompt": plan.policy_query})
+        rag_output = rag_tool.run({
+            "policy_query_prompt": plan.policy_query,
+            "top_k": 5, # Increase top_k to get more context
+            "score_threshold": 0.7 # Add a threshold to filter irrelevant results
+        })
         # rag_results_str is already formatted by format_rag_results_for_llm, can be logged directly
         # If rag_output itself (the list of dicts) needs to be pretty-printed before formatting:
-        # logger.debug(f"Raw RAG output: \n{json.dumps(rag_output, indent=4, ensure_ascii=False)}")
+        # logger.debug(f"Raw RAG output: \\n{json.dumps(rag_output, indent=4, ensure_ascii=False)}")
         rag_results_str = format_rag_results_for_llm(rag_output)
-        logger.info(f"RAG results: \n{rag_results_str}") # Log the formatted string
+        logger.info(f"RAG results: \\n{rag_results_str}") # Log the formatted string
 
         synthesis_prompt_template = """
-        Based on the user's query about bank policies and the retrieved policy information, provide a clear response.
-        
-        IMPORTANT:
-        1. Respond ONLY in {language}.
-        2. Be direct and concise.
-        3. If no relevant policy information is found, politely inform the user.
-        4. Do not add translations or explanations beyond what's requested.
-        
-        User Query: {query}
-        Policy Information: {results}
-        
-        Your response in {language}:
+        You are an assistant for SHBFinance. Based on the user's query and the retrieved policy documents, provide a clear and helpful response in Vietnamese.
+
+        **Crucial Instructions:**
+        1.  Synthesize the information from the policy snippets into a coherent answer. Do not just list the snippets.
+        2.  Respond **ONLY** in {language}.
+        3.  Address the user's query directly.
+        4.  If the retrieved information is not relevant, state that you couldn't find specific policy details on that topic.
+        5.  Do not add any meta-commentary or explanations about the data source.
+
+        **User Query:** "{query}"
+
+        **Retrieved Policy Information:**
+        {results}
+
+        **Your helpful, conversational response in {language}:**
         """
         synthesis_prompt = ChatPromptTemplate.from_template(synthesis_prompt_template)
         synthesis_chain = synthesis_prompt | llm | StrOutputParser()
@@ -318,37 +333,49 @@ def handle_rag_query(plan: Plan, query: str, history: str, llm: Any, rag_tool: A
 
 def handle_both_query(plan: Plan, query: str, history: str, llm: Any, sql_tool: Any, rag_tool: Any) -> str:
     """Helper function to handle combined RAG and SQL queries"""
-    logger.info(f"Handling BOTH query with plan: \n{json.dumps(plan.dict(), indent=4, ensure_ascii=False)}") # Pretty print JSON
+    logger.info(f"Handling BOTH query with plan: \\n{json.dumps(plan.dict(), indent=2, ensure_ascii=False)}")
     language = plan.language or DEFAULT_LANGUAGE
     try:
         # Execute RAG part
-        rag_output = rag_tool.run({"policy_query_prompt": plan.policy_query})
+        rag_output = rag_tool.run({
+            "policy_query_prompt": plan.policy_query,
+            "top_k": 5, # Increase top_k to get more context
+            "score_threshold": 0.7 # Add a threshold to filter irrelevant results
+        })
         rag_results_str = format_rag_results_for_llm(rag_output)
-        logger.info(f"RAG results (for BOTH): \n{rag_results_str}")
+        logger.info(f"RAG results (for BOTH): \\n{rag_results_str}")
 
         # Execute SQL part
-        t2sql_output = sql_tool.run({"sql_query_prompt": plan.sql_prompt})
+        t2sql_output = sql_tool.run({
+            "sql_query_prompt": plan.sql_prompt,
+            "intents": plan.intents # Pass intents to the tool
+        })
         # sql_results_str is already formatted by format_sql_results_for_llm, which includes JSON dump if it's a list
         # If t2sql_output (raw) needs to be pretty-printed:
-        # logger.debug(f"Raw SQL output: \n{json.dumps(t2sql_output, indent=4, ensure_ascii=False)}") 
+        # logger.debug(f"Raw SQL output: \\n{json.dumps(t2sql_output, indent=4, ensure_ascii=False)}") 
         sql_results_str = format_sql_results_for_llm(t2sql_output)
-        logger.info(f"SQL results (for BOTH): \n{sql_results_str}")
+        logger.info(f"SQL results (for BOTH): \\n{sql_results_str}")
 
         synthesis_prompt_template = """
-        Based on the user's query, the retrieved policy information, and the database results, provide a comprehensive and clear response.
-        
-        IMPORTANT:
-        1. Respond ONLY in {language}.
-        2. Synthesize information from BOTH policy and database results.
-        3. Be direct and concise.
-        4. If no data is found for either part, politely inform the user about what was found and what wasn't.
-        5. Do not add translations or explanations beyond what's requested.
-        
-        User Query: {query}
-        Policy Information: {rag_results}
-        Database Results: {sql_results}
-        
-        Your response in {language}:
+        You are an assistant for SHBFinance. Based on the user's query, the retrieved policy information, and the user's data from the database, provide a comprehensive and helpful response in Vietnamese.
+
+        **Crucial Instructions:**
+        1.  **DO NOT** output the raw JSON from the database.
+        2.  Synthesize the information from **both** the policy documents and the database results into a single, coherent answer.
+        3.  Respond **ONLY** in {language}.
+        4.  Address all parts of the user's query.
+        5.  If information is missing from either the policy or the database, mention it gracefully.
+        6.  Do not add any meta-commentary or explanations about the data sources.
+
+        **User Query:** "{query}"
+
+        **Retrieved Policy Information:**
+        {rag_results}
+
+        **User's Database Results (in JSON format):**
+        {sql_results}
+
+        **Your comprehensive, conversational response in {language}:**
         """
         synthesis_prompt = ChatPromptTemplate.from_template(synthesis_prompt_template)
         synthesis_chain = synthesis_prompt | llm | StrOutputParser()

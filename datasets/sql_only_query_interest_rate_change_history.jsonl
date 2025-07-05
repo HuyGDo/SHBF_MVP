@@ -1,0 +1,40 @@
+{
+    "user_query": "Vui lòng cung cấp lịch sử thay đổi lãi suất cho hợp đồng của tôi.",
+    "output": { "route": "SQL", "intents": ["query_interest_rate_change_history"], "entities": {}, "sql_prompt": "Please provide the interest rate change history for my contract.", "policy_query": null, "language": "vi" }
+  }
+  {
+    "user_query": "Lãi suất của tôi có thay đổi lần nào chưa? Cho xem với.",
+    "output": { "route": "SQL", "intents": ["query_interest_rate_change_history"], "entities": {}, "sql_prompt": "Has my interest rate ever changed? Let me see.", "policy_query": null, "language": "vi" }
+  }
+  {
+    "user_query": "Check giùm cái history rate của HĐ này.",
+    "output": { "route": "SQL", "intents": ["query_interest_rate_change_history"], "entities": {}, "sql_prompt": "Check the rate history of this contract.", "policy_query": null, "language": "vi" }
+  }
+  {
+    "user_query": "Xem lại các lần điều chỉnh lãi suất của khoản vay này.",
+    "output": { "route": "SQL", "intents": ["query_interest_rate_change_history"], "entities": {}, "sql_prompt": "Review the interest rate adjustments for this loan.", "policy_query": null, "language": "vi" }
+  }
+  {
+    "user_query": "Lịch sử thay đổi lãi suất của hợp đồng của tôi.",
+    "output": { "route": "SQL", "intents": ["query_interest_rate_change_history"], "entities": {}, "sql_prompt": "The interest rate change history of my contract.", "policy_query": null, "language": "vi" }
+  }
+  {
+    "user_query": "Xin trích xuất biên động lãi suất của khoản vay này.",
+    "output": { "route": "SQL", "intents": ["query_interest_rate_change_history"], "entities": {}, "sql_prompt": "Please extract the interest rate fluctuation history for this loan.", "policy_query": null, "language": "vi" }
+  }
+  {
+    "user_query": "Từ lúc vay tới giờ lãi suất của tôi có lên xuống lần nào không?",
+    "output": { "route": "SQL", "intents": ["query_interest_rate_change_history"], "entities": {}, "sql_prompt": "Since I took out the loan, has my interest rate fluctuated at all?", "policy_query": null, "language": "vi" }
+  }
+  {
+    "user_query": "Soi giùm các lần đổi rate của hợp đồng.",
+    "output": { "route": "SQL", "intents": ["query_interest_rate_change_history"], "entities": {}, "sql_prompt": "Look up the rate changes for the contract.", "policy_query": null, "language": "vi" }
+  }
+  {
+    "user_query": "Tôi muốn xem lại tất cả các mức lãi suất đã áp dụng cho khoản vay của mình.",
+    "output": { "route": "SQL", "intents": ["query_interest_rate_change_history"], "entities": {}, "sql_prompt": "I want to review all interest rates that have been applied to my loan.", "policy_query": null, "language": "vi" }
+  }
+  {
+    "user_query": "Cho xem lịch sử lãi suất của khoản vay của tôi.",
+    "output": { "route": "SQL", "intents": ["query_interest_rate_change_history"], "entities": {}, "sql_prompt": "Show the interest rate history of my loan.", "policy_query": null, "language": "vi" }
+  }

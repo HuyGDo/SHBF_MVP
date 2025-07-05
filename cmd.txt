@@ -4,6 +4,32 @@ SQL
 Cho tôi xem tất cả các khoản vay còn hiệu lực của tôi. Mã id của tôi là: 1001
 
 RAG
+Ngày thanh toán hàng tháng là gì?
+
 
 Both case
 Tôi có hợp đồng vay HD0000000000001 với SHBFinance. Hiện tại, dư nợ gốc của hợp đồng này là 30,000,000 VND, thời hạn vay ban đầu là 12 tháng, và theo tôi nhớ thì tôi đã thanh toán được 3 kỳ. Nếu bây giờ tôi muốn trả nợ trước hạn toàn bộ khoản vay này, thì SHBFinance quy định cụ thể về phí trả nợ trước hạn như thế nào, và với trường hợp của tôi thì có đủ điều kiện không và phí là bao nhiêu?
+Expected:
+Dựa vào thông tin bạn cung cấp và các quy định trong Bản Điều khoản Điều kiện của SHBFinance, chúng tôi xin trả lời câu hỏi của bạn về việc trả nợ trước hạn cho hợp đồng HD0000000000001 như sau:
+
+1. Về điều kiện trả nợ trước hạn:
+
+Theo quy định, bạn có thể đề nghị trả nợ trước hạn toàn bộ khoản vay nếu đáp ứng các điều kiện sau:
+
+Đã thanh toán tối thiểu bắt buộc 06 kỳ thanh toán. Điều kiện này chỉ áp dụng cho các hợp đồng có thời hạn vay từ 10 tháng trở lên.
+
+Đã thông báo cho SHBFinance và nhận được sự đồng ý của SHBFinance.
+
+Hợp đồng của bạn có thời hạn vay là 12 tháng, do đó điều kiện thanh toán tối thiểu 06 kỳ được áp dụng. Tuy nhiên, bạn mới thanh toán được 3 kỳ, vì vậy bạn chưa đủ điều kiện để thực hiện trả nợ trước hạn tại thời điểm này.
+
+2. Về phí trả nợ trước hạn:
+
+Nếu bạn đủ điều kiện, phí trả nợ trước hạn sẽ được tính bằng 
+
+5% trên dư nợ gốc trong hạn tại ngày bạn đề nghị xử lý trả nợ trước hạn.
+
+Với dư nợ gốc hiện tại của bạn là 30.000.000 VNĐ, mức phí nếu được áp dụng sẽ là:
+
+5% x 30.000.000 = 1.500.000 VNĐ
+
+Như vậy, để có thể tất toán trước hạn khoản vay này, bạn cần tiếp tục thanh toán cho đến khi đủ tối thiểu 06 kỳ, sau đó liên hệ với SHBFinance để được hướng dẫn thủ tục.
