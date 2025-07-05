@@ -1,0 +1,92 @@
+[Gradio App] Received message: 'Cho tôi xem tất cả các khoản vay còn hiệu lực của tôi. Mã id của tôi là: 1001'
+[Gradio App] Gradio history (for UI): []
+[Gradio App] History for LLM (from chat_memory, window k=3):
+''''''
+2025-07-05 19:45:09,857 - INFO     - core_ai_mvp.agent.agent_executor_mvp.agent_orchestrator_mvp:152 - --- Step 1: Generating Plan ---
+2025-07-05 19:45:09,857 - INFO     - core_ai_mvp.agent.agent_executor_mvp.agent_orchestrator_mvp:153 - Query: 'Cho tôi xem tất cả các khoản vay còn hiệu lực của tôi. Mã id của tôi là: 1001' | History: ''
+/Users/huygdo/Production Projects/shbf-mvp/shbfinance_chatbot_mvp/.venv/lib/python3.9/site-packages/langchain_google_genai/chat_models.py:357: UserWarning: Convert_system_message_to_human will be deprecated!
+  warnings.warn("Convert_system_message_to_human will be deprecated!")
+2025-07-05 19:45:11,183 - INFO     - core_ai_mvp.agent.agent_executor_mvp.agent_orchestrator_mvp:163 - --- Step 2: Plan Received --- 
+{
+  "route": "SQL",
+  "intents": [
+    "query_list_active_loans"
+  ],
+  "entities": {
+    "customer_id": 1001
+  },
+  "sql_prompt": "Find all active loans for customer 1001",
+  "policy_query": null,
+  "language": "vi"
+}
+2025-07-05 19:45:11,183 - INFO     - core_ai_mvp.agent.agent_executor_mvp.agent_orchestrator_mvp:168 - Plan validated successfully: Route='SQL'
+2025-07-05 19:45:11,183 - INFO     - core_ai_mvp.agent.agent_executor_mvp.agent_orchestrator_mvp:202 - --- Step 3: Executing Plan (Route: SQL) ---
+2025-07-05 19:45:11,183 - INFO     - core_ai_mvp.agent.agent_executor_mvp.handle_sql_query:240 - Handling SQL query with plan: \n{
+  "route": "SQL",
+  "intents": [
+    "query_list_active_loans"
+  ],
+  "entities": {
+    "customer_id": 1001
+  },
+  "sql_prompt": "Find all active loans for customer 1001",
+  "policy_query": null,
+  "language": "vi"
+}
+2025-07-05 19:45:11,184 - INFO     - core_ai_mvp.agent.tools.t2sql_tool_mvp._run:96 - Received natural language query: 'Find all active loans for customer 1001' with intents: ['query_list_active_loans']
+2025-07-05 19:45:11,184 - INFO     - core_ai_mvp.agent.tools.t2sql_tool_mvp.build_dynamic_schema:72 - Built dynamic schema for intents ['query_list_active_loans']:
+This query should be answerable using the following tables:
+DEBT_CUSTOMER_LD_DETAIL(CUSTOMER_ID, DU_NO, DU_NO_LAI, MUC_DICH_VAY, SO_HOP_DONG, STATUS)
+2025-07-05 19:45:11,187 - INFO     - core_ai_mvp.agent.tools.t2sql_tool_mvp._run:108 - Generating SQL query for: 'Find all active loans for customer 1001'
+/Users/huygdo/Production Projects/shbf-mvp/shbfinance_chatbot_mvp/.venv/lib/python3.9/site-packages/langchain_google_genai/chat_models.py:357: UserWarning: Convert_system_message_to_human will be deprecated!
+  warnings.warn("Convert_system_message_to_human will be deprecated!")
+2025-07-05 19:45:12,934 - INFO     - core_ai_mvp.agent.tools.t2sql_tool_mvp._run:116 - Generated SQL: '```sql
+SELECT *
+FROM DEBT_CUSTOMER_LD_DETAIL
+WHERE CUSTOMER_ID = 1001 AND STATUS = 'Active';
+```'
+2025-07-05 19:45:12,934 - INFO     - core_ai_mvp.agent.tools.t2sql_tool_mvp._run:132 - Executing validated SQL query: 'SELECT *
+FROM DEBT_CUSTOMER_LD_DETAIL
+WHERE CUSTOMER_ID = 1001 AND STATUS = 'Active';'
+[PostgresMvp] Attempting to connect with DSN: postgresql://huygdo@localhost:5432/shbfc_dwh
+2025-07-05 19:45:12,965 - INFO     - core_ai_mvp.agent.tools.t2sql_tool_mvp._run:138 - SQL execution returned 2 row(s).
+2025-07-05 19:45:12,965 - INFO     - core_ai_mvp.agent.agent_executor_mvp.handle_sql_query:251 - SQL results: \n[
+  {
+    "so_hop_dong": "HD0000000000001",
+    "customer_id": "1001",
+    "ld_no": "LD001A",
+    "ld_di_no": "D01",
+    "ky_han_vay": "12",
+    "lai_suat": "10.5",
+    "so_tien_giai_ngan": "50000000",
+    "du_no": "30000000",
+    "du_no_lai": "300000",
+    "ngay_giai_ngan": "2024-12-24",
+    "ngay_ky_hop_dong": "2024-12-22",
+    "muc_dich_vay": "Mua sắm cá nhân",
+    "nhom_no_theo_hd_dpd": "N1",
+    "status": "Active"
+  },
+  {
+    "so_hop_dong": "HD0000000000007",
+    "customer_id": "1001",
+    "ld_no": "LD001B",
+    "ld_di_no": "D01",
+    "ky_han_vay": "6",
+    "lai_suat": "11.0",
+    "so_tien_giai_ngan": "20000000",
+    "du_no": "15000000",
+    "du_no_lai": "150000",
+    "ngay_giai_ngan": "2025-04-24",
+    "ngay_ky_hop_dong": "2025-04-23",
+    "muc_dich_vay": "Tiêu dùng khác",
+    "nhom_no_theo_hd_dpd": "N1",
+    "status": "Active"
+  }
+]
+/Users/huygdo/Production Projects/shbf-mvp/shbfinance_chatbot_mvp/.venv/lib/python3.9/site-packages/langchain_google_genai/chat_models.py:357: UserWarning: Convert_system_message_to_human will be deprecated!
+  warnings.warn("Convert_system_message_to_human will be deprecated!")
+[Gradio App] Agent orchestrator returned: 'Chào bạn, theo thông tin chúng tôi có, bạn (ID 1001) hiện có 2 khoản vay còn hiệu lực:
+
+*   **Khoản vay 1:** Số hợp đồng HD0000000000001, thuộc loại LD001A-D01, kỳ hạn 12 tháng, lãi suất 10.5%. Số tiền giải ngân là 50,000,000 VND, dư nợ hiện tại là 30,000,000 VND và dư nợ lãi là 300,000 VND. Ngày giải ngân là 24/12/2024. Mục đích vay là mua sắm cá nhân.
+*   **Khoản vay 2:** Số hợp đồng HD0000000000007, thuộc loại LD001B-D01, kỳ hạn 6 tháng, lãi suất 11.0%. Số tiền giải ngân là 20,000,000 VND, dư nợ hiện tại là 15,000,000 VND và dư nợ lãi là 150,000 VND. Ngày giải ngân là 24/04/2025. Mục đích vay là tiêu dùng khác.'
