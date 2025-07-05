@@ -52,31 +52,3 @@ def get_embedding_client_mvp() -> EmbeddingClientMvp:
     """
     return EmbeddingClientMvp()
 
-if __name__ == '__main__':
-    print(f"Testing Embedding Client MVP with:")
-    print(f"  API URL: {EMBEDDING_MODEL_API_URL}")
-    print(f"  Model Name: {EMBEDDING_MODEL_NAME}")
-
-    try:
-        client = get_embedding_client_mvp()
-        
-        # Test single text embedding
-        test_text = "Xin chào, đây là một câu ví dụ."
-        print(f"\nTesting single text embedding: '{test_text}'")
-        embedding = client.embed_query(test_text)
-        print(f"Generated embedding dimension: {len(embedding)}")
-        print(f"First 5 values: {embedding[:5]}")
-
-        # Test multiple texts embedding
-        test_texts = ["Hello world!", "This is another test."]
-        print(f"\nTesting multiple texts embedding: {test_texts}")
-        embeddings = client.embed_documents(test_texts)
-        print(f"Generated {len(embeddings)} embeddings")
-        print(f"Each embedding dimension: {len(embeddings[0])}")
-
-    except Exception as e:
-        print(f"\nError during embedding client test: {e}")
-        print("\nPlease check:")
-        print(f"1. LM Studio is running and accessible at {EMBEDDING_MODEL_API_URL}")
-        print(f"2. The model '{EMBEDDING_MODEL_NAME}' is loaded")
-        print("3. The server is properly configured for embeddings")

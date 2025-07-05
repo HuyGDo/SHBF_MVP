@@ -5,15 +5,6 @@ from langchain_core.output_parsers import StrOutputParser
 from typing import Optional
 import google.generativeai as genai
 
-# Load GOOGLE_API_KEY from .env file
-# Ensure your .env file has GOOGLE_API_KEY="your_api_key"
-# from dotenv import load_dotenv
-# load_dotenv()
-# For MVP, we assume GOOGLE_API_KEY is set in the environment directly
-# or will be handled by the Gradio app's environment setup.
-
-# Simplified schema for MVP. In a real scenario, this would be more dynamic
-# or fetched from a database metadata store.
 DEFAULT_DB_SCHEMA = '''
 Table: DEBT_CUSTOMER_LD_DETAIL
 Columns: 
@@ -118,37 +109,3 @@ def get_text_to_sql_llm_mvp(google_api_key: Optional[str] = None, model_name: st
     chain = prompt | llm | parser
     return chain
 
-if __name__ == '__main__':
-    # This is an example of how to use the get_text_to_sql_llm_mvp function.
-    # Ensure GOOGLE_API_KEY is set in your environment variables.
-
-    # from dotenv import load_dotenv
-    # load_dotenv()
-
-    if not os.getenv("GOOGLE_API_KEY"):
-        print("GOOGLE_API_KEY not set. Please set it in your environment or a .env file for this example to run.")
-    else:
-        print("GOOGLE_API_KEY found. Initializing Text-to-SQL LLM...")
-        t2sql_llm_chain = get_text_to_sql_llm_mvp()
-        print("Text-to-SQL LLM Chain initialized.")
-
-        sample_question_1 = "What are the loan types and their amounts for customer with id CUST001?"
-        print(f"\nTesting with: '{sample_question_1}'")
-        try:
-            sql_query_1 = t2sql_llm_chain.invoke({"question": sample_question_1, "schema": DEFAULT_DB_SCHEMA})
-            print(f"Generated SQL 1: {sql_query_1}")
-
-            sample_question_2 = "Show all active loans with interest rate less than 5%."
-            print(f"\nTesting with: '{sample_question_2}'")
-            sql_query_2 = t2sql_llm_chain.invoke({"question": sample_question_2, "schema": DEFAULT_DB_SCHEMA})
-            print(f"Generated SQL 2: {sql_query_2}")
-
-            sample_question_3 = "Who is the Prime Minister of Canada?"
-            print(f"\nTesting with (invalid): '{sample_question_3}'")
-            sql_query_3 = t2sql_llm_chain.invoke({"question": sample_question_3, "schema": DEFAULT_DB_SCHEMA})
-            print(f"Generated SQL 3: {sql_query_3}")
-
-        except Exception as e:
-            print(f"An error occurred: {e}")
-            print("Please ensure your GOOGLE_API_KEY is valid and the Gemini API is enabled for your project.")
-            print("You might also need to install necessary libraries: pip install langchain-google-genai python-dotenv langchain")

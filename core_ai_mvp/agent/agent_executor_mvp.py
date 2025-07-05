@@ -290,7 +290,7 @@ def handle_rag_query(plan: Plan, query: str, history: str, llm: Any, rag_tool: A
         rag_output = rag_tool.run({
             "policy_query_prompt": plan.policy_query,
             "top_k": 5, # Increase top_k to get more context
-            "score_threshold": 0.7 # Add a threshold to filter irrelevant results
+            "score_threshold": 0.3 # Add a threshold to filter irrelevant results
         })
         # rag_results_str is already formatted by format_rag_results_for_llm, can be logged directly
         # If rag_output itself (the list of dicts) needs to be pretty-printed before formatting:
@@ -340,7 +340,7 @@ def handle_both_query(plan: Plan, query: str, history: str, llm: Any, sql_tool: 
         rag_output = rag_tool.run({
             "policy_query_prompt": plan.policy_query,
             "top_k": 5, # Increase top_k to get more context
-            "score_threshold": 0.7 # Add a threshold to filter irrelevant results
+            "score_threshold": 0.3 # Add a threshold to filter irrelevant results
         })
         rag_results_str = format_rag_results_for_llm(rag_output)
         logger.info(f"RAG results (for BOTH): \\n{rag_results_str}")
@@ -393,59 +393,3 @@ def handle_both_query(plan: Plan, query: str, history: str, llm: Any, sql_tool: 
         else:
             return "Sorry, I couldn't process your combined request at this time. Please try again later."
 
-if __name__ == '__main__':
-    logger.info("Testing Agent Orchestrator MVP...")
-    logger.info("Ensure GOOGLE_API_KEY is set. For full tests, ensure backend services (Qdrant, PostgreSQL, Embedding Model) are running.")
-
-    # Mock history and query
-    sample_history = "Human: Hi!\nAI: Hello! How can I assist you today with SHBFinance services?"
-    
-    # Test Case 1: RAG Query (requires Qdrant & embedding model)
-    # To mock, you might need to adjust RagToolMvp or qdrant_mvp to return mock data if services aren't up.
-    # For a real test, ensure data is ingested into Qdrant.
-    # query1 = "What are the general conditions for loan approval?"
-    # logger.info(f"\n--- Test Case 1: RAG Query: '{query1}' ---")
-    # response1 = agent_orchestrator_mvp(query1, sample_history)
-    # logger.info(f"Response 1: {response1}")
-
-    # Test Case 2: SQL Query (requires PostgreSQL & Text2SQL LLM)
-    # To mock, T2SqlToolMvp or postgres_mvp could return mock data.
-    # For a real test, ensure PG has 'loans', 'customers' tables with data.
-    # query2 = "Show me my loan with ID L002 and the customer name associated with it."
-    # logger.info(f"\n--- Test Case 2: SQL Query: '{query2}' ---")
-    # response2 = agent_orchestrator_mvp(query2, sample_history)
-    # logger.info(f"Response 2: {response2}")
-
-    # Test Case 3: BOTH Query
-    # query3 = "What is the policy on early loan repayment and can you show my active loans?"
-    # logger.info(f"\n--- Test Case 3: BOTH Query: '{query3}' ---")
-    # response3 = agent_orchestrator_mvp(query3, sample_history)
-    # logger.info(f"Response 3: {response3}")
-
-    # Test Case 4: Query that might lead to clarification (if LLM plan is poor or misses prompts)
-    # This depends heavily on the planning LLM's output for such a vague query.
-    # query4 = "Tell me about loans."
-    # logger.info(f"\n--- Test Case 4: Vague Query (potential clarification): '{query4}' ---")
-    # response4 = agent_orchestrator_mvp(query4, sample_history)
-    # logger.info(f"Response 4: {response4}")
-
-    # Test Case 5: Planning LLM fails (e.g. if API key is wrong temporarily for planning LLM only)
-    # This is harder to simulate deterministically without changing the code, 
-    # but the general error path is there.
-
-    # Test Case 6: Simple RAG query that should work if services are up
-    query_simple_rag = "What are interest rates?"
-    logger.info(f"\n--- Test Case (Simple RAG): Query = '{query_simple_rag}' ---")
-    # response_simple_rag = agent_orchestrator_mvp(query_simple_rag, sample_history)
-    # logger.info(f"Response (Simple RAG): {response_simple_rag}")
-    logger.info("Uncomment test cases and ensure all services (PostgreSQL, Qdrant, Embedding Model, Google Gemini API) are running and configured to test thoroughly.")
-    logger.info("A simple test for API key presence:")
-    if not os.getenv("GOOGLE_API_KEY"):
-        logger.critical("CRITICAL: GOOGLE_API_KEY is not set in environment. The orchestrator will not function.")
-    else:
-        logger.info("GOOGLE_API_KEY is found.")
-        # Example of a very simple query to trigger the planning phase (may require services for full execution)
-        # logger.info("\n--- Basic Sanity Test Run (may require services for full execution) ---")
-        # sanity_response = agent_orchestrator_mvp("hello", "")
-        # logger.info(f"Sanity test response: {sanity_response}")
-        logger.info("Please run the main Gradio app (app_mvp.py) for interactive testing once all components are ready.")

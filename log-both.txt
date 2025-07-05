@@ -1,0 +1,151 @@
+2025-07-05 19:31:18,469 - INFO     - core_ai_mvp.agent.agent_executor_mvp.agent_orchestrator_mvp:152 - --- Step 1: Generating Plan ---
+2025-07-05 19:31:18,469 - INFO     - core_ai_mvp.agent.agent_executor_mvp.agent_orchestrator_mvp:153 - Query: 'Tôi có hợp đồng vay HD0000000000001 với SHBFinance. Hiện tại, dư nợ gốc của hợp đồng này là 30,000,000 VND, thời hạn vay ban đầu là 12 tháng, và theo tôi nhớ thì tôi đã thanh toán được 3 kỳ. Nếu bây giờ tôi muốn trả nợ trước hạn toàn bộ khoản vay này, thì SHBFinance quy định cụ thể về phí trả nợ trước hạn như thế nào, và với trường hợp của tôi thì có đủ điều kiện không và phí là bao nhiêu?' | History: ''
+/Users/huygdo/Production Projects/shbf-mvp/shbfinance_chatbot_mvp/.venv/lib/python3.9/site-packages/langchain_google_genai/chat_models.py:357: UserWarning: Convert_system_message_to_human will be deprecated!
+  warnings.warn("Convert_system_message_to_human will be deprecated!")
+2025-07-05 19:31:20,726 - INFO     - core_ai_mvp.agent.agent_executor_mvp.agent_orchestrator_mvp:163 - --- Step 2: Plan Received --- 
+{
+  "route": "BOTH",
+  "intents": [
+    "query_loan_details_by_identifier",
+    "query_other_applicable_fees"
+  ],
+  "entities": {
+    "contract_id": "HD0000000000001",
+    "amount": 30000000,
+    "period_months": 12,
+    "installment_no": 3
+  },
+  "sql_prompt": "Get contract HD0000000000001 details to calculate early repayment fee, considering the original loan amount is 30,000,000 VND, the original term is 12 months, and 3 installments have been paid.",
+  "policy_query": "SHBFinance quy định cụ thể về phí trả nợ trước hạn như thế nào?",
+  "language": "vi"
+}
+2025-07-05 19:31:20,726 - INFO     - core_ai_mvp.agent.agent_executor_mvp.agent_orchestrator_mvp:168 - Plan validated successfully: Route='BOTH'
+2025-07-05 19:31:20,726 - INFO     - core_ai_mvp.agent.agent_executor_mvp.agent_orchestrator_mvp:202 - --- Step 3: Executing Plan (Route: BOTH) ---
+2025-07-05 19:31:20,726 - INFO     - core_ai_mvp.agent.agent_executor_mvp.handle_both_query:336 - Handling BOTH query with plan: \n{
+  "route": "BOTH",
+  "intents": [
+    "query_loan_details_by_identifier",
+    "query_other_applicable_fees"
+  ],
+  "entities": {
+    "contract_id": "HD0000000000001",
+    "amount": 30000000,
+    "period_months": 12,
+    "installment_no": 3
+  },
+  "sql_prompt": "Get contract HD0000000000001 details to calculate early repayment fee, considering the original loan amount is 30,000,000 VND, the original term is 12 months, and 3 installments have been paid.",
+  "policy_query": "SHBFinance quy định cụ thể về phí trả nợ trước hạn như thế nào?",
+  "language": "vi"
+}
+2025-07-05 19:31:20,727 - INFO     - core_ai_mvp.agent.tools.rag_tool_mvp._run:35 - Received policy query: 'SHBFinance quy định cụ thể về phí trả nợ trước hạn như thế nào?', top_k=5, score_threshold=0.3
+2025-07-05 19:31:20,727 - INFO     - data_access_mvp.qdrant_mvp.qdrant_similarity_search:48 - Connecting to Qdrant at http://localhost:6333 and accessing collection 'policy_documents_mvp'.
+2025-07-05 19:31:20,748 - INFO     - httpx._send_single_request:1025 - HTTP Request: GET http://localhost:6333 "HTTP/1.1 200 OK"
+2025-07-05 19:31:20,752 - INFO     - httpx._send_single_request:1025 - HTTP Request: GET http://localhost:6333/collections/policy_documents_mvp "HTTP/1.1 200 OK"
+2025-07-05 19:31:20,753 - INFO     - data_access_mvp.qdrant_mvp.qdrant_similarity_search:53 - Query text provided. Getting embedding client to generate vector...
+2025-07-05 19:31:20,753 - INFO     - data_access_mvp.qdrant_mvp.qdrant_similarity_search:55 - Embedding query: 'SHBFinance quy định cụ thể về phí trả nợ trước hạn như thế nào?...'
+2025-07-05 19:31:20,812 - INFO     - data_access_mvp.qdrant_mvp.qdrant_similarity_search:57 - Successfully generated query vector with dimension 1024.
+2025-07-05 19:31:20,812 - INFO     - data_access_mvp.qdrant_mvp.qdrant_similarity_search:59 - Performing search in Qdrant with top_k=5...
+2025-07-05 19:31:20,822 - INFO     - httpx._send_single_request:1025 - HTTP Request: POST http://localhost:6333/collections/policy_documents_mvp/points/search "HTTP/1.1 200 OK"
+2025-07-05 19:31:20,823 - INFO     - data_access_mvp.qdrant_mvp.qdrant_similarity_search:68 - Qdrant search completed. Found 5 results.
+2025-07-05 19:31:20,823 - INFO     - core_ai_mvp.agent.tools.rag_tool_mvp._run:64 - Returning 5 snippets.
+2025-07-05 19:31:20,823 - INFO     - core_ai_mvp.agent.tools.rag_tool_mvp._run:66 - Retrieved chunks from Qdrant:
+2025-07-05 19:31:20,823 - INFO     - core_ai_mvp.agent.tools.rag_tool_mvp._run:68 -   Chunk 1:
+2025-07-05 19:31:20,823 - INFO     - core_ai_mvp.agent.tools.rag_tool_mvp._run:69 -     Source: /Users/huygdo/Production Projects/shbf-mvp/shbfinance_chatbot_mvp/scripts_mvp/../data_mvp/policy_documents/BẢN_ĐIỀU_KHOẢN_ĐIỀU_KIỆ̂N.txt
+2025-07-05 19:31:20,823 - INFO     - core_ai_mvp.agent.tools.rag_tool_mvp._run:70 -     Score: 0.75427455
+2025-07-05 19:31:20,823 - INFO     - core_ai_mvp.agent.tools.rag_tool_mvp._run:71 -     Content: (a) SHBFinance có quyền thu hồi toàn bộ khoản nợ trước hạn và đơn phương chấm dứt Hợp
+
+đồng khi phát hiện một trong các sự kiện có nguy cơ mất vốn vay, như sau:
+2025-07-05 19:31:20,823 - INFO     - core_ai_mvp.agent.tools.rag_tool_mvp._run:68 -   Chunk 2:
+2025-07-05 19:31:20,823 - INFO     - core_ai_mvp.agent.tools.rag_tool_mvp._run:69 -     Source: /Users/huygdo/Production Projects/shbf-mvp/shbfinance_chatbot_mvp/scripts_mvp/../data_mvp/policy_documents/BẢN_ĐIỀU_KHOẢN_ĐIỀU_KIỆ̂N.txt
+2025-07-05 19:31:20,823 - INFO     - core_ai_mvp.agent.tools.rag_tool_mvp._run:70 -     Score: 0.75427455
+2025-07-05 19:31:20,823 - INFO     - core_ai_mvp.agent.tools.rag_tool_mvp._run:71 -     Content: (a) SHBFinance có quyền thu hồi toàn bộ khoản nợ trước hạn và đơn phương chấm dứt Hợp
+
+đồng khi phát hiện một trong các sự kiện có nguy cơ mất vốn vay, như sau:
+2025-07-05 19:31:20,823 - INFO     - core_ai_mvp.agent.tools.rag_tool_mvp._run:68 -   Chunk 3:
+2025-07-05 19:31:20,823 - INFO     - core_ai_mvp.agent.tools.rag_tool_mvp._run:69 -     Source: /Users/huygdo/Production Projects/shbf-mvp/shbfinance_chatbot_mvp/scripts_mvp/../data_mvp/policy_documents/BẢN_ĐIỀU_KHOẢN_ĐIỀU_KIỆ̂N.txt
+2025-07-05 19:31:20,824 - INFO     - core_ai_mvp.agent.tools.rag_tool_mvp._run:70 -     Score: 0.75427455
+2025-07-05 19:31:20,824 - INFO     - core_ai_mvp.agent.tools.rag_tool_mvp._run:71 -     Content: (a) SHBFinance có quyền thu hồi toàn bộ khoản nợ trước hạn và đơn phương chấm dứt Hợp
+
+đồng khi phát hiện một trong các sự kiện có nguy cơ mất vốn vay, như sau:
+2025-07-05 19:31:20,824 - INFO     - core_ai_mvp.agent.tools.rag_tool_mvp._run:68 -   Chunk 4:
+2025-07-05 19:31:20,824 - INFO     - core_ai_mvp.agent.tools.rag_tool_mvp._run:69 -     Source: /Users/huygdo/Production Projects/shbf-mvp/shbfinance_chatbot_mvp/scripts_mvp/../data_mvp/policy_documents/BẢN_ĐIỀU_KHOẢN_ĐIỀU_KIỆ̂N.txt
+2025-07-05 19:31:20,824 - INFO     - core_ai_mvp.agent.tools.rag_tool_mvp._run:70 -     Score: 0.75056034
+2025-07-05 19:31:20,824 - INFO     - core_ai_mvp.agent.tools.rag_tool_mvp._run:71 -     Content: (b) Trường hợp Bên vay có nhiều hơn một Hợp đồng tại SHBFinance và bất kỳ Hợp đồng nào của Bên vay tại SHBFinance bị SHBFinance đơn phương chấm dứt và thu hồi nợ trước hạn thì SHBFinance có quyền đơn phương chấm dứt cho vay và thu hồi nợ trước hạn với tất cả các Hợp đồng còn lại.
+Điều 12. PHẠT VI PHẠM VÀ BỒI THƯỜNG THIỆT HẠI
+2025-07-05 19:31:20,824 - INFO     - core_ai_mvp.agent.tools.rag_tool_mvp._run:68 -   Chunk 5:
+2025-07-05 19:31:20,824 - INFO     - core_ai_mvp.agent.tools.rag_tool_mvp._run:69 -     Source: /Users/huygdo/Production Projects/shbf-mvp/shbfinance_chatbot_mvp/scripts_mvp/../data_mvp/policy_documents/BẢN_ĐIỀU_KHOẢN_ĐIỀU_KIỆ̂N.txt
+2025-07-05 19:31:20,824 - INFO     - core_ai_mvp.agent.tools.rag_tool_mvp._run:70 -     Score: 0.75056034
+2025-07-05 19:31:20,824 - INFO     - core_ai_mvp.agent.tools.rag_tool_mvp._run:71 -     Content: (b) Trường hợp Bên vay có nhiều hơn một Hợp đồng tại SHBFinance và bất kỳ Hợp đồng nào của Bên vay tại SHBFinance bị SHBFinance đơn phương chấm dứt và thu hồi nợ trước hạn thì SHBFinance có quyền đơn phương chấm dứt cho vay và thu hồi nợ trước hạn với tất cả các Hợp đồng còn lại.
+Điều 12. PHẠT VI PHẠM VÀ BỒI THƯỜNG THIỆT HẠI
+2025-07-05 19:31:20,824 - INFO     - core_ai_mvp.agent.agent_executor_mvp.handle_both_query:346 - RAG results (for BOTH): \nSnippet 1:
+  Source: /Users/huygdo/Production Projects/shbf-mvp/shbfinance_chatbot_mvp/scripts_mvp/../data_mvp/policy_documents/BẢN_ĐIỀU_KHOẢN_ĐIỀU_KIỆ̂N.txt
+  Score: 0.7543
+  Content: (a) SHBFinance có quyền thu hồi toàn bộ khoản nợ trước hạn và đơn phương chấm dứt Hợp
+
+đồng khi phát hiện một trong các sự kiện có nguy cơ mất vốn vay, như sau:
+Snippet 2:
+  Source: /Users/huygdo/Production Projects/shbf-mvp/shbfinance_chatbot_mvp/scripts_mvp/../data_mvp/policy_documents/BẢN_ĐIỀU_KHOẢN_ĐIỀU_KIỆ̂N.txt
+  Score: 0.7543
+  Content: (a) SHBFinance có quyền thu hồi toàn bộ khoản nợ trước hạn và đơn phương chấm dứt Hợp
+
+đồng khi phát hiện một trong các sự kiện có nguy cơ mất vốn vay, như sau:
+Snippet 3:
+  Source: /Users/huygdo/Production Projects/shbf-mvp/shbfinance_chatbot_mvp/scripts_mvp/../data_mvp/policy_documents/BẢN_ĐIỀU_KHOẢN_ĐIỀU_KIỆ̂N.txt
+  Score: 0.7543
+  Content: (a) SHBFinance có quyền thu hồi toàn bộ khoản nợ trước hạn và đơn phương chấm dứt Hợp
+
+đồng khi phát hiện một trong các sự kiện có nguy cơ mất vốn vay, như sau:
+Snippet 4:
+  Source: /Users/huygdo/Production Projects/shbf-mvp/shbfinance_chatbot_mvp/scripts_mvp/../data_mvp/policy_documents/BẢN_ĐIỀU_KHOẢN_ĐIỀU_KIỆ̂N.txt
+  Score: 0.7506
+  Content: (b) Trường hợp Bên vay có nhiều hơn một Hợp đồng tại SHBFinance và bất kỳ Hợp đồng nào của Bên vay tại SHBFinance bị SHBFinance đơn phương chấm dứt và thu hồi nợ trước hạn thì SHBFinance có quyền đơn phương chấm dứt cho vay và thu hồi nợ trước hạn với tất cả các Hợp đồng còn lại.
+Điều 12. PHẠT VI PHẠM VÀ BỒI THƯỜNG THIỆT HẠI
+Snippet 5:
+  Source: /Users/huygdo/Production Projects/shbf-mvp/shbfinance_chatbot_mvp/scripts_mvp/../data_mvp/policy_documents/BẢN_ĐIỀU_KHOẢN_ĐIỀU_KIỆ̂N.txt
+  Score: 0.7506
+  Content: (b) Trường hợp Bên vay có nhiều hơn một Hợp đồng tại SHBFinance và bất kỳ Hợp đồng nào của Bên vay tại SHBFinance bị SHBFinance đơn phương chấm dứt và thu hồi nợ trước hạn thì SHBFinance có quyền đơn phương chấm dứt cho vay và thu hồi nợ trước hạn với tất cả các Hợp đồng còn lại.
+Điều 12. PHẠT VI PHẠM VÀ BỒI THƯỜNG THIỆT HẠI
+2025-07-05 19:31:20,824 - INFO     - core_ai_mvp.agent.tools.t2sql_tool_mvp._run:96 - Received natural language query: 'Get contract HD0000000000001 details to calculate early repayment fee, considering the original loan amount is 30,000,000 VND, the original term is 12 months, and 3 installments have been paid.' with intents: ['query_loan_details_by_identifier', 'query_other_applicable_fees']
+2025-07-05 19:31:20,824 - INFO     - core_ai_mvp.agent.tools.t2sql_tool_mvp.build_dynamic_schema:72 - Built dynamic schema for intents ['query_loan_details_by_identifier', 'query_other_applicable_fees']:
+This query should be answerable using the following tables:
+DEBT_CUSTOMER_LD_DETAIL(CUSTOMER_ID, DU_NO, DU_NO_LAI, KY_HAN_VAY, LAI_SUAT, MUC_DICH_VAY, NGAY_GIAI_NGAN, NGAY_KY_HOP_DONG, NHOM_NO_THEO_HD_DPD, SO_HOP_DONG, SO_TIEN_GIAI_NGAN, STATUS)
+2025-07-05 19:31:20,827 - INFO     - core_ai_mvp.agent.tools.t2sql_tool_mvp._run:108 - Generating SQL query for: 'Get contract HD0000000000001 details to calculate early repayment fee, considering the original loan amount is 30,000,000 VND, the original term is 12 months, and 3 installments have been paid.'
+/Users/huygdo/Production Projects/shbf-mvp/shbfinance_chatbot_mvp/.venv/lib/python3.9/site-packages/langchain_google_genai/chat_models.py:357: UserWarning: Convert_system_message_to_human will be deprecated!
+  warnings.warn("Convert_system_message_to_human will be deprecated!")
+2025-07-05 19:31:21,890 - INFO     - core_ai_mvp.agent.tools.t2sql_tool_mvp._run:116 - Generated SQL: '```sql
+SELECT *
+FROM DEBT_CUSTOMER_LD_DETAIL
+WHERE SO_HOP_DONG = 'HD0000000000001';
+```'
+2025-07-05 19:31:21,890 - INFO     - core_ai_mvp.agent.tools.t2sql_tool_mvp._run:132 - Executing validated SQL query: 'SELECT *
+FROM DEBT_CUSTOMER_LD_DETAIL
+WHERE SO_HOP_DONG = 'HD0000000000001';'
+[PostgresMvp] Attempting to connect with DSN: postgresql://huygdo@localhost:5432/shbfc_dwh
+2025-07-05 19:31:21,945 - INFO     - core_ai_mvp.agent.tools.t2sql_tool_mvp._run:138 - SQL execution returned 1 row(s).
+2025-07-05 19:31:21,946 - INFO     - core_ai_mvp.agent.agent_executor_mvp.handle_both_query:357 - SQL results (for BOTH): \n[
+  {
+    "so_hop_dong": "HD0000000000001",
+    "customer_id": "1001",
+    "ld_no": "LD001A",
+    "ld_di_no": "D01",
+    "ky_han_vay": "12",
+    "lai_suat": "10.5",
+    "so_tien_giai_ngan": "50000000",
+    "du_no": "30000000",
+    "du_no_lai": "300000",
+    "ngay_giai_ngan": "2024-12-24",
+    "ngay_ky_hop_dong": "2024-12-22",
+    "muc_dich_vay": "Mua sắm cá nhân",
+    "nhom_no_theo_hd_dpd": "N1",
+    "status": "Active"
+  }
+]
+/Users/huygdo/Production Projects/shbf-mvp/shbfinance_chatbot_mvp/.venv/lib/python3.9/site-packages/langchain_google_genai/chat_models.py:357: UserWarning: Convert_system_message_to_human will be deprecated!
+  warnings.warn("Convert_system_message_to_human will be deprecated!")
+[Gradio App] Agent orchestrator returned: 'Chào bạn,
+
+Về hợp đồng vay HD0000000000001 của bạn, tôi xác nhận thông tin như sau: số tiền giải ngân ban đầu là 50,000,000 VND, kỳ hạn vay là 12 tháng, và hiện tại dư nợ gốc là 30,000,000 VND.
+
+Về việc trả nợ trước hạn, theo điều khoản của SHBFinance, bạn có thể trả nợ trước hạn. Tuy nhiên, thông tin chi tiết về phí trả nợ trước hạn cụ thể cho trường hợp của bạn (ví dụ: cách tính phí dựa trên số tháng còn lại, phần trăm phí áp dụng) hiện tại tôi chưa có đầy đủ để cung cấp. Bạn vui lòng liên hệ trực tiếp với tổng đài SHBFinance hoặc đến chi nhánh gần nhất để được tư vấn chính xác nhất về phí trả nợ trước hạn trong trường hợp của hợp đồng HD0000000000001.
+
+Ngoài ra, xin lưu ý rằng SHBFinance có quyền thu hồi nợ trước hạn trong một số trường hợp được quy định trong hợp đồng, ví dụ như khi phát hiện các sự kiện có nguy cơ mất vốn vay, hoặc khi bạn có nhiều hơn một hợp đồng tại SHBFinance và một trong các hợp đồng đó bị chấm dứt trước hạn.'

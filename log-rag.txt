@@ -1,0 +1,84 @@
+2025-07-05 19:27:39,115 - INFO     - core_ai_mvp.agent.agent_executor_mvp.agent_orchestrator_mvp:152 - --- Step 1: Generating Plan ---
+2025-07-05 19:27:39,115 - INFO     - core_ai_mvp.agent.agent_executor_mvp.agent_orchestrator_mvp:153 - Query: 'Ngày thanh toán hàng tháng là gì?' | History: ''
+/Users/huygdo/Production Projects/shbf-mvp/shbfinance_chatbot_mvp/.venv/lib/python3.9/site-packages/langchain_google_genai/chat_models.py:357: UserWarning: Convert_system_message_to_human will be deprecated!
+  warnings.warn("Convert_system_message_to_human will be deprecated!")
+2025-07-05 19:27:41,140 - INFO     - core_ai_mvp.agent.agent_executor_mvp.agent_orchestrator_mvp:163 - --- Step 2: Plan Received --- 
+{
+  "route": "RAG",
+  "intents": [],
+  "entities": {},
+  "sql_prompt": null,
+  "policy_query": "Ngày thanh toán hàng tháng là gì?",
+  "language": "vi"
+}
+2025-07-05 19:27:41,141 - INFO     - core_ai_mvp.agent.agent_executor_mvp.agent_orchestrator_mvp:168 - Plan validated successfully: Route='RAG'
+2025-07-05 19:27:41,141 - INFO     - core_ai_mvp.agent.agent_executor_mvp.agent_orchestrator_mvp:202 - --- Step 3: Executing Plan (Route: RAG) ---
+2025-07-05 19:27:41,141 - INFO     - core_ai_mvp.agent.agent_executor_mvp.handle_rag_query:287 - Handling RAG query with plan: \n{
+  "route": "RAG",
+  "intents": [],
+  "entities": {},
+  "sql_prompt": null,
+  "policy_query": "Ngày thanh toán hàng tháng là gì?",
+  "language": "vi"
+}
+2025-07-05 19:27:41,141 - INFO     - core_ai_mvp.agent.tools.rag_tool_mvp._run:35 - Received policy query: 'Ngày thanh toán hàng tháng là gì?', top_k=5, score_threshold=0.3
+2025-07-05 19:27:41,141 - INFO     - data_access_mvp.qdrant_mvp.qdrant_similarity_search:48 - Connecting to Qdrant at http://localhost:6333 and accessing collection 'policy_documents_mvp'.
+2025-07-05 19:27:41,166 - INFO     - httpx._send_single_request:1025 - HTTP Request: GET http://localhost:6333 "HTTP/1.1 200 OK"
+2025-07-05 19:27:41,171 - INFO     - httpx._send_single_request:1025 - HTTP Request: GET http://localhost:6333/collections/policy_documents_mvp "HTTP/1.1 200 OK"
+2025-07-05 19:27:41,172 - INFO     - data_access_mvp.qdrant_mvp.qdrant_similarity_search:53 - Query text provided. Getting embedding client to generate vector...
+2025-07-05 19:27:41,172 - INFO     - data_access_mvp.qdrant_mvp.qdrant_similarity_search:55 - Embedding query: 'Ngày thanh toán hàng tháng là gì?...'
+2025-07-05 19:27:41,232 - INFO     - data_access_mvp.qdrant_mvp.qdrant_similarity_search:57 - Successfully generated query vector with dimension 1024.
+2025-07-05 19:27:41,232 - INFO     - data_access_mvp.qdrant_mvp.qdrant_similarity_search:59 - Performing search in Qdrant with top_k=5...
+2025-07-05 19:27:41,240 - INFO     - httpx._send_single_request:1025 - HTTP Request: POST http://localhost:6333/collections/policy_documents_mvp/points/search "HTTP/1.1 200 OK"
+2025-07-05 19:27:41,245 - INFO     - data_access_mvp.qdrant_mvp.qdrant_similarity_search:68 - Qdrant search completed. Found 5 results.
+2025-07-05 19:27:41,246 - INFO     - core_ai_mvp.agent.tools.rag_tool_mvp._run:64 - Returning 5 snippets.
+2025-07-05 19:27:41,246 - INFO     - core_ai_mvp.agent.tools.rag_tool_mvp._run:66 - Retrieved chunks from Qdrant:
+2025-07-05 19:27:41,246 - INFO     - core_ai_mvp.agent.tools.rag_tool_mvp._run:68 -   Chunk 1:
+2025-07-05 19:27:41,246 - INFO     - core_ai_mvp.agent.tools.rag_tool_mvp._run:69 -     Source: /Users/huygdo/Production Projects/shbf-mvp/shbfinance_chatbot_mvp/scripts_mvp/../data_mvp/policy_documents/BẢN_ĐIỀU_KHOẢN_ĐIỀU_KIỆ̂N.txt
+2025-07-05 19:27:41,246 - INFO     - core_ai_mvp.agent.tools.rag_tool_mvp._run:70 -     Score: 0.65861577
+2025-07-05 19:27:41,246 - INFO     - core_ai_mvp.agent.tools.rag_tool_mvp._run:71 -     Content: (a) Bên vay thanh toán dư Khoản phải trả hàng tháng cho SHBFinance; hoặc
+2025-07-05 19:27:41,246 - INFO     - core_ai_mvp.agent.tools.rag_tool_mvp._run:68 -   Chunk 2:
+2025-07-05 19:27:41,246 - INFO     - core_ai_mvp.agent.tools.rag_tool_mvp._run:69 -     Source: /Users/huygdo/Production Projects/shbf-mvp/shbfinance_chatbot_mvp/scripts_mvp/../data_mvp/policy_documents/BẢN_ĐIỀU_KHOẢN_ĐIỀU_KIỆ̂N.txt
+2025-07-05 19:27:41,246 - INFO     - core_ai_mvp.agent.tools.rag_tool_mvp._run:70 -     Score: 0.65861577
+2025-07-05 19:27:41,246 - INFO     - core_ai_mvp.agent.tools.rag_tool_mvp._run:71 -     Content: (a) Bên vay thanh toán dư Khoản phải trả hàng tháng cho SHBFinance; hoặc
+2025-07-05 19:27:41,246 - INFO     - core_ai_mvp.agent.tools.rag_tool_mvp._run:68 -   Chunk 3:
+2025-07-05 19:27:41,246 - INFO     - core_ai_mvp.agent.tools.rag_tool_mvp._run:69 -     Source: /Users/huygdo/Production Projects/shbf-mvp/shbfinance_chatbot_mvp/scripts_mvp/../data_mvp/policy_documents/BẢN_ĐIỀU_KHOẢN_ĐIỀU_KIỆ̂N.txt
+2025-07-05 19:27:41,246 - INFO     - core_ai_mvp.agent.tools.rag_tool_mvp._run:70 -     Score: 0.6481218
+2025-07-05 19:27:41,246 - INFO     - core_ai_mvp.agent.tools.rag_tool_mvp._run:71 -     Content: Ngày thanh toán hàng tháng của các Kỳ trả nợ tiếp theo là ngày 18, 19, 20, 21. Ngày thanh toán hàng tháng của Kỳ trả nợ cuối cùng sẽ giống Ngày thanh toán hàng tháng của Kỳ trả nợ đầu tiên.
+3.4. Đối với trường hợp Ngày nhận nợ là ngày 28, 29, 30, 31 của Tháng thì Ngày thanh toán hàng tháng của Kỳ trả nợ đầu tiên tương ứng sẽ là ngày 1, 2, 3, 4 của Tháng thứ hai liền kề sau đó.
+2025-07-05 19:27:41,246 - INFO     - core_ai_mvp.agent.tools.rag_tool_mvp._run:68 -   Chunk 4:
+2025-07-05 19:27:41,246 - INFO     - core_ai_mvp.agent.tools.rag_tool_mvp._run:69 -     Source: /Users/huygdo/Production Projects/shbf-mvp/shbfinance_chatbot_mvp/scripts_mvp/../data_mvp/policy_documents/BẢN_ĐIỀU_KHOẢN_ĐIỀU_KIỆ̂N.txt
+2025-07-05 19:27:41,246 - INFO     - core_ai_mvp.agent.tools.rag_tool_mvp._run:70 -     Score: 0.6481218
+2025-07-05 19:27:41,246 - INFO     - core_ai_mvp.agent.tools.rag_tool_mvp._run:71 -     Content: Ngày thanh toán hàng tháng của các Kỳ trả nợ tiếp theo là ngày 18, 19, 20, 21. Ngày thanh toán hàng tháng của Kỳ trả nợ cuối cùng sẽ giống Ngày thanh toán hàng tháng của Kỳ trả nợ đầu tiên.
+3.4. Đối với trường hợp Ngày nhận nợ là ngày 28, 29, 30, 31 của Tháng thì Ngày thanh toán hàng tháng của Kỳ trả nợ đầu tiên tương ứng sẽ là ngày 1, 2, 3, 4 của Tháng thứ hai liền kề sau đó.
+2025-07-05 19:27:41,246 - INFO     - core_ai_mvp.agent.tools.rag_tool_mvp._run:68 -   Chunk 5:
+2025-07-05 19:27:41,246 - INFO     - core_ai_mvp.agent.tools.rag_tool_mvp._run:69 -     Source: /Users/huygdo/Production Projects/shbf-mvp/shbfinance_chatbot_mvp/scripts_mvp/../data_mvp/policy_documents/BẢN_ĐIỀU_KHOẢN_ĐIỀU_KIỆ̂N.txt
+2025-07-05 19:27:41,246 - INFO     - core_ai_mvp.agent.tools.rag_tool_mvp._run:70 -     Score: 0.61686087
+2025-07-05 19:27:41,246 - INFO     - core_ai_mvp.agent.tools.rag_tool_mvp._run:71 -     Content: Khoản phải trả hàng tháng sẽ được SHBFinance thông báo cho Bên vay tại thời điểm giải ngân khoản vay và trước ngày thanh toán hàng tháng ít nhất 03 ngày thông qua hình thức gửi tin nhắn và/hoặc gọi điện trực tiếp cho Bên vay và/hoặc hình thức thông báo khác theo quy định Pháp luật.
+2.2. PHÍ DỊCH VỤ
+2025-07-05 19:27:41,247 - INFO     - core_ai_mvp.agent.agent_executor_mvp.handle_rag_query:299 - RAG results: \nSnippet 1:
+  Source: /Users/huygdo/Production Projects/shbf-mvp/shbfinance_chatbot_mvp/scripts_mvp/../data_mvp/policy_documents/BẢN_ĐIỀU_KHOẢN_ĐIỀU_KIỆ̂N.txt
+  Score: 0.6586
+  Content: (a) Bên vay thanh toán dư Khoản phải trả hàng tháng cho SHBFinance; hoặc
+Snippet 2:
+  Source: /Users/huygdo/Production Projects/shbf-mvp/shbfinance_chatbot_mvp/scripts_mvp/../data_mvp/policy_documents/BẢN_ĐIỀU_KHOẢN_ĐIỀU_KIỆ̂N.txt
+  Score: 0.6586
+  Content: (a) Bên vay thanh toán dư Khoản phải trả hàng tháng cho SHBFinance; hoặc
+Snippet 3:
+  Source: /Users/huygdo/Production Projects/shbf-mvp/shbfinance_chatbot_mvp/scripts_mvp/../data_mvp/policy_documents/BẢN_ĐIỀU_KHOẢN_ĐIỀU_KIỆ̂N.txt
+  Score: 0.6481
+  Content: Ngày thanh toán hàng tháng của các Kỳ trả nợ tiếp theo là ngày 18, 19, 20, 21. Ngày thanh toán hàng tháng của Kỳ trả nợ cuối cùng sẽ giống Ngày thanh toán hàng tháng của Kỳ trả nợ đầu tiên.
+3.4. Đối với trường hợp Ngày nhận nợ là ngày 28, 29, 30, 31 của Tháng thì Ngày thanh toán hàng tháng của Kỳ trả nợ đầu tiên tương ứng sẽ là ngày 1, 2, 3, 4 của Tháng thứ hai liền kề sau đó.
+Snippet 4:
+  Source: /Users/huygdo/Production Projects/shbf-mvp/shbfinance_chatbot_mvp/scripts_mvp/../data_mvp/policy_documents/BẢN_ĐIỀU_KHOẢN_ĐIỀU_KIỆ̂N.txt
+  Score: 0.6481
+  Content: Ngày thanh toán hàng tháng của các Kỳ trả nợ tiếp theo là ngày 18, 19, 20, 21. Ngày thanh toán hàng tháng của Kỳ trả nợ cuối cùng sẽ giống Ngày thanh toán hàng tháng của Kỳ trả nợ đầu tiên.
+3.4. Đối với trường hợp Ngày nhận nợ là ngày 28, 29, 30, 31 của Tháng thì Ngày thanh toán hàng tháng của Kỳ trả nợ đầu tiên tương ứng sẽ là ngày 1, 2, 3, 4 của Tháng thứ hai liền kề sau đó.
+Snippet 5:
+  Source: /Users/huygdo/Production Projects/shbf-mvp/shbfinance_chatbot_mvp/scripts_mvp/../data_mvp/policy_documents/BẢN_ĐIỀU_KHOẢN_ĐIỀU_KIỆ̂N.txt
+  Score: 0.6169
+  Content: Khoản phải trả hàng tháng sẽ được SHBFinance thông báo cho Bên vay tại thời điểm giải ngân khoản vay và trước ngày thanh toán hàng tháng ít nhất 03 ngày thông qua hình thức gửi tin nhắn và/hoặc gọi điện trực tiếp cho Bên vay và/hoặc hình thức thông báo khác theo quy định Pháp luật.
+2.2. PHÍ DỊCH VỤ
+/Users/huygdo/Production Projects/shbf-mvp/shbfinance_chatbot_mvp/.venv/lib/python3.9/site-packages/langchain_google_genai/chat_models.py:357: UserWarning: Convert_system_message_to_human will be deprecated!
+  warnings.warn("Convert_system_message_to_human will be deprecated!")
+[Gradio App] Agent orchestrator returned: 'Ngày thanh toán hàng tháng của các kỳ trả nợ tiếp theo là ngày 18, 19, 20, 21. Ngày thanh toán của kỳ trả nợ cuối cùng sẽ giống với ngày thanh toán của kỳ trả nợ đầu tiên. Nếu ngày nhận nợ của bạn là ngày 28, 29, 30, hoặc 31 của tháng, thì ngày thanh toán hàng tháng của kỳ trả nợ đầu tiên sẽ là ngày 1, 2, 3, hoặc 4 của tháng thứ hai liền kề sau đó. SHBFinance sẽ thông báo khoản phải trả hàng tháng cho bạn trước ngày thanh toán ít nhất 03 ngày qua tin nhắn, điện thoại, hoặc các hình thức khác theo quy định của pháp luật.'

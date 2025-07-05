@@ -80,13 +80,5 @@ class RagToolMvp(BaseTool):
         # If true async is needed, qdrant_similarity_search would need an async version.
         raise NotImplementedError("RagToolMvp does not support async execution yet.")
 
-if __name__ == '__main__':
-    # Setup basic logging for standalone script execution
-    logging.basicConfig(level=logging.INFO, format='%(asctime)s - %(name)s - %(levelname)s - %(message)s')
-    logger.info("Testing RagToolMvp...")
-    logger.info("Ensure Qdrant and the embedding model server (e.g., LM Studio) are running.")
-    logger.info(f"Using Qdrant collection: {QDRANT_COLLECTION_NAME} at {QDRANT_URL}")
-
-    rag_tool = RagToolMvp()
 
     

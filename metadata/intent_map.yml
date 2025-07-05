@@ -2,7 +2,7 @@
 query_list_active_loans:
   tables:
     - table: DEBT_CUSTOMER_LD_DETAIL
-      columns: ["SO_HOP_DONG", "DU_NO", "DU_NO_LAI", "MUC_DICH_VAY", "STATUS"]
+      columns: ["SO_HOP_DONG", "CUSTOMER_ID", "DU_NO", "DU_NO_LAI", "MUC_DICH_VAY", "STATUS"]
   joins: []
 
 query_loan_details_by_identifier:
@@ -155,7 +155,7 @@ query_total_number_of_installments:
 query_remaining_number_of_installments:
   tables:
     - table: DEBT_LD_REPAY_SCHEDULE
-      columns: ["SO_HOP_DONG", "KY_THANH_TOAN", "DU_NO"]
+      columns: ["SO_HOP_DONG", "KY_HAN_VAY", "DU_NO"] # Assuming KY_HAN_VAY is needed to calculate remaining, if not in schedule
   joins: []
 
 # ─── Payment history ────────────────────────────────────────────────────
@@ -210,9 +210,9 @@ query_accrued_interest_to_date:
 query_days_past_due_bucket:
   tables:
     - table: DEBT_LD_PAID_HISTORY
-      columns: ["SO_HOP_DONG", "DPD_HOP_DONG_SAU_TT", "DPD_KH"]
+      columns: ["SO_HOP_DONG", "DPD_HOP_DONG_SAU_TT"] 
     - table: DEBT_CUSTOMER_ALLOCATED_HIST
-      columns: ["SO_HOP_DONG", "BUCKET_CODE"]
+      columns: ["SO_HOP_DONG", "BUCKET_CODE", "DPD_KH"] 
   joins:
     - table_1: DEBT_LD_PAID_HISTORY
       table_2: DEBT_CUSTOMER_ALLOCATED_HIST

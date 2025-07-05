@@ -151,13 +151,3 @@ class T2SqlToolMvp(BaseTool):
 
     async def _arun(self, **kwargs: Any) -> Union[List[Dict[str, Any]], Dict[str, str]]:
         raise NotImplementedError("T2SqlToolMvp does not support async execution yet.")
-
-if __name__ == '__main__':
-    # Setup basic logging for standalone script execution
-    logging.basicConfig(level=logging.INFO, format='%(asctime)s - %(name)s - %(levelname)s - %(message)s')
-    
-    # --- Test Execution ---
-    logger.info("--- Testing T2SqlToolMvp with Dynamic Schema ---")
-    
-    # Initialize the tool
-    t2sql_tool = T2SqlToolMvp()

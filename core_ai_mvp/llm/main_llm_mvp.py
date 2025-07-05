@@ -66,7 +66,7 @@ Given {history} and the current user query {query}:
 2. Produce (when applicable)  
    • a list of **intents** (see intent catalogue below)  
    • an **entities** object containing only keys from the Entity Catalogue  
-   • a short **sql_prompt** (Vietnamese or English) if route is SQL or BOTH  
+   • a short **sql_prompt** in **English** if route is SQL or BOTH  
    • a **policy_query** in **Vietnamese** if route is RAG or BOTH
 
 ────────────────────────  ROUTING RULES  ───────────────────────
@@ -236,37 +236,4 @@ Assistant → {{
     chain = prompt | llm | output_parser
 
     return chain
-
-if __name__ == '__main__':
-    # This block is for testing the main planning LLM directly.
-    logging.basicConfig(level=logging.INFO, format='%(asctime)s - %(name)s - %(levelname)s - %(message)s')
-    
-    logger.info("Testing the Main Planning LLM Chain...")
-    try:
-        # Initialize the chain
-        planning_chain = get_main_llm_mvp()
-
-        # Test Case 1: SQL Query
-        query1 = "tôi muốn biết số dư hiện tại của khoản vay có mã hợp đồng là HD-12345"
-        history1 = "AI: Chào bạn, tôi có thể giúp gì?"
-        logger.info(f"\n--- Test Case 1: SQL --- \nQuery: {query1}")
-        plan1 = planning_chain.invoke({"query": query1, "history": history1})
-        logger.info(f"Generated Plan 1:\n{plan1.model_dump_json(indent=2)}")
-
-        # Test Case 2: RAG Query
-        query2 = "what is the policy for early repayment?"
-        history2 = ""
-        logger.info(f"\n--- Test Case 2: RAG --- \nQuery: {query2}")
-        plan2 = planning_chain.invoke({"query": query2, "history": history2})
-        logger.info(f"Generated Plan 2:\n{plan2.model_dump_json(indent=2)}")
-        
-        # Test Case 3: BOTH Query
-        query3 = "cho tôi xem các khoản vay đang hoạt động và giải thích chính sách về phí trả nợ trước hạn"
-        history3 = ""
-        logger.info(f"\n--- Test Case 3: BOTH --- \nQuery: {query3}")
-        plan3 = planning_chain.invoke({"query": query3, "history": history3})
-        logger.info(f"Generated Plan 3:\n{plan3.model_dump_json(indent=2)}")
-
-    except Exception as e:
-        logger.error(f"An error occurred during testing: {e}", exc_info=True)
 
