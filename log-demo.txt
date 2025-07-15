@@ -1,0 +1,93 @@
+(.venv) huygdo@Mac shbfinance_chatbot_mvp % python app_mvp
+/Users/huygdo/Production Projects/shbf-mvp/shbfinance_chatbot_mvp/.venv/bin/python: can't open file '/Users/huygdo/Production Projects/shbf-mvp/shbfinance_chatbot_mvp/app_mvp': [Errno 2] No such file or directory
+(.venv) huygdo@Mac shbfinance_chatbot_mvp % python app_mvp.py
+/Users/huygdo/Production Projects/shbf-mvp/shbfinance_chatbot_mvp/.venv/lib/python3.9/site-packages/urllib3/__init__.py:35: NotOpenSSLWarning: urllib3 v2 only supports OpenSSL 1.1.1+, currently the 'ssl' module is compiled with 'LibreSSL 2.8.3'. See: https://github.com/urllib3/urllib3/issues/3020
+  warnings.warn(
+Loaded .env file from: /Users/huygdo/Production Projects/shbf-mvp/shbfinance_chatbot_mvp/.env (overriding existing shell variables if any)
+/Users/huygdo/Production Projects/shbf-mvp/shbfinance_chatbot_mvp/core_ai_mvp/memory/memory_manager_mvp.py:26: LangChainDeprecationWarning: Please see the migration guide at: https://python.langchain.com/docs/versions/migrating_memory/
+  return ConversationBufferWindowMemory(
+Chat memory initialized for Gradio app.
+Launching Gradio MVP app...
+Please ensure all backend services are running: 
+  - LM Studio (Embedding Model, potentially Main/Text2SQL if not using Gemini API for all)
+  - Google Gemini API accessible (GOOGLE_API_KEY set)
+  - PostgreSQL Database
+  - Qdrant Vector Database
+Running on local URL:  http://127.0.0.1:7860
+2025-07-15 11:10:20,322 - INFO     - httpx._send_single_request:1025 - HTTP Request: GET http://127.0.0.1:7860/startup-events "HTTP/1.1 200 OK"
+2025-07-15 11:10:20,329 - INFO     - httpx._send_single_request:1025 - HTTP Request: HEAD http://127.0.0.1:7860/ "HTTP/1.1 200 OK"
+
+To create a public link, set `share=True` in `launch()`.
+2025-07-15 11:10:20,512 - INFO     - httpx._send_single_request:1025 - HTTP Request: GET https://checkip.amazonaws.com/ "HTTP/1.1 200 "
+2025-07-15 11:10:20,557 - INFO     - httpx._send_single_request:1025 - HTTP Request: GET https://checkip.amazonaws.com/ "HTTP/1.1 200 "
+2025-07-15 11:10:21,095 - INFO     - httpx._send_single_request:1025 - HTTP Request: GET https://api.gradio.app/pkg-version "HTTP/1.1 200 OK"
+
+[Gradio App] Received message: 'Cho tôi xem tất cả các khoản vay còn hiệu lực của tôi. Mã id của tôi là: 1001
+'
+[Gradio App] Gradio history (for UI): []
+[Gradio App] History for LLM (from chat_memory, window k=3):
+''''''
+2025-07-15 11:10:54,755 - INFO     - core_ai_mvp.agent.agent_executor_mvp.agent_orchestrator_mvp:162 - --- Step 1: Generating Plan ---
+2025-07-15 11:10:54,755 - INFO     - core_ai_mvp.agent.agent_executor_mvp.agent_orchestrator_mvp:163 - Query: 'Cho tôi xem tất cả các khoản vay còn hiệu lực của tôi. Mã id của tôi là: 1001' | History: ''
+2025-07-15 11:11:12,303 - INFO     - httpx._send_single_request:1025 - HTTP Request: POST http://localhost:1234/v1/chat/completions "HTTP/1.1 200 OK"
+2025-07-15 11:11:12,322 - INFO     - core_ai_mvp.agent.agent_executor_mvp.agent_orchestrator_mvp:173 - --- Step 2: Plan Received --- 
+{
+  "route": "SQL",
+  "intents": [
+    "query_list_active_loans"
+  ],
+  "entities": {
+    "customer_id": 1001
+  },
+  "sql_prompt": "Find all active loans for customer with ID: 1001",
+  "policy_query": null,
+  "language": "vi"
+}
+2025-07-15 11:11:12,322 - INFO     - core_ai_mvp.agent.agent_executor_mvp.agent_orchestrator_mvp:178 - Plan validated successfully: Route='SQL'
+2025-07-15 11:11:12,322 - INFO     - core_ai_mvp.agent.agent_executor_mvp.agent_orchestrator_mvp:212 - --- Step 3: Executing Plan (Route: SQL) ---
+2025-07-15 11:11:12,322 - INFO     - core_ai_mvp.agent.agent_executor_mvp.handle_sql_query:250 - Handling SQL query with plan: \n{
+  "route": "SQL",
+  "intents": [
+    "query_list_active_loans"
+  ],
+  "entities": {
+    "customer_id": 1001
+  },
+  "sql_prompt": "Find all active loans for customer with ID: 1001",
+  "policy_query": null,
+  "language": "vi"
+}
+2025-07-15 11:11:12,323 - INFO     - core_ai_mvp.agent.tools.t2sql_tool_mvp._run:96 - Received natural language query: 'Find all active loans for customer with ID: 1001' with intents: ['query_list_active_loans']
+2025-07-15 11:11:12,323 - INFO     - core_ai_mvp.agent.tools.t2sql_tool_mvp.build_dynamic_schema:72 - Built dynamic schema for intents ['query_list_active_loans']:
+This query should be answerable using the following tables:
+DEBT_CUSTOMER_LD_DETAIL(CUSTOMER_ID, DU_NO, DU_NO_LAI, MUC_DICH_VAY, SO_HOP_DONG, STATUS)
+2025-07-15 11:11:12,323 - INFO     - core_ai_mvp.agent.tools.t2sql_tool_mvp._run:108 - Generating SQL query for: 'Find all active loans for customer with ID: 1001'
+2025-07-15 11:11:14,429 - INFO     - httpx._send_single_request:1025 - HTTP Request: POST http://localhost:1234/v1/chat/completions "HTTP/1.1 200 OK"
+2025-07-15 11:11:14,430 - INFO     - core_ai_mvp.agent.tools.t2sql_tool_mvp._run:116 - Generated SQL: '```sql
+SELECT *
+FROM DEBT_CUSTOMER_LD_DETAIL
+WHERE CUSTOMER_ID = 1001 AND STATUS = 'ACTIVE';
+```'
+2025-07-15 11:11:14,430 - INFO     - core_ai_mvp.agent.tools.t2sql_tool_mvp._run:132 - Executing validated SQL query: 'SELECT *
+FROM DEBT_CUSTOMER_LD_DETAIL
+WHERE CUSTOMER_ID = 1001 AND STATUS = 'ACTIVE';'
+[PostgresMvp] Attempting to connect with DSN: postgresql://huygdo@localhost:5432/shbfc_dwh
+2025-07-15 11:11:14,587 - INFO     - core_ai_mvp.agent.agent_executor_mvp.handle_sql_query:261 - SQL results: \nDatabase query status: Query executed successfully, but returned no results.
+2025-07-15 11:11:19,250 - INFO     - httpx._send_single_request:1025 - HTTP Request: POST http://localhost:1234/v1/chat/completions "HTTP/1.1 200 OK"
+[Gradio App] Agent orchestrator returned: 'Xin chào! Tôi đã kiểm tra hệ thống cho mã ID của bạn là 1001, và đáng tiếc là không tìm thấy bất kỳ khoản vay nào đang hoạt động. Có thể bạn muốn tạm dừng hoặc xóa bỏ một khoản vay trước đây? Nếu vậy, hãy cho tôi biết và chúng ta có thể giải quyết vấn đề đó cùng nhau!'
+`)
+  Upserted batch 2/2 (size: 21)
+All prepared points attempted for upsertion.or upsertion.
+--- Data Ingestion Process Finished ---shed ---
+(.venv) huygdo@Mac shbf-mvp % cd shbfinance_chatbot_mvp d shbfinance_chatbot_mvp 
+(.venv) huygdo@Mac shbfinance_chatbot_mvp % python app_mvphatbot_mvp % python app_mvp
+/Users/huygdo/Production Projects/shbf-mvp/shbfinance_chatbot_mvp/.venv/bin/python: can't open file '/Users/huygdo/Production Projects/shbf-mvp/shbfinance_chatbot_mvp/app_mvp': [Errno 2] No such file or directoryn file '/Users/huygdo/Production Projects/shbf-mvp/shbfinance_chatbot_mvp/app_mvp': [Errno 2] No such file or directory
+(.venv) huygdo@Mac shbfinance_chatbot_mvp % python app_mvp.pyhatbot_mvp % python app_mvp.py
+/Users/huygdo/Production Projects/shbf-mvp/shbfinance_chatbot_mvp/.venv/lib/python3.9/site-packages/urllib3/__init__.py:35: NotOpenSSLWarning: urllib3 v2 only supports OpenSSL 1.1.1+, currently the 'ssl' module is compiled with 'LibreSSL 2.8.3'. See: https://github.com/urllib3/urllib3/issues/3020NotOpenSSLWarning: urllib3 v2 only supports OpenSSL 1.1.1+, currently the 'ssl' module is compiled with 'LibreSSL 2.8.3'. See: https://github.com/urllib3/urllib3/issues/3020
+  warnings.warn(
+Loaded .env file from: /Users/huygdo/Production Projects/shbf-mvp/shbfinance_chatbot_mvp/.env (overriding existing shell variables if any)mvp/shbfinance_chatbot_mvp/.env (overriding existing shell variables if any)
+/Users/huygdo/Production Projects/shbf-mvp/shbfinance_chatbot_mvp/core_ai_mvp/memory/memory_manager_mvp.py:26: LangChainDeprecationWarning: Please see the migration guide at: https://python.langchain.com/docs/versions/migrating_memory/anager_mvp.py:26: LangChainDeprecationWarning: Please see the migration guide at: https://python.langchain.com/docs/versions/migrating_memory/
+  return ConversationBufferWindowMemory(owMemory(
+Chat memory initialized for Gradio app.dio app.
+Launching Gradio MVP app...
+Please ensure all back

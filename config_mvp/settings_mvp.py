@@ -17,13 +17,13 @@ else:
 GOOGLE_API_KEY = os.getenv("GOOGLE_API_KEY")
 
 # --- Embedding Model Configuration (e.g., LM Studio) ---
-EMBEDDING_MODEL_API_URL = os.getenv("EMBEDDING_MODEL_API_URL", "http://127.0.0.1:1234/v1")
+EMBEDDING_MODEL_API_URL = os.getenv("EMBEDDING_MODEL_API_URL", "http://10.2.20.2:1235/v1/embeddings")
 EMBEDDING_MODEL_NAME = os.getenv("EMBEDDING_MODEL_NAME", "text-embedding-aiteamvn-vietnamese_embedding")
 
 # --- Main LLM Configuration (e.g., LM Studio) ---
 # These were in the original .env example, adding them here for completeness from MVP plan.
 MAIN_LLM_API_URL = os.getenv("MAIN_LLM_API_URL", "http://localhost:1234/v1") 
-TEXT_TO_SQL_LLM_API_URL = os.getenv("TEXT_TO_SQL_LLM_API_URL", "http://localhost:1235/v1")
+TEXT_TO_SQL_LLM_API_URL = os.getenv("TEXT_TO_SQL_LLM_API_URL", "http://localhost:1234/v1")
 
 
 # --- Database Configuration ---

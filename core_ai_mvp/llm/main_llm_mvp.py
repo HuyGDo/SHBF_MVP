@@ -3,11 +3,14 @@ import json
 from pathlib import Path
 import logging
 
-from langchain_google_genai import ChatGoogleGenerativeAI
+# from langchain_google_genai import ChatGoogleGenerativeAI
+from langchain_openai import ChatOpenAI
 from langchain_core.prompts import ChatPromptTemplate
 from langchain_core.output_parsers import JsonOutputParser
 from pydantic import BaseModel, Field
 from typing import List, Optional, Dict, Any
+
+from config_mvp.settings_mvp import MAIN_LLM_API_URL
 
 # --- Logger Setup ---
 logger = logging.getLogger(__name__)
@@ -27,23 +30,31 @@ class Plan(BaseModel):
 
 # The load_system_prompt_template function is no longer needed and has been removed.
 
-def get_main_llm_mvp(google_api_key: Optional[str] = None, model_name: str = "gemini-1.5-flash", temperature: float = 0.1):
+def get_main_llm_mvp(google_api_key: Optional[str] = None, model_name: str = "local-model", temperature: float = 0.1):
     """
     Initializes and returns the main planning LLM chain.
 
     This chain takes a user query and history, and outputs a structured `Plan` object.
     """
-    if not google_api_key:
-        google_api_key = os.getenv("GOOGLE_API_KEY")
-    if not google_api_key:
-        raise ValueError("GOOGLE_API_KEY not found in environment or passed as argument.")
+    # if not google_api_key:
+    #     google_api_key = os.getenv("GOOGLE_API_KEY")
+    # if not google_api_key:
+    #     raise ValueError("GOOGLE_API_KEY not found in environment or passed as argument.")
 
-    # 1. Initialize the Chat Model
-    llm = ChatGoogleGenerativeAI(
+    # # 1. Initialize the Chat Model
+    # llm = ChatGoogleGenerativeAI(
+    #     model=model_name,
+    #     google_api_key=google_api_key,
+    #     temperature=temperature,
+    #     convert_system_message_to_human=True # For models that need it
+    # )
+
+    # 1. Initialize the Chat Model (LM Studio OpenAI-compatible server)
+    llm = ChatOpenAI(
         model=model_name,
-        google_api_key=google_api_key,
         temperature=temperature,
-        convert_system_message_to_human=True # For models that need it
+        base_url=MAIN_LLM_API_URL,
+        api_key="lm-studio" # Not used by LM Studio but required by the library
     )
 
     # 2. Setup the Output Parser

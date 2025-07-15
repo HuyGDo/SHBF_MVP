@@ -1,260 +1,213 @@
 import os
-import glob
 import uuid
-import requests # Ensure 'requests' is installed: pip install requests
+import requests
 import json
+import re
 from dotenv import load_dotenv
-from langchain_community.document_loaders import TextLoader
-# Consider updating this import path if using newer langchain versions
-from langchain.text_splitter import RecursiveCharacterTextSplitter
-# OpenAIEmbeddings will only be used for its class structure if needed,
-# but actual embedding calls will be direct.
-from langchain_openai import OpenAIEmbeddings
+from langchain_core.documents import Document
+from langchain.text_splitter import TokenTextSplitter
 from qdrant_client import QdrantClient, models
-from typing import Union, List # Import Union and List for Python 3.9 compatibility
+from typing import Union, List
 
 # Load environment variables from .env file
 dotenv_path = os.path.join(os.path.dirname(__file__), '..', '.env')
 load_dotenv(dotenv_path=dotenv_path)
 
+# --- Configuration ---
 QDRANT_URL = os.getenv("QDRANT_URL", "http://localhost:6333")
 QDRANT_COLLECTION_NAME = os.getenv("QDRANT_COLLECTION_NAME", "policy_documents_mvp")
-EMBEDDINGS_API_URL = os.getenv("EMBEDDING_MODEL_API_URL", "http://localhost:1234/v1") # Ensure this is correct port
-EMBEDDING_MODEL_NAME = os.getenv("EMBEDDING_MODEL_NAME", "AITeamVN-Vietnamese_Embedding-gguf")
+EMBEDDINGS_API_URL = os.getenv("EMBEDDING_MODEL_API_URL", "http://10.2.20.2:1235/v1/embeddings")
+EMBEDDING_MODEL_NAME = os.getenv("EMBEDDING_MODEL_NAME", "text-embedding-aiteamvn-vietnamese_embedding")
 
 POLICY_DOCS_PATH = os.path.join(os.path.dirname(__file__), '..', "data_mvp", "policy_documents")
-CHUNK_SIZE = 512
-CHUNK_OVERLAP = 100
+POLICY_FILENAME = "BẢN_ĐIỀU_KHOẢN_ĐIỀU_KIỆ̂N.txt"
 
-def load_documents_from_path(docs_path: str) -> List[TextLoader]: # Adjusted type hint
-    doc_file = os.path.join(docs_path, "BẢN_ĐIỀU_KHOẢN_ĐIỀU_KIỆ̂N.txt")
-    print(f"Attempting to load specific document: {doc_file}")
+# --- Chunking Strategy ---
+# Pattern to find "Điều X" or "Điều X.Y", used for hierarchical splitting.
+# re.split keeps the delimiter, which is what we want.
+CLAUSE_PATTERN = re.compile(r"(Điều\s+\d+(?:\.\d+)*)")
+CHUNK_SIZE_TOKENS = 256
+CHUNK_OVERLAP_TOKENS = 50
 
-    if not os.path.isfile(doc_file):
-        print(f"Error: The specified document was not found at '{doc_file}'")
-        return []
-
+# ---------------------------------------------------------------------------
+# 1. DOCUMENT LOADING
+# ---------------------------------------------------------------------------
+def load_document(path: str) -> str:
+    """Loads a document as a single raw string."""
     try:
-        loader = TextLoader(doc_file, encoding='utf-8')
-        documents = loader.load()
-        print(f"Successfully loaded: {doc_file}")
-        return documents
+        with open(path, "r", encoding="utf-8") as f:
+            return f.read()
+    except FileNotFoundError:
+        raise Exception(f"Document not found at: {path}")
     except Exception as e:
-        print(f"Error loading {doc_file}: {e}")
-        return []
+        raise Exception(f"Error loading document at {path}: {e}")
 
-def chunk_documents(documents: list, chunk_size: int, chunk_overlap: int) -> list: # documents is List[Document]
-    """Splits loaded documents into smaller chunks."""
-    if not documents:
-        print("No documents to chunk.")
-        return []
-    text_splitter = RecursiveCharacterTextSplitter(
-        chunk_size=chunk_size,
-        chunk_overlap=chunk_overlap,
-        length_function=len,
-        separators=["\n\n", "\n", ". ", ", ", " ", ""]
+# ---------------------------------------------------------------------------
+# 2.  CHUNKING STRATEGY (hierarchical, token‑aware)
+# ---------------------------------------------------------------------------
+def chunk_document(raw_text: str, source: str) -> List[Document]:
+    """Split the raw text hierarchically and then token‑chunk it.
+
+    1. Split on Vietnamese legal clause headings (Điều X, Điều 4.3 …)
+    2. Further split each clause with a token‑aware splitter (TokenTextSplitter)
+    """
+
+    # First split by clause heading. The regex split with a capturing group
+    # results in a list like: [text_before, delimiter, text_after, ...].
+    # We then merge the delimiter with the text that follows it.
+    raw_clauses = CLAUSE_PATTERN.split(raw_text)
+    clauses = []
+    for i in range(1, len(raw_clauses), 2):
+        clause_text = raw_clauses[i] + raw_clauses[i+1]
+        clauses.append(clause_text.strip())
+    
+    # Add the text before the first clause if it exists
+    if raw_clauses[0].strip():
+        clauses.insert(0, raw_clauses[0].strip())
+
+    splitter = TokenTextSplitter(
+        chunk_size=CHUNK_SIZE_TOKENS,
+        chunk_overlap=CHUNK_OVERLAP_TOKENS,
+        encoding_name="cl100k_base",  # same as OpenAI tiktoken encoding
     )
-    chunked_docs = text_splitter.split_documents(documents)
-    print(f"Split {len(documents)} documents into {len(chunked_docs)} chunks.")
+
+    chunked_docs: List[Document] = []
+    for idx, clause in enumerate(clauses, start=1):
+        # Extract heading for metadata (first line beginning with "Điều")
+        heading_match = re.match(r"Điều\s+\d+(?:\.\d+)*", clause)
+        heading = heading_match.group(0) if heading_match else f"Clause {idx}"
+
+        # Token‑split the clause
+        sub_chunks = splitter.split_text(clause)
+        for sub_idx, chunk_text in enumerate(sub_chunks, start=1):
+            metadata = {
+                "heading": heading,
+                "clause_index": idx,
+                "sub_index": sub_idx,
+                "source": source,
+            }
+            chunked_docs.append(Document(page_content=chunk_text, metadata=metadata))
+
     return chunked_docs
 
-def _get_embedding_via_direct_request(text_to_embed: str, api_url: str, model_name: str) -> Union[List[float], None]: # Changed type hint
-    """
-    Helper function to get embedding for a single text via direct HTTP request.
-    Returns the embedding vector or None if an error occurs.
-    """
-    full_embeddings_url = api_url.rstrip('/') + "/embeddings"
-    payload = {"input": text_to_embed, "model": model_name}
+# ---------------------------------------------------------------------------
+# 3.  EMBEDDING VIA DIRECT HTTP CALL (no LangChain wrapper)
+# ---------------------------------------------------------------------------
+def _embed_text_via_http(text: str) -> Union[List[float], None]:
+    payload = {"input": text, "model": EMBEDDING_MODEL_NAME}
     headers = {"Content-Type": "application/json"}
-
     try:
-        # print(f"    Directly embedding text (first 30 chars): '{text_to_embed[:30]}...' via {full_embeddings_url}")
-        # print(f"    Payload: {json.dumps(payload)}")
-        response = requests.post(full_embeddings_url, headers=headers, json=payload, timeout=60) # Added timeout
-
-        if response.status_code == 200:
-            response_data = response.json()
-            if "data" in response_data and response_data["data"] and "embedding" in response_data["data"][0]:
-                embedding_vector = response_data["data"][0]["embedding"]
-                if embedding_vector:
-                    return embedding_vector
-                else:
-                    print(f"    Warning: Received empty embedding vector from direct request for text: '{text_to_embed[:30]}...'")
-                    return None
-            else:
-                print(f"    Warning: Direct request successful (200 OK) but response format unexpected for text: '{text_to_embed[:30]}...'. Response: {response.text[:200]}")
-                return None
-        else:
-            print(f"    Warning: Direct embedding request failed for text: '{text_to_embed[:30]}...' with status {response.status_code}. Response: {response.text[:200]}")
-            return None
-    except requests.exceptions.Timeout:
-        print(f"    Warning: Timeout during direct embedding request for text: '{text_to_embed[:30]}...'")
-        return None
+        r = requests.post(EMBEDDINGS_API_URL, headers=headers, json=payload, timeout=60)
+        if r.status_code == 200:
+            data = r.json()
+            if "data" in data and data["data"] and "embedding" in data["data"][0]:
+                 return data["data"][0]["embedding"]
+        print(f"⚠️  Embedding request failed ({r.status_code}): {r.text[:120]}")
     except Exception as e:
-        print(f"    Warning: Exception during direct embedding for text: '{text_to_embed[:30]}...'. Error: {e}")
-        return None
+        print(f"⚠️  Exception in embedding request: {e}")
+    return None
 
-def ingest_data_to_qdrant(
-    qdrant_client: QdrantClient,
-    collection_name: str,
-    document_chunks: list
-    # embeddings_model parameter is no longer used for generation
-):
-    """
-    Ingests document chunks and their embeddings into the specified Qdrant collection.
-    Determines embedding dimension and creates collection if it doesn't exist.
-    Uses direct HTTP requests for ALL embedding generations.
-    """
-    if not document_chunks:
+# ---------------------------------------------------------------------------
+# 4.  QDRANT INGESTION
+# ---------------------------------------------------------------------------
+def ingest_chunks_into_qdrant(client: QdrantClient, collection: str, docs: List[Document]):
+    if not docs:
         print("No document chunks to ingest.")
         return
 
-    # 1. Determine embedding dimension dynamically using a direct HTTP request (as before)
-    vector_size = None
-    full_embeddings_url_for_check = "" # For error message context
-    try:
-        print("Determining embedding dimension using a direct HTTP request...")
-        sample_text_for_dim_check = document_chunks[0].page_content[:100].strip()
-        if not sample_text_for_dim_check: sample_text_for_dim_check = document_chunks[0].page_content[:500].strip()
-        if not sample_text_for_dim_check: sample_text_for_dim_check = "sample text"
-        print(f"Using sample text for dimension check (first 50 chars): '{sample_text_for_dim_check[:50]}...'")
-
-        payload = {"input": sample_text_for_dim_check, "model": EMBEDDING_MODEL_NAME}
-        headers = {"Content-Type": "application/json"}
-        full_embeddings_url_for_check = EMBEDDINGS_API_URL.rstrip('/') + "/embeddings"
-        
-        print(f"Sending direct POST request for dimension check to: {full_embeddings_url_for_check}")
-        print(f"Payload for dimension check: {json.dumps(payload)}")
-        response = requests.post(full_embeddings_url_for_check, headers=headers, json=payload, timeout=60)
-        
-        print(f"Direct request (dim check) response status code: {response.status_code}")
-        try:
-            response_json_dim_check = response.json()
-            print(f"Direct request (dim check) response JSON: {json.dumps(response_json_dim_check, indent=2)}")
-        except json.JSONDecodeError:
-            print(f"Direct request (dim check) response text (not JSON): {response.text}")
-
-        if response.status_code == 200:
-            response_data = response.json()
-            if "data" in response_data and response_data["data"] and "embedding" in response_data["data"][0]:
-                sample_embedding_vector = response_data["data"][0]["embedding"]
-                if not sample_embedding_vector: raise ValueError("Empty embedding vector in dim check response.")
-                vector_size = len(sample_embedding_vector)
-                print(f"Detected embedding dimension via direct request: {vector_size}")
-            else:
-                error_detail = response_data.get("error", {}).get("message", str(response_data))
-                raise ValueError(f"Dim check direct request successful (200 OK) but response format unexpected. Detail: {error_detail}")
-        else:
-            error_message = f"Dim check direct request failed with status {response.status_code}."
-            try: error_detail = response.json().get("error", {}).get("message", response.text); error_message += f" Detail: {error_detail}"
-            except json.JSONDecodeError: error_message += f" Response text: {response.text}"
-            raise ValueError(error_message)
-    except Exception as e:
-        print(f"CRITICAL: Error determining embedding dimension with direct HTTP request: {e}")
-        print(f"Endpoint attempted: {full_embeddings_url_for_check if full_embeddings_url_for_check else EMBEDDINGS_API_URL}")
-        print("Cannot proceed without embedding dimension. Check LM Studio console and settings.")
+    # Determine vector size with the first chunk
+    first_vec = _embed_text_via_http(docs[0].page_content[:200])
+    if not first_vec:
+        print("❌  Cannot determine embedding dimension → abort.")
         return
+    dimension = len(first_vec)
 
-    # 2. Create collection if it doesn't exist
+    # Ensure collection exists
     try:
-        qdrant_client.get_collection(collection_name=collection_name)
-        print(f"Collection '{collection_name}' already exists.")
-    except Exception: # More specific exception handling could be qdrant_client.http.exceptions.UnexpectedResponse
-        print(f"Collection '{collection_name}' not found. Creating new collection...")
-        qdrant_client.create_collection(
-            collection_name=collection_name,
-            vectors_config=models.VectorParams(size=vector_size, distance=models.Distance.COSINE)
+        client.get_collection(collection_name=collection)
+        print(f"✅  Collection '{collection}' already exists.")
+    except Exception:
+        print(f"ℹ️   Creating collection '{collection}' (dim={dimension}) …")
+        client.create_collection(
+            collection_name=collection,
+            vectors_config=models.VectorParams(size=dimension, distance=models.Distance.COSINE),
         )
-        print(f"Collection '{collection_name}' created with vector size {vector_size}.")
 
-    # 3. Prepare points for upsertion by embedding each chunk individually using direct HTTP requests
-    points_to_upsert = []
-    print(f"\nGenerating embeddings for {len(document_chunks)} chunks using DIRECT HTTP requests (one by one)...")
-
-    for i, chunk in enumerate(document_chunks):
-        if (i + 1) % 5 == 0 or i == 0 or (i+1) == len(document_chunks) : # Log progress more frequently for direct calls
-             print(f"  Processing chunk {i+1}/{len(document_chunks)} from source: {chunk.metadata.get('source', 'Unknown')}")
-        
-        text_to_embed = chunk.page_content
-        if not text_to_embed.strip():
-            print(f"    Skipping empty chunk {i+1}.")
+    # Prepare points
+    points: List[models.PointStruct] = []
+    print(f"Embedding {len(docs)} chunks...")
+    for doc in docs:
+        vec = _embed_text_via_http(doc.page_content)
+        if not vec:
+            print(f"  - Skipping chunk with heading '{doc.metadata.get('heading')}' due to embedding failure.")
             continue
+        points.append(
+            models.PointStruct(
+                id=str(uuid.uuid4()),
+                vector=vec,
+                payload={**doc.metadata, "text": doc.page_content},
+            )
+        )
 
-        # Use the helper function for direct embedding request
-        vector = _get_embedding_via_direct_request(text_to_embed, EMBEDDINGS_API_URL, EMBEDDING_MODEL_NAME)
-
-        if vector:
-            point_id = str(uuid.uuid4())
-            payload = {"page_content": chunk.page_content, "source": chunk.metadata.get("source", "Unknown")}
-            points_to_upsert.append(models.PointStruct(id=point_id, vector=vector, payload=payload))
-        else:
-            # Warning already printed by _get_embedding_via_direct_request
-            print(f"    Failed to embed chunk {i+1}. Skipping.")
-
-
-    if not points_to_upsert:
-        print("\nNo points were successfully prepared for upsertion after embedding. Check embedding errors above.")
+    if not points:
+        print("❌ No chunks were successfully embedded. Aborting upsert.")
         return
-        
-    print(f"\nSuccessfully generated embeddings for {len(points_to_upsert)} chunks via direct HTTP requests.")
 
-    # 4. Upsert points to Qdrant
-    print(f"Upserting {len(points_to_upsert)} points to Qdrant collection '{collection_name}'...")
-    batch_size = 100 
-    for i in range(0, len(points_to_upsert), batch_size):
-        batch = points_to_upsert[i:i + batch_size]
-        try:
-            qdrant_client.upsert(collection_name=collection_name, points=batch, wait=True)
-            print(f"  Upserted batch {i // batch_size + 1}/{(len(points_to_upsert) -1) // batch_size + 1} (size: {len(batch)})")
-        except Exception as e_upsert:
-            print(f"  Error upserting batch {i // batch_size + 1}: {e_upsert}")
-    print("All prepared points attempted for upsertion.")
+    # Upsert in batches
+    BATCH = 100
+    print(f"Upserting {len(points)} points to Qdrant...")
+    for i in range(0, len(points), BATCH):
+        batch = points[i : i + BATCH]
+        client.upsert(collection_name=collection, points=batch, wait=True)
+        print(f"  • Upserted batch {(i//BATCH)+1}/{((len(points)-1)//BATCH)+1} (size={len(batch)})")
 
+# ---------------------------------------------------------------------------
+# 5.  MAIN PIPELINE
+# ---------------------------------------------------------------------------
 def main():
-    """Main function to run the data ingestion pipeline."""
-    print("--- Starting Data Ingestion Process ---")
+    print("\n——— Policy document ingestion started ———\n")
 
+    # 5.1 Connect to Qdrant
     try:
-        qdrant_client = QdrantClient(url=QDRANT_URL)
-        qdrant_client.get_collections() 
-        print(f"Successfully connected to Qdrant at {QDRANT_URL}")
+        qdrant = QdrantClient(url=QDRANT_URL)
+        qdrant.get_collections()
+        print(f"✅  Connected to Qdrant @ {QDRANT_URL}")
     except Exception as e:
-        print(f"Failed to connect to Qdrant at {QDRANT_URL}: {e}. Please ensure Qdrant is running.")
+        print(f"❌  Cannot connect to Qdrant: {e}")
         return
 
-    documents = load_documents_from_path(POLICY_DOCS_PATH)
-    if not documents: print("No documents found or loaded. Exiting."); return
-
-    chunked_docs = chunk_documents(documents, CHUNK_SIZE, CHUNK_OVERLAP)
-    if not chunked_docs: print("No chunks created from documents. Exiting."); return
-        
-    # The OpenAIEmbeddings object is no longer strictly needed for generation
-    # as we are bypassing its .embed_query() method for direct HTTP calls.
-    # We don't need to call get_embeddings_model() here anymore.
-    # try:
-    #     _ = get_embeddings_model(EMBEDDINGS_API_URL, EMBEDDING_MODEL_NAME) # Still call for consistency of setup logging
-    # except Exception as e:
-    #     print(f"Note: Failed to initialize OpenAIEmbeddings object (not critical as using direct HTTP): {e}")
-
-    # --- Added code to write chunks to file ---
-    output_chunks_path = os.path.join(POLICY_DOCS_PATH, "chunked.txt")
+    # 5.2 Load raw text
+    doc_path = os.path.join(POLICY_DOCS_PATH, POLICY_FILENAME)
     try:
-        with open(output_chunks_path, "w", encoding="utf-8") as f:
-            for i, chunk in enumerate(chunked_docs):
-                f.write(chunk.page_content)
-                if i < len(chunked_docs) - 1:
-                    f.write("\n\n---\n\n") # Separator
-        print(f"Successfully wrote {len(chunked_docs)} chunks to {output_chunks_path}")
+        raw_text = load_document(doc_path)
+        print(f"✅  Loaded document '{POLICY_FILENAME}' (len={len(raw_text):,} chars)")
     except Exception as e:
-        print(f"Error writing chunks to file {output_chunks_path}: {e}")
-    # --- End of added code ---
+        print(f"❌  {e}")
+        return
 
+    # 5.3 Chunk it (hierarchical & token‑aware)
+    chunks = chunk_document(raw_text, source=POLICY_FILENAME)
+    print(f"✅  Produced {len(chunks)} chunks (token size={CHUNK_SIZE_TOKENS}, overlap={CHUNK_OVERLAP_TOKENS})")
+
+    # 5.4 Log chunks to chunked.txt for inspection
+    chunks_file = os.path.join(POLICY_DOCS_PATH, "chunked.txt")
     try:
-        ingest_data_to_qdrant(qdrant_client, QDRANT_COLLECTION_NAME, chunked_docs)
+        with open(chunks_file, "w", encoding="utf-8") as f:
+            for i, d in enumerate(chunks, start=1):
+                f.write(
+                    f"--- Chunk {i} | heading: {d.metadata['heading']} | size: {len(d.page_content)} chars ---\n"
+                )
+                f.write(d.page_content.strip())
+                f.write("\n\n")
+        print(f"✅  Wrote chunk log → {chunks_file}")
     except Exception as e:
-        print(f"An error occurred during the data ingestion main workflow: {e}")
-        
-    print("--- Data Ingestion Process Finished ---")
+        print(f"⚠️  Could not write chunk log: {e}")
+
+    # 5.5 Embed & ingest
+    ingest_chunks_into_qdrant(qdrant, QDRANT_COLLECTION_NAME, chunks)
+
+    print("\n——— Ingestion finished ———")
+
 
 if __name__ == "__main__":
     main()

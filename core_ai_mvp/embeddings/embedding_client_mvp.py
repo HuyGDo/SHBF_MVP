@@ -21,7 +21,7 @@ class EmbeddingClientMvp:
 
         try:
             response = requests.post(
-                f"{self.api_url}/embeddings",
+                f"{self.api_url}",
                 headers=self.headers,
                 json=payload,
                 timeout=30

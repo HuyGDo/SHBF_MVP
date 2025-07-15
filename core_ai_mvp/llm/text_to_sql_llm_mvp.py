@@ -1,9 +1,12 @@
 import os
-from langchain_google_genai import ChatGoogleGenerativeAI
+# from langchain_google_genai import ChatGoogleGenerativeAI
+from langchain_openai import ChatOpenAI
 from langchain_core.prompts import ChatPromptTemplate
 from langchain_core.output_parsers import StrOutputParser
 from typing import Optional
-import google.generativeai as genai
+# import google.generativeai as genai
+
+from config_mvp.settings_mvp import TEXT_TO_SQL_LLM_API_URL
 
 DEFAULT_DB_SCHEMA = '''
 Table: DEBT_CUSTOMER_LD_DETAIL
@@ -59,7 +62,7 @@ Relationships:
 - DEBT_CUSTOMER_LD_DETAIL.CUSTOMER_ID can be joined with DEBT_CUSTOMERS.CUSTOMER_ID
 '''
 
-def get_text_to_sql_llm_mvp(google_api_key: Optional[str] = None, model_name: str = "gemini-2.0-flash"):
+def get_text_to_sql_llm_mvp(google_api_key: Optional[str] = None, model_name: str = "local-model"):
     """
     Initializes and returns the Text-to-SQL LLM.
 
@@ -70,30 +73,42 @@ def get_text_to_sql_llm_mvp(google_api_key: Optional[str] = None, model_name: st
     Returns:
         A LangChain LCEL chain configured for SQL generation.
     """
-    if google_api_key is None:
-        google_api_key = os.getenv("GOOGLE_API_KEY")
-    if not google_api_key:
-        raise ValueError("GOOGLE_API_KEY not found in environment variables.")
+    # if google_api_key is None:
+    #     google_api_key = os.getenv("GOOGLE_API_KEY")
+    # if not google_api_key:
+    #     raise ValueError("GOOGLE_API_KEY not found in environment variables.")
 
-    # Configure the Google Generative AI library
-    genai.configure(api_key=google_api_key)
+    # # Configure the Google Generative AI library
+    # genai.configure(api_key=google_api_key)
+
+    # try:
+    #     llm = ChatGoogleGenerativeAI(
+    #         model=model_name,
+    #         google_api_key=google_api_key,
+    #         temperature=0,
+    #         convert_system_message_to_human=True
+    #     )
+    # except Exception as e:
+    #     raise ValueError(f"Failed to initialize Gemini model: {str(e)}")
 
     try:
-        llm = ChatGoogleGenerativeAI(
+        llm = ChatOpenAI(
             model=model_name,
-            google_api_key=google_api_key,
             temperature=0,
-            convert_system_message_to_human=True
+            base_url=TEXT_TO_SQL_LLM_API_URL,
+            api_key="lm-studio"  # Not used by LM Studio but required by the library
         )
     except Exception as e:
-        raise ValueError(f"Failed to initialize Gemini model: {str(e)}")
+        raise ValueError(f"Failed to initialize LLM from API: {str(e)}")
 
     prompt_template = """
     You are an expert SQL generation assistant.
     Given a user's question and the database schema, generate a syntactically correct SQL query to answer the question.
     Only output the SQL query. Do not include any other text or explanations.
     If you cannot generate a query for any reason, output "Invalid Question".
+    For field STATUS, the value must be uppercase for the first letter, and the rest of the letters must be lowercase.
 
+    
     Database Schema:
     {schema}
 

@@ -1,12 +1,13 @@
 import os
 import json
 from typing import Dict, Any, List, Optional
-import google.generativeai as genai
+# import google.generativeai as genai
 import logging
 import datetime
 from decimal import Decimal
 
-from langchain_google_genai import ChatGoogleGenerativeAI
+# from langchain_google_genai import ChatGoogleGenerativeAI
+from langchain_openai import ChatOpenAI
 from langchain_core.prompts import ChatPromptTemplate
 from langchain_core.output_parsers import StrOutputParser
 
@@ -14,7 +15,7 @@ from core_ai_mvp.llm.main_llm_mvp import get_main_llm_mvp, Plan
 from core_ai_mvp.agent.tools.rag_tool_mvp import RagToolMvp
 from core_ai_mvp.agent.tools.t2sql_tool_mvp import T2SqlToolMvp
 # Assuming GOOGLE_API_KEY is in environment. Settings can be used for other configs.
-# from config_mvp.settings_mvp import GOOGLE_API_KEY 
+from config_mvp.settings_mvp import MAIN_LLM_API_URL
 
 # --- Logger Setup ---
 logger = logging.getLogger(__name__)
@@ -23,8 +24,11 @@ LOG_FORMAT = '%(asctime)s - %(levelname)-8s - %(name)s.%(funcName)s:%(lineno)d -
 logging.basicConfig(level=logging.INFO, format=LOG_FORMAT)
 
 # Configuration for the LLMs used in this executor
-GEMINI_MODEL_FOR_SYNTHESIS = "gemini-2.0-flash" # Or your preferred Gemini model for generation
-GEMINI_MODEL_FOR_PLANNING = "gemini-2.0-flash" # Consistent with main_llm_mvp.py default
+# GEMINI_MODEL_FOR_SYNTHESIS = "gemini-1.5-flash" # Or your preferred Gemini model for generation
+# GEMINI_MODEL_FOR_PLANNING = "gemini-1.5-flash" # Consistent with main_llm_mvp.py default
+LOCAL_MODEL_FOR_SYNTHESIS = "local-model" # Name of your model in LM Studio
+LOCAL_MODEL_FOR_PLANNING = "local-model" # Name of your model in LM Studio
+
 
 DEFAULT_LANGUAGE = "vi" # Default language if not specified in plan
 
@@ -94,20 +98,20 @@ def agent_orchestrator_mvp(user_query: str, history_string: str) -> str:
     3. Executes tools (RAG, SQL) based on the plan.
     4. Synthesizes a final response using an LLM, based on tool outputs and history.
     """
-    google_api_key = os.getenv("GOOGLE_API_KEY")
-    if not google_api_key:
-        return "Error: GOOGLE_API_KEY not found. Please set it in your environment variables."
+    # google_api_key = os.getenv("GOOGLE_API_KEY")
+    # if not google_api_key:
+    #     return "Error: GOOGLE_API_KEY not found. Please set it in your environment variables."
 
-    # Configure the Google Generative AI library globally
-    try:
-        genai.configure(api_key=google_api_key)
-    except Exception as e:
-        logger.error(f"Error configuring Gemini API: {e}")
-        return "I'm having trouble connecting to the AI service. Please check the API configuration."
+    # # Configure the Google Generative AI library globally
+    # try:
+    #     genai.configure(api_key=google_api_key)
+    # except Exception as e:
+    #     logger.error(f"Error configuring Gemini API: {e}")
+    #     return "I'm having trouble connecting to the AI service. Please check the API configuration."
 
     # Initialize planning LLM chain
     try:
-        main_llm_planning_chain = get_main_llm_mvp(google_api_key=google_api_key, model_name=GEMINI_MODEL_FOR_PLANNING)
+        main_llm_planning_chain = get_main_llm_mvp(model_name=LOCAL_MODEL_FOR_PLANNING)
     except Exception as e:
         logger.error(f"Error initializing planning LLM: {e}")
         return "I'm having trouble starting up my planning module. Please check the API configuration and try again later."
@@ -118,11 +122,17 @@ def agent_orchestrator_mvp(user_query: str, history_string: str) -> str:
 
     # Initialize base LLM for synthesis and clarification with better error handling
     try:
-        base_llm = ChatGoogleGenerativeAI(
-            model=GEMINI_MODEL_FOR_SYNTHESIS,
-            google_api_key=google_api_key,
+        # base_llm = ChatGoogleGenerativeAI(
+        #     model=GEMINI_MODEL_FOR_SYNTHESIS,
+        #     google_api_key=google_api_key,
+        #     temperature=0.7,
+        #     convert_system_message_to_human=True
+        # )
+        base_llm = ChatOpenAI(
+            model=LOCAL_MODEL_FOR_SYNTHESIS,
             temperature=0.7,
-            convert_system_message_to_human=True
+            base_url=MAIN_LLM_API_URL,
+            api_key="lm-studio" # Not used by LM Studio but required by the library
         )
     except Exception as e:
         logger.error(f"Error initializing synthesis LLM: {e}")
@@ -161,6 +171,8 @@ def agent_orchestrator_mvp(user_query: str, history_string: str) -> str:
             "history": history_string
         })
         logger.info(f"--- Step 2: Plan Received --- \n{json.dumps(plan_dict, indent=2, ensure_ascii=False)}")
+        logger.info(f"--- Step 2.1: Query --- \n{json.dumps(cleaned_query, indent=2, ensure_ascii=False)}")
+        logger.info(f"--- Step 2.2: History --- \n{json.dumps(cleaned_query, indent=2, ensure_ascii=False)}")
         
         # Convert the dictionary to a Plan object
         try:

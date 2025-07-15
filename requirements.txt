@@ -10,3 +10,5 @@ sentence-transformers
 openai
 tiktoken
 google-generativeai
+PyYAML
+langchain-openai

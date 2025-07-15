@@ -52,8 +52,11 @@ class RagToolMvp(BaseTool):
             # Assuming payload contains a 'text_chunk' and 'source' field from ingestion script
             formatted_results = []
             for hit in search_results:
-                content = hit.get('payload', {}).get('page_content', 'No content available')
-                source = hit.get('payload', {}).get('source', 'Unknown source')
+                # The 'hit' is a dictionary returned from qdrant_similarity_search.
+                # We need to use dictionary access (.get()) instead of attribute access (.).
+                payload = hit.get("payload", {})
+                content = payload.get("text", "No content available")
+                source = payload.get("source", "Unknown")
                 score = hit.get('score')
                 formatted_results.append({
                     "content": content,
